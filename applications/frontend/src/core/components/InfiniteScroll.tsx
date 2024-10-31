@@ -3,7 +3,6 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 interface InfiniteScrollProps<T> {
-  queryKey: string[];
   baseUrl: string;
   estimatedElementSize: number;
   height: number;
@@ -22,7 +21,6 @@ interface InfinteScrollGetResponse<T> {
 }
 
 export default function InfiniteScroll<T>({
-  queryKey,
   baseUrl,
   estimatedElementSize,
   height,
@@ -42,7 +40,7 @@ export default function InfiniteScroll<T>({
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: [...queryKey, baseUrl],
+    queryKey: [`infinite-scroll`, baseUrl],
     queryFn: async ({ pageParam }) => {
       const response = await fetch(`${baseUrl}?cursor=${pageParam}`);
       return (await response.json()) as InfinteScrollGetResponse<T>;
@@ -94,7 +92,7 @@ export default function InfiniteScroll<T>({
   }
 
   const computedClassName =
-    className ?? `infinite-scroll-${queryKey.join('-')}`;
+    className ?? `infinite-scroll-${baseUrl.replace(/\//g, '-')}`;
 
   return (
     <>

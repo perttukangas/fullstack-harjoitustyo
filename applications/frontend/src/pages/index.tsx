@@ -9,7 +9,6 @@ export default function Home() {
   return (
     <div>
       <InfiniteScroll
-        queryKey={['projects']}
         baseUrl={'/api'}
         estimatedElementSize={50}
         height={500}
