@@ -15,7 +15,7 @@ async function startServer() {
 
   app.use(
     morgan(
-      '[EXPRESS] :method :url :status :res[content-length] - :response-time ms'
+      '[TRAFFIC] :method :url :status :res[content-length] - :response-time ms'
     )
   );
 

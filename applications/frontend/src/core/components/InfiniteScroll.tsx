@@ -15,9 +15,11 @@ interface InfiniteScrollProps<T> {
   nothingMoreItem?: React.ReactNode;
 }
 
-interface InfinteScrollGetResponse<T> {
-  data: T[];
-  nextId: number;
+interface InfiniteScrollGetResponse<T> {
+  data: {
+    page: T[];
+    nextCursor: number;
+  };
 }
 
 export default function InfiniteScroll<T>({
@@ -43,14 +45,17 @@ export default function InfiniteScroll<T>({
     queryKey: [`infinite-scroll`, baseUrl],
     queryFn: async ({ pageParam }) => {
       const response = await fetch(`${baseUrl}?cursor=${pageParam}`);
-      return (await response.json()) as InfinteScrollGetResponse<T>;
+      const responseJson =
+        (await response.json()) as InfiniteScrollGetResponse<T>;
+
+      return responseJson.data;
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 
   const parentRef = useRef<HTMLDivElement>(null);
-  const allRows = data ? data.pages.flatMap((d) => d.data) : [];
+  const allRows = data ? data.pages.flatMap((d) => d.page) : [];
 
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,

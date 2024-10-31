@@ -10,7 +10,7 @@ export default tseslint.config(
   { ignores: ['dist', "node_modules"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked, ...tseslint.configs.stylisticTypeChecked, ...pluginQuery.configs['flat/recommended']],
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
