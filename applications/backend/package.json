@@ -2,14 +2,13 @@
   "name": "backend",
   "version": "0.0.0",
   "scripts": {
-    "dev": "npm run migrate && tsx ./src/index.ts",
+    "dev": "npm run dev:migrate && tsx ./src/index.ts",
+    "dev:migrate": "prisma migrate dev && npx @snaplet/seed sync",
     "dev:seed": "npx prisma db seed",
     "lint:check": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "prettier:check": "prettier --check ./src",
-    "prettier:fix": "prettier --write ./src",
-    "migrate": "prisma migrate dev",
-    "postmigrate": "npx @snaplet/seed sync"
+    "prettier:fix": "prettier --write ./src"
   },
   "prisma": {
     "seed": "tsx prisma/seed/seed.ts"
@@ -28,7 +27,6 @@
     "@snaplet/seed": "^0.98.0",
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^22.8.5",
     "eslint": "^9.13.0",
     "globals": "^15.11.0",
     "nodemon": "^3.1.7",
