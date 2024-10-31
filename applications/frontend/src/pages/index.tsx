@@ -1,4 +1,4 @@
-import InfiniteScroll from '../modules/core/components/InfiniteScroll';
+import InfiniteScroll from '../core/components/InfiniteScroll';
 
 interface Project {
   name: string;

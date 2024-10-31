@@ -1,21 +1,35 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import { router } from 'express-file-routing';
 
+import { PORT } from './core/lib/envalid';
+
+import morgan from 'morgan';
+import { info } from './core/utils/logger';
+
 async function startServer() {
+  info('Starting server...');
+
   const app = express();
-  const PORT = 3003;
 
+  app.use(
+    morgan(
+      '[EXPRESS] :method :url :status :res[content-length] - :response-time ms'
+    )
+  );
+
+  info('Loading routes...');
   const routes = await router();
-
-  console.log(
-    'Paths',
+  app.use('/', routes);
+  info(
+    'Routes loaded',
     routes.stack.map((r) => r.route?.path)
   );
 
-  app.use('/', routes);
-
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    info(`Server is running on port ${PORT}`);
   });
 }
 
