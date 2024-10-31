@@ -2,13 +2,20 @@
   "name": "backend",
   "version": "0.0.0",
   "scripts": {
-    "dev": "cd src && ts-node-dev index.ts",
+    "dev": "npm run migrate && tsx ./src/index.ts",
+    "dev:seed": "npx prisma db seed",
     "lint:check": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "prettier:check": "prettier --check ./src",
-    "prettier:fix": "prettier --write ./src"
+    "prettier:fix": "prettier --write ./src",
+    "migrate": "prisma migrate dev",
+    "postmigrate": "npx @snaplet/seed sync"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "^5.21.1",
     "dotenv": "^16.4.5",
     "envalid": "^8.0.0",
     "express": "^4.21.1",
@@ -17,14 +24,21 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@snaplet/copycat": "^5.1.0",
+    "@snaplet/seed": "^0.98.0",
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
+    "@types/node": "^22.8.5",
     "eslint": "^9.13.0",
     "globals": "^15.11.0",
     "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
-    "ts-node-dev": "^2.0.0",
+    "prisma": "^5.21.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.12.2"
+  },
+  "@snaplet/seed": {
+    "config": "prisma/seed/seed.config.ts"
   }
 }

@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 
 import express from 'express';
 import { router } from 'express-file-routing';
@@ -33,4 +32,4 @@ async function startServer() {
   });
 }
 
-startServer();
+void startServer();
