@@ -1,108 +1,115 @@
-import React, { useCallback, useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 export default function Home() {
-  const lastObserver = useRef<IntersectionObserver>();
-  const firstObserver = useRef<IntersectionObserver>();
-
   const {
     status,
     data,
     error,
-    isLoading,
-    isFetching,
     isFetchingNextPage,
-    isFetchingPreviousPage,
     fetchNextPage,
-    fetchPreviousPage,
     hasNextPage,
-    hasPreviousPage,
   } = useInfiniteQuery({
     queryKey: ['projects'],
     queryFn: async ({ pageParam }) => {
       const response = await fetch(`/api?cursor=${pageParam}`);
+
       return await response.json();
     },
     initialPageParam: 0,
-    getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
     getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
-    maxPages: 3,
   });
 
-  const firstElementRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (isLoading) return;
+  const parentRef = useRef<HTMLDivElement>(null);
+  const allRows = data ? data.pages.flatMap((d) => d.data) : [];
 
-      if (firstObserver.current) firstObserver.current.disconnect();
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage ? allRows.length + 1 : allRows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 50,
+    overscan: 5,
+  });
 
-      firstObserver.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasPreviousPage && !isFetching) {
-          fetchPreviousPage();
-        }
-      });
+  const virtualItems = rowVirtualizer.getVirtualItems();
 
-      if (node) firstObserver.current.observe(node);
-    },
-    [fetchPreviousPage, hasPreviousPage, isFetching, isLoading]
-  );
+  useEffect(() => {
+    const [lastItem] = [...virtualItems].reverse();
 
-  const lastElementRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (isLoading) return;
+    if (!lastItem) {
+      return;
+    }
 
-      if (lastObserver.current) lastObserver.current.disconnect();
+    if (
+      lastItem.index >= allRows.length - 1 &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      void fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    virtualItems,
+  ]);
 
-      lastObserver.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetching) {
-          fetchNextPage();
-        }
-      });
+  if (status === 'pending') {
+    return <p>Loading...</p>;
+  }
 
-      if (node) lastObserver.current.observe(node);
-    },
-    [fetchNextPage, hasNextPage, isFetching, isLoading]
-  );
+  if (status === 'error') {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
-    <div>
-      <h1>Infinite Query with max pages</h1>
-      <h3>4 projects per page</h3>
-      <h3>3 pages max</h3>
-      {status === 'pending' ? (
-        <p>Loading...</p>
-      ) : status === 'error' ? (
-        <span>Error: {error.message}</span>
-      ) : (
-        <>
-          {data.pages.map((page, pageIndex) => (
-            <React.Fragment key={page.nextId}>
-              {page.data.map((project, projectIndex) => {
-                const isFirst = pageIndex === 0 && projectIndex === 0;
-                const isLast =
-                  pageIndex === data.pages.length - 1 &&
-                  projectIndex === page.data.length - 1;
-                return (
-                  <p
-                    style={{
-                      border: '1px solid gray',
-                      borderRadius: '5px',
-                      padding: '8px',
-                      fontSize: '14px',
-                      background: `hsla(${project.id * 30}, 60%, 80%, 1)`,
-                    }}
-                    key={project.id}
-                    ref={
-                      isFirst ? firstElementRef : isLast ? lastElementRef : null
-                    }
-                  >
-                    {project.name}
-                  </p>
-                );
-              })}
-            </React.Fragment>
-          ))}
-        </>
-      )}
-    </div>
+    <>
+      <div
+        ref={parentRef}
+        className="List"
+        style={{
+          height: `500px`,
+          width: `100%`,
+          overflow: 'auto',
+        }}
+      >
+        <div
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            width: '100%',
+            position: 'relative',
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const isLoaderRow = virtualRow.index > allRows.length - 1;
+            const project = allRows[virtualRow.index];
+
+            console.log(virtualRow.size);
+            console.log(virtualRow.start);
+
+            return (
+              <div
+                key={virtualRow.index}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: `${virtualRow.size}px`,
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+              >
+                {isLoaderRow
+                  ? hasNextPage
+                    ? 'Loading more...'
+                    : 'Nothing more to load'
+                  : project.name}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
   );
 }

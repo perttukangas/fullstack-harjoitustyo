@@ -13,10 +13,9 @@ export const get: Handler = async (req, res) => {
       };
     });
 
-  const nextId = cursor < 500 ? data[data.length - 1].id + 1 : null;
-  const previousId = cursor > 0 ? data[0].id - pageSize : null;
+  const nextId = data[data.length - 1].id + 1;
 
   console.log('data', data);
 
-  setTimeout(() => res.json({ data, nextId, previousId }), 300);
+  setTimeout(() => res.json({ data, nextId }), 300);
 };
