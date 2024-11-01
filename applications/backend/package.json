@@ -22,15 +22,18 @@
     "envalid": "^8.0.0",
     "express": "^4.21.1",
     "express-file-routing": "^3.0.3",
+    "helmet": "^8.0.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@snaplet/copycat": "^5.1.0",
     "@snaplet/seed": "^0.98.0",
+    "@types/eslint-plugin-security": "^3.0.0",
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
     "eslint": "^9.13.0",
+    "eslint-plugin-security": "^3.0.1",
     "globals": "^15.11.0",
     "prettier": "^3.3.3",
     "prisma": "^5.21.1",

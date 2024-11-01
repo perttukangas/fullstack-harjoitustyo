@@ -6,18 +6,24 @@ import { router } from 'express-file-routing';
 import { PORT } from './core/lib/envalid';
 
 import morgan from 'morgan';
-import { info } from './core/utils/logger';
+import { info, LogLevel, shouldLog } from './core/utils/logger';
+
+import helmet from 'helmet';
 
 async function startServer() {
   info('Starting server...');
 
   const app = express();
+  app.use(helmet());
+  app.use(express.json());
 
-  app.use(
-    morgan(
-      '[TRAFFIC] :method :url :status :res[content-length] - :response-time ms'
-    )
-  );
+  if (shouldLog(LogLevel.INFO)) {
+    app.use(
+      morgan(
+        '[TRAFFIC] :method :url :status :res[content-length] - :response-time ms'
+      )
+    );
+  }
 
   info('Loading routes...');
   const routes = await router();

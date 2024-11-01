@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import pluginSecurity from "eslint-plugin-security"
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules'] },
@@ -19,5 +20,11 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    plugins: {
+      'security': pluginSecurity,
+    },
+    rules: {
+      ...pluginSecurity.configs.recommended.rules
+    }
   }
 );

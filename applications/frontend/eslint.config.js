@@ -9,7 +9,7 @@ import pluginQuery from '@tanstack/eslint-plugin-query'
 export default tseslint.config(
   { ignores: ['dist', "node_modules"] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked, ...tseslint.configs.stylisticTypeChecked, ...pluginQuery.configs['flat/recommended']],
+    extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked, ...tseslint.configs.stylisticTypeChecked],
     files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -34,6 +34,7 @@ export default tseslint.config(
       ],
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
+      ...pluginQuery.configs.recommended.rules,
     },
   },
 )
