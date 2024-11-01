@@ -8,7 +8,7 @@ export const get: Handler = async (req, res) => {
   const pageSize = 20;
 
   const posts = await getPage(cursor, pageSize);
-  const nextCursor = posts.length === pageSize ? cursor + pageSize : null;
+  const nextCursor = posts.length === pageSize ? cursor + pageSize : undefined;
 
   data(res, {
     status: StatusCodeType.OK,

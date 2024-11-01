@@ -6,6 +6,7 @@ import { getData } from '../utils/fetch-util';
 interface InfiniteScrollProps<T> {
   baseUrl: string;
   estimatedElementSize: number;
+  dynamicElementSize: boolean;
   height: number;
   renderItem: (item: T) => React.ReactNode;
   overscan?: number;
@@ -24,6 +25,7 @@ interface InfiniteScrollGetResponse<T> {
 export default function InfiniteScroll<T>({
   baseUrl,
   estimatedElementSize,
+  dynamicElementSize,
   height,
   renderItem,
   overscan = 5,
@@ -31,7 +33,7 @@ export default function InfiniteScroll<T>({
   pendingItem = <p>Loading...</p>,
   errorItem = (error) => <p>Error: {error.message}</p>,
   loadingMoreItem = <p>Loading more...</p>,
-  nothingMoreItem = <p>Noting more to load</p>,
+  nothingMoreItem = <p>Nothing more to load</p>,
 }: InfiniteScrollProps<T>) {
   const {
     status,
@@ -58,6 +60,12 @@ export default function InfiniteScroll<T>({
     getScrollElement: () => parentRef.current,
     estimateSize: () => estimatedElementSize,
     overscan,
+    measureElement:
+      dynamicElementSize &&
+      typeof window !== 'undefined' &&
+      !navigator.userAgent.includes('Firefox')
+        ? (element) => element?.getBoundingClientRect().height
+        : undefined,
   });
 
   const virtualItems = rowVirtualizer.getVirtualItems();
@@ -122,18 +130,23 @@ export default function InfiniteScroll<T>({
                 key={virtualRow.index}
                 style={{
                   position: 'absolute',
-                  top: 0,
-                  left: 0,
                   width: '100%',
-                  height: `${virtualRow.size}px`,
                   transform: `translateY(${virtualRow.start}px)`,
+                  ...(!dynamicElementSize && {
+                    height: `${virtualRow.size}px`,
+                  }),
                 }}
+                {...(dynamicElementSize && {
+                  'data-index': virtualRow.index,
+                  ref: (node) => rowVirtualizer.measureElement(node),
+                })}
               >
                 {isLoaderRow
                   ? hasNextPage
                     ? loadingMoreItem
                     : nothingMoreItem
                   : renderItem(dataRow)}
+                <p>Size {virtualRow.size}</p>
               </div>
             );
           })}
