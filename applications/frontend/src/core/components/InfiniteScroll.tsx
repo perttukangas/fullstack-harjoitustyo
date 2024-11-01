@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { getData } from '../utils/fetch-util';
 
 interface InfiniteScrollProps<T> {
   baseUrl: string;
@@ -16,10 +17,8 @@ interface InfiniteScrollProps<T> {
 }
 
 interface InfiniteScrollGetResponse<T> {
-  data: {
-    page: T[];
-    nextCursor: number;
-  };
+  page: T[];
+  nextCursor: number;
 }
 
 export default function InfiniteScroll<T>({
@@ -44,11 +43,8 @@ export default function InfiniteScroll<T>({
   } = useInfiniteQuery({
     queryKey: [`infinite-scroll`, baseUrl],
     queryFn: async ({ pageParam }) => {
-      const response = await fetch(`${baseUrl}?cursor=${pageParam}`);
-      const responseJson =
-        (await response.json()) as InfiniteScrollGetResponse<T>;
-
-      return responseJson.data;
+      const jsonResponse = await getData(`${baseUrl}?cursor=${pageParam}`);
+      return jsonResponse.data as InfiniteScrollGetResponse<T>;
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,

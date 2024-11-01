@@ -1,5 +1,6 @@
 import type { Handler } from 'express';
-import { StatusCodeType, data } from '../../../core/utils/response-util';
+import { data } from '../../../core/utils/response-util';
+import { StatusCodeType } from '../../../../../types/fetch';
 import { getPage } from './_/prisma';
 
 export const get: Handler = async (req, res) => {
