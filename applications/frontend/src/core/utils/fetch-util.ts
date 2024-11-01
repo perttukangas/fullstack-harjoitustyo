@@ -1,4 +1,4 @@
-import { ResponseType, ResponseData } from '../../../../types/fetch';
+import { ResponseType, ResponseData } from '@commontypes/fetch';
 
 export const get = async (url: RequestInfo | URL, payload?: unknown) => {
   return await commonBody(url, 'GET', payload);

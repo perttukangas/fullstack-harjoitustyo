@@ -5,7 +5,13 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@core/*": ["core/*"],
+      "@commontypes/*": ["../../types/*"]
+    },
+    "outDir": "./dist"
   },
   "include": ["src"]
 }

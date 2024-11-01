@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { getData } from '../utils/fetch-util';
+import { getData } from '@core/utils/fetch-util';
 
 interface InfiniteScrollProps<T> {
   baseUrl: string;

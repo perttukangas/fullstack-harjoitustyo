@@ -3,10 +3,10 @@ import 'dotenv/config';
 import express from 'express';
 import { router } from 'express-file-routing';
 
-import { PORT } from './core/lib/envalid';
+import { PORT } from '@core/lib/envalid';
 
 import morgan from 'morgan';
-import { info, LogLevel, shouldLog } from './core/utils/logger';
+import { info, LogLevel, shouldLog } from '@core/utils/logger';
 
 import helmet from 'helmet';
 

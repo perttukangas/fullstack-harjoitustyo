@@ -1,22 +1,19 @@
-import InfiniteScroll from '../core/components/InfiniteScroll';
+import InfiniteScroll from '@core/components/InfiniteScroll';
+import { Post } from '@prisma/client';
 
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-}
-
-export default function Home() {
+export default function Default() {
   return (
     <div>
       <InfiniteScroll
-        baseUrl={'/api/v1/posts'}
+        baseUrl={'/api/v1/post'}
         estimatedElementSize={100}
         dynamicElementSize={true}
         height={500}
         renderItem={(item: Post) => (
           <>
-            <h2>{item.title}</h2>
+            <h2>
+              <a href={`/post/${item.id}`}>{item.title}</a>
+            </h2>
             <p>{item.content}</p>
             {item.id % 3 === 0 && (
               <>

@@ -4,7 +4,7 @@ import {
   ResponseData,
   ResponseWithMessage,
   ResponseWithData,
-} from '../../../../types/fetch';
+} from '@commontypes/fetch';
 
 const send = (res: Response, responseData: ResponseData) => {
   const { response, type, status, data } = responseData;
