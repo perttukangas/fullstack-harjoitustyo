@@ -5,6 +5,7 @@
     "dev": "npm run dev:migrate && tsx watch ./src/index.ts",
     "dev:migrate": "prisma migrate dev && npx @snaplet/seed sync",
     "dev:seed": "npx prisma db seed",
+    "build": "tsc && tsc-alias",
     "lint:check": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "prettier:check": "prettier --check ./src",
@@ -37,6 +38,7 @@
     "globals": "^15.11.0",
     "prettier": "^3.3.3",
     "prisma": "^5.21.1",
+    "tsc-alias": "^1.8.10",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.12.2"
