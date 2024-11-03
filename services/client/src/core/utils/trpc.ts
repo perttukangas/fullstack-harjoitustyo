@@ -1,5 +1,15 @@
+import { TRPCClientError } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
+import type { inferRouterOutputs } from '@trpc/server';
 
 import type { AppRouter } from '../../../../server/src/routes/v1/routes';
+
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export const isTRPCClientError = (
+  cause: unknown
+): cause is TRPCClientError<AppRouter> => {
+  return cause instanceof TRPCClientError;
+};
 
 export const trpc = createTRPCReact<AppRouter>();
