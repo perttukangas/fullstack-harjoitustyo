@@ -1,0 +1,51 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "scripts": {
+    "prod:build": "tsc && tsc-alias",
+    "prod:start": "node dist/index.js",
+    "dev": "npm run dev:migrate && tsx watch ./src/index.ts",
+    "dev:migrate": "prisma migrate dev && npx @snaplet/seed sync",
+    "dev:seed": "npx prisma db seed",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write ."
+  },
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "@trpc/client": "^11.0.0-rc.608",
+    "@trpc/server": "^11.0.0-rc.608",
+    "dotenv": "^16.4.5",
+    "envalid": "^8.0.0",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@snaplet/copycat": "^5.1.0",
+    "@snaplet/seed": "^0.98.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/eslint-plugin-security": "^3.0.0",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.8.7",
+    "eslint": "^9.13.0",
+    "eslint-plugin-security": "^3.0.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-prisma": "^5.0.0",
+    "prisma": "^5.21.1",
+    "tsc-alias": "^1.8.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.12.2"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed/seed.ts"
+  },
+  "@snaplet/seed": {
+    "config": "prisma/seed/seed.config.ts"
+  }
+}

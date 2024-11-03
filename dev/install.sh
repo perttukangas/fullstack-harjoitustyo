@@ -2,7 +2,7 @@
 
 # ENVIRONMENT VARIABLES
 
-ENV_FILE=../applications/backend/.env
+ENV_FILE=../services/server/.env
 if [ ! -f $ENV_FILE ]; then
   touch $ENV_FILE
 fi
@@ -28,7 +28,7 @@ docker compose -f docker-compose.dev.yml up -d --build
 DATABASE_CONTAINER="postgres-dev"
 until docker exec $DATABASE_CONTAINER pg_isready ; do sleep 1 ; done
 
-cd ../applications/backend
+cd ../services/server
 
 npm install
 npx prisma migrate dev
@@ -37,6 +37,6 @@ npx prisma db seed
 docker compose -f ../../dev/docker-compose.dev.yml down
 
 # FRONTEND
-cd ../frontend
+cd ../client
 
 npm install

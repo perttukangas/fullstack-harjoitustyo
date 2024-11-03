@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd ../applications/backend
+cd ../services/server
 
 npm run dev:seed
