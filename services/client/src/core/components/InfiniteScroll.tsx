@@ -29,7 +29,7 @@ export default function InfiniteScroll<T>({
   const parentRef = useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
-    count: hasNextPage ? allRows.length + 1 : allRows.length,
+    count: hasNextPage ? allRows.length : allRows.length + 1,
     getScrollElement: () => parentRef.current,
     estimateSize: () => estimateSize,
     overscan: overscan ?? 5,
@@ -84,6 +84,12 @@ export default function InfiniteScroll<T>({
           {rowVirtualizer.getVirtualItems().map((virtualRow) => {
             const isLoaderRow = virtualRow.index > allRows.length - 1;
             const dataRow = allRows[virtualRow.index];
+
+            if (isLoaderRow) {
+              console.log('its loader', virtualRow.index, allRows.length - 1);
+            } else {
+              console.log('no loader', virtualRow.index, allRows.length - 1);
+            }
 
             return (
               <div
