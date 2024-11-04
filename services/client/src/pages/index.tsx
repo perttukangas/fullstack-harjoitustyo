@@ -1,7 +1,7 @@
-import Error from '@core/components/Error';
-import InfiniteScroll from '@core/components/InfiniteScroll';
-import Loading from '@core/components/Loading';
-import { trpc } from '@core/utils/trpc';
+import Error from '@c/core/components/Error';
+import InfiniteScroll from '@c/core/components/InfiniteScroll';
+import Loading from '@c/core/components/Loading';
+import { trpc } from '@c/core/utils/trpc';
 
 export default function Default() {
   const infinitePosts = trpc.post.infinitePosts.useInfiniteQuery(

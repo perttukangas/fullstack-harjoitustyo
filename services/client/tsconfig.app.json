@@ -23,7 +23,10 @@
 
     "baseUrl": "./src",
     "paths": {
-      "@core/*": ["core/*"]
+      "@c/core/*": ["core/*"],
+
+      /* Add all same paths from server so trpc interprets them correctly */
+      "@s/core/*": ["../../server/src/core/*"]
     }
   },
   "include": ["src"]

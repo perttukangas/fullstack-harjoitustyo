@@ -1,6 +1,9 @@
-import { initTRPC } from '@trpc/server';
+import { router } from '@s/core/lib/trpc/index.js';
 
-const t = initTRPC.create();
+import { postRouter } from './post/index.js';
 
-export const router = t.router;
-export const publicProcedure = t.procedure;
+export const appRouter = router({
+  post: postRouter,
+});
+
+export type AppRouter = typeof appRouter;

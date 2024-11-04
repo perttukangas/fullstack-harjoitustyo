@@ -1,4 +1,4 @@
-import { isTRPCClientError } from '@core/utils/trpc';
+import { isTRPCClientError } from '@c/core/utils/trpc';
 
 export default function Error({ error }: { error: unknown }) {
   if (isTRPCClientError(error)) {

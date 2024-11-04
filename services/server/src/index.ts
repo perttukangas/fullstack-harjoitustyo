@@ -4,10 +4,10 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { PORT } from '@core/lib/envalid/index.js';
-import { LogLevel, info, shouldLog } from '@core/utils/logger.js';
+import { PORT } from '@s/core/lib/envalid/index.js';
+import { LogLevel, info, shouldLog } from '@s/core/utils/logger.js';
 
-import { appRouter } from './routes/v1/routes.js';
+import { appRouter } from './routes/v1/index.js';
 
 async function main() {
   info('Starting server...');

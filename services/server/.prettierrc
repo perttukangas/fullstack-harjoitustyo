@@ -8,7 +8,7 @@
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-prisma"
   ],
-  "importOrder": ["^@core/(.*)$", "^[./]"],
+  "importOrder": ["^@s/core/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
