@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "prod:build": "tsc && tsc-alias",
     "prod:start": "node dist/index.js",

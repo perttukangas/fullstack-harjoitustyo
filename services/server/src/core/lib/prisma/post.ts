@@ -1,4 +1,4 @@
-import { prisma } from '.';
+import { prisma } from './index.js';
 
 export const getPage = async (
   cursor: number | undefined | null,

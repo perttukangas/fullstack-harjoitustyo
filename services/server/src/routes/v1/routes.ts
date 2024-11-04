@@ -1,5 +1,5 @@
-import { router } from '.';
-import { postRouter } from './post';
+import { router } from './index.js';
+import { postRouter } from './post/index.js';
 
 export const appRouter = router({
   post: postRouter,

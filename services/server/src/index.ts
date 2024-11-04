@@ -1,13 +1,13 @@
-import trpcExpress from '@trpc/server/adapters/express';
+import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { PORT } from '@core/lib/envalid';
-import { LogLevel, info, shouldLog } from '@core/utils/logger';
+import { PORT } from '@core/lib/envalid/index.js';
+import { LogLevel, info, shouldLog } from '@core/utils/logger.js';
 
-import { appRouter } from './routes/v1/routes';
+import { appRouter } from './routes/v1/routes.js';
 
 async function main() {
   info('Starting server...');
@@ -26,7 +26,7 @@ async function main() {
 
   app.use(
     '/api/v1',
-    trpcExpress.createExpressMiddleware({
+    createExpressMiddleware({
       router: appRouter,
     })
   );
