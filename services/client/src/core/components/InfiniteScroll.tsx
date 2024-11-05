@@ -1,8 +1,6 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef } from 'react';
 
-import Loading from './Loading';
-
 interface InfiniteScrollProps<T> {
   className: string;
   allRows: T[];
@@ -85,12 +83,6 @@ export default function InfiniteScroll<T>({
             const isLoaderRow = virtualRow.index > allRows.length - 1;
             const dataRow = allRows[virtualRow.index];
 
-            if (isLoaderRow) {
-              console.log('its loader', virtualRow.index, allRows.length - 1);
-            } else {
-              console.log('no loader', virtualRow.index, allRows.length - 1);
-            }
-
             return (
               <div
                 key={virtualRow.index}
@@ -104,7 +96,7 @@ export default function InfiniteScroll<T>({
               >
                 {isLoaderRow ? (
                   hasNextPage ? (
-                    <Loading />
+                    <p>Loading...</p>
                   ) : (
                     <p>Nothing more to load</p>
                   )

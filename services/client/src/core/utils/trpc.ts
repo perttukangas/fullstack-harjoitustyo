@@ -12,4 +12,5 @@ export const isTRPCClientError = (
   return cause instanceof TRPCClientError;
 };
 
-export const trpc = createTRPCReact<AppRouter>();
+export const t = createTRPCReact<AppRouter>();
+export const Provider = t.Provider;

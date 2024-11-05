@@ -1,25 +1,23 @@
-import Error from '@c/core/components/Error';
 import InfiniteScroll from '@c/core/components/InfiniteScroll';
-import Loading from '@c/core/components/Loading';
-import { trpc } from '@c/core/utils/trpc';
+import { t } from '@c/core/utils/trpc';
 
 export default function Default() {
-  const infinitePosts = trpc.post.infinitePosts.useInfiniteQuery(
+  const infinitePosts = t.post.infinitePosts.useInfiniteQuery(
     {},
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     }
   );
 
-  const { data, status, error } = infinitePosts;
+  const { data, status } = infinitePosts;
   const allRows = data ? data.pages.flatMap((d) => d.posts) : [];
 
   if (status === 'pending') {
-    return <Loading />;
+    return <p>Loading...</p>;
   }
 
   if (status === 'error') {
-    return <Error error={error} />;
+    return <p>Error...</p>;
   }
 
   return (

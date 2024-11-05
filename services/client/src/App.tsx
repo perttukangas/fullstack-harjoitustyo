@@ -1,29 +1,10 @@
-import { Routes } from '@generouted/react-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { httpBatchLink } from '@trpc/client';
-import { useState } from 'react';
+import RoutesProvider from '@c/core/components/Providers/RoutesProvider';
+import TrpcProvider from '@c/core/components/Providers/TrpcProvider';
 
-import { trpc } from '@c/core/utils/trpc';
-
-export function App() {
-  const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      links: [
-        httpBatchLink({
-          url: '/api/v1',
-        }),
-      ],
-    })
-  );
-
+export default function App() {
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <Routes />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </trpc.Provider>
+    <TrpcProvider>
+      <RoutesProvider />
+    </TrpcProvider>
   );
 }
