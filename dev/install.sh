@@ -21,6 +21,7 @@ add_if_not_exists() {
 add_if_not_exists "DATABASE_URL" "postgresql://admin:password@localhost:5433/fullstack-db-dev?schema=public" "Required for Prisma"
 add_if_not_exists "NODE_ENV" "development" "Defines the environment type"
 add_if_not_exists "PORT" "3003" "Port for the backend server"
+add_if_not_exists "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
 
 # BACKEND
 

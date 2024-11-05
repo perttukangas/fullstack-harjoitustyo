@@ -1,13 +1,12 @@
-import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
+import { authMiddleware } from '@s/core/lib/auth/middleware.js';
 import { PORT } from '@s/core/lib/envalid/index.js';
+import { trpcMiddleware } from '@s/core/lib/trpc/middleware.js';
 import { LogLevel, info, shouldLog } from '@s/core/utils/logger.js';
-
-import { appRouter } from './routes/v1/index.js';
 
 async function main() {
   info('Starting server...');
@@ -15,6 +14,8 @@ async function main() {
   const app = express();
   app.use(helmet());
   app.use(express.json());
+
+  app.set('trust proxy', true);
 
   if (shouldLog(LogLevel.INFO)) {
     app.use(
@@ -24,12 +25,8 @@ async function main() {
     );
   }
 
-  app.use(
-    '/api/v1',
-    createExpressMiddleware({
-      router: appRouter,
-    })
-  );
+  app.use('/api/auth/*', authMiddleware);
+  app.use('/api/v1', trpcMiddleware);
 
   app.listen(PORT, () => {
     info(`Server is running on port ${PORT}`);

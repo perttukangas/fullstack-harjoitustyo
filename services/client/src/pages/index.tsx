@@ -12,6 +12,12 @@ export default function Default() {
   const { data, status } = infinitePosts;
   const allRows = data ? data.pages.flatMap((d) => d.posts) : [];
 
+  const login = t.user.login.useQuery();
+  const register = t.user.register.useQuery();
+  const protectedTest = t.user.protectedTest.useQuery();
+
+  console.log(login.data, register.data, protectedTest.data);
+
   if (status === 'pending') {
     return <p>Loading...</p>;
   }
