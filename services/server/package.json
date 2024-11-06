@@ -52,5 +52,10 @@
   },
   "@snaplet/seed": {
     "config": "prisma/seed/seed.config.ts"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write"
+    ]
   }
 }

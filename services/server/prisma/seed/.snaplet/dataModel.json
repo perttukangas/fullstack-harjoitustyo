@@ -71,12 +71,8 @@
           "isRequired": true,
           "kind": "object",
           "relationName": "CommentToPost",
-          "relationFromFields": [
-            "postId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
+          "relationFromFields": ["postId"],
+          "relationToFields": ["id"],
           "isList": false,
           "isId": false,
           "isGenerated": false,
@@ -89,12 +85,8 @@
           "isRequired": true,
           "kind": "object",
           "relationName": "CommentToUser",
-          "relationFromFields": [
-            "authorId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
+          "relationFromFields": ["authorId"],
+          "relationToFields": ["id"],
           "isList": false,
           "isId": false,
           "isGenerated": false,
@@ -105,9 +97,7 @@
       "uniqueConstraints": [
         {
           "name": "Comment_pkey",
-          "fields": [
-            "id"
-          ],
+          "fields": ["id"],
           "nullNotDistinct": false
         }
       ]
@@ -183,12 +173,8 @@
           "isRequired": true,
           "kind": "object",
           "relationName": "PostToUser",
-          "relationFromFields": [
-            "authorId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
+          "relationFromFields": ["authorId"],
+          "relationToFields": ["id"],
           "isList": false,
           "isId": false,
           "isGenerated": false,
@@ -213,9 +199,7 @@
       "uniqueConstraints": [
         {
           "name": "Post_pkey",
-          "fields": [
-            "id"
-          ],
+          "fields": ["id"],
           "nullNotDistinct": false
         }
       ]
@@ -303,9 +287,7 @@
       "uniqueConstraints": [
         {
           "name": "User_pkey",
-          "fields": [
-            "id"
-          ],
+          "fields": ["id"],
           "nullNotDistinct": false
         }
       ]
@@ -431,9 +413,7 @@
       "uniqueConstraints": [
         {
           "name": "_prisma_migrations_pkey",
-          "fields": [
-            "id"
-          ],
+          "fields": ["id"],
           "nullNotDistinct": false
         }
       ]
