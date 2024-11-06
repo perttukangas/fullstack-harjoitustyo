@@ -12,7 +12,8 @@
 
     "baseUrl": "./src",
     "paths": {
-      "@s/core/*": ["core/*"]
+      "@s/core/*": ["core/*"],
+      "@apiv1/*": ["routes/v1/*"]
     }
   },
   "include": ["src"]

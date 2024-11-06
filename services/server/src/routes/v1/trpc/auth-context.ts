@@ -1,6 +1,6 @@
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express';
 
-import { getAuth } from '../auth/index.js';
+import { getAuth } from '@s/core/lib/auth/index.js';
 
 export const createContext = async (opts: CreateExpressContextOptions) => {
   const session = await getAuth(opts.req);

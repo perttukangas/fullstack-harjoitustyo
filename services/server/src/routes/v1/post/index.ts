@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
-import { getPage } from '@s/core/lib/prisma/post.js';
-import { publicProcedure, router } from '@s/core/lib/trpc/index.js';
+import { publicProcedure, router } from '@apiv1/trpc/index.js';
+
+import { getPage } from './database.js';
 
 export const postRouter = router({
   infinitePosts: publicProcedure
