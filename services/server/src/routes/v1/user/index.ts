@@ -1,16 +1,12 @@
 import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { z } from 'zod';
 
-import { AUTH_SECRET } from '@s/core/lib/envalid.js';
+import { AUTH_SECRET, isDev } from '@s/core/lib/envalid.js';
 import { prisma } from '@s/core/lib/prisma.js';
 
-import {
-  protectedProcedure,
-  publicProcedure,
-  router,
-} from '@apiv1/trpc/index.js';
+import { SESSION_TOKEN_COOKIE } from '@apiv1/trpc/auth.js';
+import { publicProcedure, router } from '@apiv1/trpc/index.js';
 
 import { loginRegisterValidator } from './validators.js';
 
@@ -36,8 +32,16 @@ export const userRouter = router({
         });
       }
 
+      const tokenContent = { userId: existingUser.id };
       const token = jwt.sign({ userId: existingUser.id }, AUTH_SECRET);
-      return { token };
+
+      opts.ctx.res.cookie(SESSION_TOKEN_COOKIE, token, {
+        httpOnly: true,
+        secure: !isDev,
+        sameSite: 'strict',
+      });
+
+      return tokenContent;
     }),
   register: publicProcedure
     .input(loginRegisterValidator)
@@ -53,22 +57,18 @@ export const userRouter = router({
       if (existingUser) {
         throw new TRPCError({
           code: 'CONFLICT',
-          message: 'User with the same email or name already exists',
+          message: 'User with the same email exists',
         });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await prisma.user.create({
+      await prisma.user.create({
         data: {
           email,
           password: hashedPassword,
         },
       });
 
-      const token = jwt.sign({ userId: user.id }, AUTH_SECRET);
-      return { token };
+      opts.ctx.res.status(201);
     }),
-  protectedTest: protectedProcedure.input(z.void()).query(async () => {
-    return '3 ok';
-  }),
 });

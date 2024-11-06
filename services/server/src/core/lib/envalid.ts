@@ -7,7 +7,11 @@ const env = cleanEnv(process.env, {
   LOG_LEVEL: str({ choices: ['DEBUG', 'INFO', 'ERROR'], default: 'INFO' }),
   AUTH_SECRET: str(),
   CLIENT_URL: url(),
+  COOKIE_SECRET: str(),
+  CSRF_SECRET: str(),
 });
+
+export const isDev = env.isDev;
 
 export const {
   NODE_ENV,
@@ -16,4 +20,6 @@ export const {
   LOG_LEVEL,
   AUTH_SECRET,
   CLIENT_URL,
+  COOKIE_SECRET,
+  CSRF_SECRET,
 } = env;

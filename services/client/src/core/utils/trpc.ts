@@ -14,12 +14,3 @@ export const isTRPCClientError = (
 
 export const t = createTRPCReact<AppRouter>();
 export const Provider = t.Provider;
-
-export const getToken = () => {
-  return window.localStorage.getItem('token');
-};
-
-export const setToken = (token: string) => {
-  // Yes this should be in cookie
-  window.localStorage.setItem('token', token);
-};

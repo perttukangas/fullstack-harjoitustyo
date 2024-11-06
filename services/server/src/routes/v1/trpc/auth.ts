@@ -7,14 +7,13 @@ interface TokenUser {
   userId: number;
 }
 
+export const SESSION_TOKEN_COOKIE = 'AUTH_SESSION_TOKEN';
+
 export const createContext = async (opts: CreateExpressContextOptions) => {
   async function getUserFromHeader() {
-    const authHeader = opts.req.headers.authorization;
-    if (authHeader && authHeader.startsWith('bearer ')) {
-      const user = jwt.verify(
-        authHeader.split(' ')[1],
-        AUTH_SECRET
-      ) as TokenUser;
+    const authHeader = opts.req.cookies.SESSION_TOKEN_COOKIE;
+    if (authHeader) {
+      const user = jwt.verify(authHeader, AUTH_SECRET) as TokenUser;
       return user.userId;
     }
     return null;
@@ -22,6 +21,8 @@ export const createContext = async (opts: CreateExpressContextOptions) => {
   const userId = await getUserFromHeader();
   return {
     userId,
+    req: opts.req,
+    res: opts.res,
   };
 };
 

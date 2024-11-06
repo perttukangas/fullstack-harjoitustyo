@@ -1,11 +1,19 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { doubleCsrf } from 'csrf-csrf';
 import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { CLIENT_URL, PORT } from '@s/core/lib/envalid.js';
-import { LogLevel, info, shouldLog } from '@s/core/utils/logger.js';
+import {
+  CLIENT_URL,
+  COOKIE_SECRET,
+  CSRF_SECRET,
+  PORT,
+  isDev,
+} from '@s/core/lib/envalid.js';
+import { LogLevel, error, info, shouldLog } from '@s/core/utils/logger.js';
 
 import { trpcMiddleware } from '@apiv1/trpc/middleware.js';
 
@@ -26,6 +34,25 @@ async function main() {
     })
   );
 
+  const { generateToken, doubleCsrfProtection } = doubleCsrf({
+    getSecret: () => CSRF_SECRET,
+    cookieName: isDev ? 'x-csrf-token' : '__Host-auth.x-csrf-token',
+    cookieOptions: { sameSite: 'strict', path: '/', secure: !isDev },
+  });
+
+  app.use(
+    cookieParser(COOKIE_SECRET, {
+      // Typing here is wrong as cookier parser second argument uses npm:cookie, which has sameSite
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      sameSite: 'strict',
+      secure: !isDev,
+      httpOnly: true,
+    })
+  );
+
+  app.use(doubleCsrfProtection);
+
   if (shouldLog(LogLevel.INFO)) {
     app.use(
       morgan(
@@ -34,7 +61,26 @@ async function main() {
     );
   }
 
+  app.get('/api/csrf', (req: express.Request, res: express.Response) => {
+    res.json({ token: generateToken(req, res) });
+  });
   app.use('/api/v1', trpcMiddleware);
+
+  app.use(
+    (
+      err: Error,
+      _req: express.Request,
+      res: express.Response,
+      // Required for Express to interpret this as an error handler.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _next: express.NextFunction
+    ) => {
+      if (shouldLog(LogLevel.ERROR)) {
+        error(err);
+      }
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  );
 
   app.listen(PORT, () => {
     info(`Server is running on port ${PORT}`);

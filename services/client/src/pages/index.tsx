@@ -15,9 +15,6 @@ export default function Default() {
   const { data, status } = infinitePosts;
   const allRows = data ? data.pages.flatMap((d) => d.posts) : [];
 
-  const protectedA = t.user.protectedTest.useQuery();
-  console.log(protectedA.data);
-
   if (status === 'pending') {
     return <p>Loading...</p>;
   }

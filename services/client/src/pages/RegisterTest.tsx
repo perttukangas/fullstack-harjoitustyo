@@ -1,16 +1,12 @@
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
-import { setToken, t } from '@c/core/utils/trpc';
+import { t } from '@c/core/utils/trpc';
 
 import { loginRegisterValidator } from '@apiv1/user/validators';
 
 export default function RegisterTest() {
-  const registerMutation = t.user.register.useMutation({
-    onSuccess: (data) => {
-      setToken(data.token);
-    },
-  });
+  const registerMutation = t.user.register.useMutation();
 
   const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
