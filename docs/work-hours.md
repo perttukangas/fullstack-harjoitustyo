@@ -8,4 +8,4 @@
 | 3.11.2024  | 8                  | Moving to tRPC, and having so many issues with TypeScript...                                                                                                                     |
 | 4.11.2024  | 1                  | Finally being able to use ts paths with server and client properly                                                                                                               |
 | 4.11.2024  | 4                  | Experimenting with suspenses and error boundaries, basic auth flow skeleton with possibility to support many providers                                                           |
-| 6.11.2024  | 4                  | Experimenting with different forms, basic own auth implemenation instead, few refactors                                                                                          |
+| 6.11.2024  | 5                  | Experimenting with different forms, basic own auth implemenation instead, few refactors, add husky and lint-staged                                                               |

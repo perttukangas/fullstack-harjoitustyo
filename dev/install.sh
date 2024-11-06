@@ -23,8 +23,14 @@ add_if_not_exists "NODE_ENV" "development" "Defines the environment type"
 add_if_not_exists "PORT" "3003" "Port for the backend server"
 add_if_not_exists "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
 
+# ROOT
+cd ..
+
+npm install
+
 # BACKEND
 
+cd dev
 docker compose -f docker-compose.dev.yml up -d --build
 DATABASE_CONTAINER="postgres-dev"
 until docker exec $DATABASE_CONTAINER pg_isready ; do sleep 1 ; done
