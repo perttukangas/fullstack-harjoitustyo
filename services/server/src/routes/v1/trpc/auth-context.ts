@@ -1,12 +1,27 @@
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express';
+import jwt from 'jsonwebtoken';
 
-import { getAuth } from '@s/core/lib/auth/index.js';
+import { AUTH_SECRET } from '@s/core/lib/envalid.js';
+
+interface TokenUser {
+  userId: number;
+}
 
 export const createContext = async (opts: CreateExpressContextOptions) => {
-  const session = await getAuth(opts.req);
-
+  async function getUserFromHeader() {
+    const authHeader = opts.req.headers.authorization;
+    if (authHeader && authHeader.startsWith('bearer ')) {
+      const user = jwt.verify(
+        authHeader.split(' ')[1],
+        AUTH_SECRET
+      ) as TokenUser;
+      return user.userId;
+    }
+    return null;
+  }
+  const userId = await getUserFromHeader();
   return {
-    session,
+    userId,
   };
 };
 

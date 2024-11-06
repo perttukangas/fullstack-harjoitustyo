@@ -3,7 +3,6 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { authMiddleware } from '@s/core/lib/auth/middleware.js';
 import { PORT } from '@s/core/lib/envalid.js';
 import { LogLevel, info, shouldLog } from '@s/core/utils/logger.js';
 
@@ -26,7 +25,6 @@ async function main() {
     );
   }
 
-  app.use('/api/auth/*', authMiddleware);
   app.use('/api/v1', trpcMiddleware);
 
   app.listen(PORT, () => {

@@ -6,4 +6,9 @@ import { createContext } from './auth-context.js';
 export const trpcMiddleware = createExpressMiddleware({
   router: appRouter,
   createContext: createContext,
+  onError({ error }) {
+    if (error.code === 'INTERNAL_SERVER_ERROR') {
+      console.error('Error:', error);
+    }
+  },
 });

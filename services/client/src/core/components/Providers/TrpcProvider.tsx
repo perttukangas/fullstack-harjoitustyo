@@ -3,7 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { httpBatchLink } from '@trpc/client';
 import { useState } from 'react';
 
-import { Provider, t } from '@c/core/utils/trpc';
+import { Provider, getToken, t } from '@c/core/utils/trpc';
 
 export default function TrpcProvider({
   children,
@@ -16,6 +16,12 @@ export default function TrpcProvider({
       links: [
         httpBatchLink({
           url: '/api/v1',
+          headers() {
+            const token = getToken();
+            return {
+              Authorization: `bearer ${token ? token : ''}`,
+            };
+          },
         }),
       ],
     })

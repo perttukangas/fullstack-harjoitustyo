@@ -8,4 +8,4 @@ const env = cleanEnv(process.env, {
   AUTH_SECRET: str(),
 });
 
-export const { NODE_ENV, PORT, DATABASE_URL, LOG_LEVEL } = env;
+export const { NODE_ENV, PORT, DATABASE_URL, LOG_LEVEL, AUTH_SECRET } = env;

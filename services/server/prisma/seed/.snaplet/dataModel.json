@@ -244,9 +244,9 @@
           "maxLength": null
         },
         {
-          "id": "public.User.username",
-          "name": "username",
-          "columnName": "username",
+          "id": "public.User.password",
+          "name": "password",
+          "columnName": "password",
           "type": "text",
           "isRequired": true,
           "kind": "scalar",
@@ -258,9 +258,9 @@
           "maxLength": null
         },
         {
-          "id": "public.User.password",
-          "name": "password",
-          "columnName": "password",
+          "id": "public.User.email",
+          "name": "email",
+          "columnName": "email",
           "type": "text",
           "isRequired": true,
           "kind": "scalar",

@@ -1,6 +1,9 @@
 import InfiniteScroll from '@c/core/components/InfiniteScroll';
 import { t } from '@c/core/utils/trpc';
 
+import LoginTest from './LoginTest';
+import RegisterTest from './RegisterTest';
+
 export default function Default() {
   const infinitePosts = t.post.infinitePosts.useInfiniteQuery(
     {},
@@ -12,11 +15,8 @@ export default function Default() {
   const { data, status } = infinitePosts;
   const allRows = data ? data.pages.flatMap((d) => d.posts) : [];
 
-  const login = t.user.login.useQuery();
-  const register = t.user.register.useQuery();
-  const protectedTest = t.user.protectedTest.useQuery();
-
-  console.log(login.data, register.data, protectedTest.data);
+  const protectedA = t.user.protectedTest.useQuery();
+  console.log(protectedA.data);
 
   if (status === 'pending') {
     return <p>Loading...</p>;
@@ -47,6 +47,8 @@ export default function Default() {
         estimateSize={100}
         {...infinitePosts}
       />
+      <LoginTest />
+      <RegisterTest />
     </>
   );
 }

@@ -26,7 +26,8 @@
       "@c/core/*": ["core/*"],
 
       /* Add all same paths from server so trpc interprets them correctly */
-      "@s/core/*": ["../../server/src/core/*"]
+      "@s/core/*": ["../../server/src/core/*"],
+      "@apiv1/*": ["../../server/src/routes/v1/*"]
     }
   },
   "include": ["src"]

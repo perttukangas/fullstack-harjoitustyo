@@ -7,14 +7,14 @@ const t = initTRPC.context<Context>().create();
 export const router = t.router;
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(function isAuthed(opts) {
-  if (!opts.ctx.session?.user?.email) {
+  if (!opts.ctx.userId) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
     });
   }
   return opts.next({
     ctx: {
-      session: opts.ctx.session,
+      user: opts.ctx.userId,
     },
   });
 });
