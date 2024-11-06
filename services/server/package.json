@@ -18,6 +18,7 @@
     "@trpc/client": "^11.0.0-rc.608",
     "@trpc/server": "^11.0.0-rc.608",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "envalid": "^8.0.0",
     "express": "^4.21.1",

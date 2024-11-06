@@ -11,11 +11,17 @@ export default function TrpcProvider({
   children: React.ReactNode;
 }) {
   const [queryClient] = useState(() => new QueryClient());
+
+  const serverUrl = import.meta.env.VITE_SERVER_URL as string;
+  if (!serverUrl) {
+    throw new Error('VITE_SERVER_URL is not defined');
+  }
+
   const [trpcClient] = useState(() =>
     t.createClient({
       links: [
         httpBatchLink({
-          url: '/api/v1',
+          url: `${serverUrl}/api/v1`,
           headers() {
             const token = getToken();
             return {

@@ -2,26 +2,31 @@
 
 # ENVIRONMENT VARIABLES
 
-ENV_FILE=../services/server/.env
-if [ ! -f $ENV_FILE ]; then
-  touch $ENV_FILE
+SERVER_ENV_FILE=../services/server/.env
+if [ ! -f $SERVER_ENV_FILE ]; then
+  touch $SERVER_ENV_FILE
 fi
 
 add_if_not_exists() {
-  local var_name=$1
-  local var_value=$2
-  local var_explaination=$3
-  if ! grep -q "^$var_name=" "$ENV_FILE"; then
-    echo "" >> "$ENV_FILE"
-    echo "# $var_explaination" >> "$ENV_FILE"
-    echo "$var_name=$var_value" >> "$ENV_FILE"
+  local env_file=$1
+  local var_name=$2
+  local var_value=$3
+  local var_explanation=$4
+  if ! grep -q "^$var_name=" "$env_file"; then
+    echo "" >> "$env_file"
+    echo "# $var_explanation" >> "$env_file"
+    echo "$var_name=$var_value" >> "$env_file"
   fi
 }
 
-add_if_not_exists "DATABASE_URL" "postgresql://admin:password@localhost:5433/fullstack-db-dev?schema=public" "Required for Prisma"
-add_if_not_exists "NODE_ENV" "development" "Defines the environment type"
-add_if_not_exists "PORT" "3003" "Port for the backend server"
-add_if_not_exists "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
+add_if_not_exists $SERVER_ENV_FILE "DATABASE_URL" "postgresql://admin:password@localhost:5433/fullstack-db-dev?schema=public" "Required for Prisma"
+add_if_not_exists $SERVER_ENV_FILE "NODE_ENV" "development" "Defines the environment type"
+add_if_not_exists $SERVER_ENV_FILE "PORT" "3003" "Port for the backend server"
+add_if_not_exists $SERVER_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
+add_if_not_exists $SERVER_ENV_FILE "CLIENT_URL" "http://localhost:5173" "Development frontend url"
+
+CLIENT_ENV_FILE=../services/client/.env
+add_if_not_exists $CLIENT_ENV_FILE "VITE_SERVER_URL" "http://localhost:3003" "Development backend url"
 
 # ROOT
 cd ..
