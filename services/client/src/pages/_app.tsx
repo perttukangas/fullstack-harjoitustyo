@@ -1,5 +1,7 @@
 import { Link, Outlet } from '@tanstack/react-router';
 
+import GlobalErrorBoundaryProvider from '@c/core/components/Providers/GlobalErrorBoundaryProvider';
+
 export default function App() {
   return (
     <section style={{ margin: 24 }}>
@@ -12,7 +14,9 @@ export default function App() {
       </header>
 
       <main>
-        <Outlet />
+        <GlobalErrorBoundaryProvider>
+          <Outlet />
+        </GlobalErrorBoundaryProvider>
       </main>
     </section>
   );
