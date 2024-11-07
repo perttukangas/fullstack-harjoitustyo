@@ -1,4 +1,4 @@
-import { Routes } from '@generouted/react-router';
+import { Routes } from '../../../routes.gen';
 
 export default function RoutesProvider() {
   return <Routes />;

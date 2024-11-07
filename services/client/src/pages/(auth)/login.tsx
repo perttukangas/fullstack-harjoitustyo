@@ -5,8 +5,8 @@ import { t } from '@c/core/utils/trpc';
 
 import { loginRegisterValidator } from '@apiv1/user/validators';
 
-export default function RegisterTest() {
-  const registerMutation = t.user.register.useMutation();
+export default function Login() {
+  const loginMutation = t.user.login.useMutation();
 
   const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
@@ -14,7 +14,7 @@ export default function RegisterTest() {
       password: '',
     },
     onSubmit: ({ value, formApi }) => {
-      registerMutation.mutate(value);
+      loginMutation.mutate(value);
       formApi.reset();
     },
     validatorAdapter: zodValidator(),
@@ -25,7 +25,7 @@ export default function RegisterTest() {
 
   return (
     <div>
-      <h1>Register</h1>
+      <h1>Login</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
