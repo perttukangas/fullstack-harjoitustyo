@@ -6,12 +6,25 @@ const main = async () => {
   await seed.$resetDatabase();
 
   await seed.user((x) =>
-    x(10, {
-      posts: (x) =>
-        x(30, {
-          comments: (x) => x(30),
-        }),
-    })
+    x(
+      { min: 5, max: 10 },
+      {
+        posts: (x) =>
+          x(
+            { min: 15, max: 30 },
+            {
+              comments: (x) =>
+                x(
+                  { min: 20, max: 25 },
+                  {
+                    likes: (x) => x({ min: 5, max: 15 }),
+                  }
+                ),
+              likes: (x) => x({ min: 5, max: 15 }),
+            }
+          ),
+      }
+    )
   );
 
   console.log('Database seeded successfully!');

@@ -1,6 +1,6 @@
 import { prisma } from '@s/core/lib/prisma.js';
 
-export const getPage = async (
+export const getInfinite = async (
   postId: number,
   cursor: number | undefined | null,
   pageSize: number
@@ -12,6 +12,9 @@ export const getPage = async (
     select: {
       id: true,
       content: true,
+      _count: {
+        select: { likes: true },
+      },
     },
     where: {
       postId,

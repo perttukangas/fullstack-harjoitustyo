@@ -8,27 +8,47 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  password String
-  email    String
-  posts    Post[]
-  comments Comment[]
+  id           Int            @id @default(autoincrement())
+  password     String
+  email        String
+  posts        Post[]
+  comments     Comment[]
+  postLikes    PostLikes[]
+  commentLikes CommentLikes[]
 }
 
 model Post {
-  id       Int       @id @default(autoincrement())
+  id       Int         @id @default(autoincrement())
   title    String
   content  String?
   authorId Int
-  author   User      @relation(fields: [authorId], references: [id])
+  author   User        @relation(fields: [authorId], references: [id])
   comments Comment[]
+  likes    PostLikes[]
+}
+
+model PostLikes {
+  id       Int  @id @default(autoincrement())
+  postId   Int
+  post     Post @relation(fields: [postId], references: [id])
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
+  id       Int            @id @default(autoincrement())
   content  String
   postId   Int
-  post     Post   @relation(fields: [postId], references: [id])
+  post     Post           @relation(fields: [postId], references: [id])
   authorId Int
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User           @relation(fields: [authorId], references: [id])
+  likes    CommentLikes[]
+}
+
+model CommentLikes {
+  id        Int     @id @default(autoincrement())
+  commentId Int
+  comment   Comment @relation(fields: [commentId], references: [id])
+  authorId  Int
+  author    User    @relation(fields: [authorId], references: [id])
 }

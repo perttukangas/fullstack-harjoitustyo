@@ -10,8 +10,8 @@
     "dev:seed": "npx prisma db seed",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prettier:check": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "prettier:check": "prettier --check '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",
+    "prettier:fix": "prettier --write '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'"
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",
@@ -59,7 +59,7 @@
     "config": "prisma/seed/seed.config.ts"
   },
   "lint-staged": {
-    "*": [
+    "**.{ts,tsx,js,jsx,mjs,md,json,prisma}": [
       "prettier --write"
     ]
   }

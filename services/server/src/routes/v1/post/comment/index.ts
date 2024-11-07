@@ -2,10 +2,10 @@ import { z } from 'zod';
 
 import { publicProcedure, router } from '@apiv1/trpc/index.js';
 
-import { getPage } from './database.js';
+import { getInfinite } from './database.js';
 
 export const commentRouter = router({
-  infiniteComments: publicProcedure
+  infinite: publicProcedure
     .input(
       z.object({
         postId: z.number(),
@@ -20,7 +20,7 @@ export const commentRouter = router({
       const cursor = input.cursor;
       const postId = input.postId;
 
-      const comments = await getPage(postId, cursor, limit);
+      const comments = await getInfinite(postId, cursor, limit);
 
       let nextCursor = undefined;
       if (comments.length > limit) {

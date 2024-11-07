@@ -5,7 +5,7 @@ import { t } from '@c/core/utils/trpc';
 
 export default function Id() {
   const { params } = useMatch({ from: '/posts/$id' });
-  const infinitePostComments = t.post.comment.infiniteComments.useInfiniteQuery(
+  const infinitePostComments = t.post.comment.infinite.useInfiniteQuery(
     { postId: Number(params.id) },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
@@ -31,6 +31,7 @@ export default function Id() {
         renderRow={(item) => (
           <>
             <p>{item.content}</p>
+            <p>Likes: {item._count.likes}</p>
           </>
         )}
         height={500}

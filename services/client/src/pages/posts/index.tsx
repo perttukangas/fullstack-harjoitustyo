@@ -4,7 +4,7 @@ import InfiniteScroll from '@c/core/components/InfiniteScroll';
 import { t } from '@c/core/utils/trpc';
 
 export default function Index() {
-  const infinitePosts = t.post.infinitePosts.useInfiniteQuery(
+  const infinitePosts = t.post.infinite.useInfiniteQuery(
     {},
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
@@ -33,11 +33,17 @@ export default function Index() {
               {item.title}
             </Link>
             {item.id % 3 === 0 ? (
-              Array.from({ length: 10 }).map((_, index) => (
-                <p key={index}>{item.content}</p>
+              Array.from({ length: 3 }).map((_, index) => (
+                <div key={`${item.id}-${index}`}>
+                  <p>{item.content}</p>
+                  <p>Likes: {item._count.likes}</p>
+                </div>
               ))
             ) : (
-              <p>{item.content}</p>
+              <>
+                <p>{item.content}</p>
+                <p>Likes: {item._count.likes}</p>
+              </>
             )}
           </>
         )}
