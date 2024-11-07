@@ -2,14 +2,13 @@ import { z } from 'zod';
 
 import { publicProcedure, router } from '@apiv1/trpc/index.js';
 
-import { commentRouter } from './comment/index.js';
 import { getPage } from './database.js';
 
-export const postRouter = router({
-  comment: commentRouter,
-  infinitePosts: publicProcedure
+export const commentRouter = router({
+  infiniteComments: publicProcedure
     .input(
       z.object({
+        postId: z.number(),
         limit: z.number().min(5).max(100).nullish(),
         cursor: z.number().nullish(),
       })
@@ -19,17 +18,18 @@ export const postRouter = router({
 
       const limit = input.limit ?? 20;
       const cursor = input.cursor;
+      const postId = input.postId;
 
-      const posts = await getPage(cursor, limit);
+      const comments = await getPage(postId, cursor, limit);
 
       let nextCursor = undefined;
-      if (posts.length > limit) {
-        const nextItem = posts.pop();
+      if (comments.length > limit) {
+        const nextItem = comments.pop();
         nextCursor = nextItem?.id;
       }
 
       return {
-        posts,
+        comments,
         nextCursor,
       };
     }),

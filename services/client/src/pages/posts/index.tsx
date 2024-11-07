@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router';
+
 import InfiniteScroll from '@c/core/components/InfiniteScroll';
 import { t } from '@c/core/utils/trpc';
 
@@ -27,7 +29,9 @@ export default function Index() {
         allRows={allRows}
         renderRow={(item) => (
           <>
-            <h1>{item.title}</h1>
+            <Link to="/posts/$id" params={{ id: item.id.toString() }}>
+              {item.title}
+            </Link>
             {item.id % 3 === 0 ? (
               Array.from({ length: 10 }).map((_, index) => (
                 <p key={index}>{item.content}</p>
