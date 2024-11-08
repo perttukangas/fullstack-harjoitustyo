@@ -1,8 +1,12 @@
 import { z } from 'zod';
 
-import { publicProcedure, router } from '@apiv1/trpc/index.js';
+import {
+  protectedProcedure,
+  publicProcedure,
+  router,
+} from '@apiv1/trpc/index.js';
 
-import { getInfinite } from './database.js';
+import { getInfinite, like } from './database.js';
 
 export const commentRouter = router({
   infinite: publicProcedure
@@ -32,5 +36,13 @@ export const commentRouter = router({
         comments,
         nextCursor,
       };
+    }),
+  like: protectedProcedure
+    .input(z.object({ commentId: z.number() }))
+    .mutation(async (opts) => {
+      const { commentId } = opts.input;
+      const userId = opts.ctx.userId;
+      await like(commentId, userId);
+      opts.ctx.res.status(201);
     }),
 });

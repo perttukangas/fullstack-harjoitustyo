@@ -17,10 +17,10 @@ const main = async () => {
                 x(
                   { min: 20, max: 25 },
                   {
-                    likes: (x) => x({ min: 5, max: 15 }),
+                    likes: (x) => x(1),
                   }
                 ),
-              likes: (x) => x({ min: 5, max: 15 }),
+              likes: (x) => x(1),
             }
           ),
       }

@@ -24,17 +24,33 @@ const posts = createRoute({ getParentRoute: () => root, path: 'posts' }).lazy(
       createLazyRoute('/posts')({ component: m.default })
     )
 );
-const postsindex = createRoute({ getParentRoute: () => posts, path: '/' }).lazy(
-  () =>
-    import('./pages/posts/index').then((m) =>
-      createLazyRoute('/posts')({ component: m.default })
-    )
+const postsindex = createRoute({
+  getParentRoute: () => posts,
+  path: '/',
+  // @ts-ignore
+  loader: (...args) =>
+    import('./pages/posts/index').then((m) => m.Loader(...args)),
+}).lazy(() =>
+  import('./pages/posts/index').then((m) =>
+    createLazyRoute('/posts')({
+      component: m.default,
+      pendingComponent: m.Pending,
+    })
+  )
 );
-const postsid = createRoute({ getParentRoute: () => posts, path: '$id' }).lazy(
-  () =>
-    import('./pages/posts/[id]').then((m) =>
-      createLazyRoute('/posts/$id')({ component: m.default })
-    )
+const postsid = createRoute({
+  getParentRoute: () => posts,
+  path: '$id',
+  // @ts-ignore
+  loader: (...args) =>
+    import('./pages/posts/[id]').then((m) => m.Loader(...args)),
+}).lazy(() =>
+  import('./pages/posts/[id]').then((m) =>
+    createLazyRoute('/posts/$id')({
+      component: m.default,
+      pendingComponent: m.Pending,
+    })
+  )
 );
 const auth = createRoute({ getParentRoute: () => root, id: 'auth' }).lazy(() =>
   import('./pages/(auth)/_layout').then((m) =>
@@ -63,18 +79,9 @@ const about = createRoute({ getParentRoute: () => root, path: 'about' }).lazy(
       createLazyRoute('/about')({ component: m.default })
     )
 );
-const index = createRoute({
-  getParentRoute: () => root,
-  path: '/',
-  // @ts-ignore
-  loader: (...args) => import('./pages/index').then((m) => m.Loader(...args)),
-}).lazy(() =>
+const index = createRoute({ getParentRoute: () => root, path: '/' }).lazy(() =>
   import('./pages/index').then((m) =>
-    createLazyRoute('/')({
-      component: m.default,
-      pendingComponent: m.Pending,
-      errorComponent: m.Catch,
-    })
+    createLazyRoute('/')({ component: m.default })
   )
 );
 

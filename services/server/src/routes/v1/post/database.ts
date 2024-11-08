@@ -18,3 +18,12 @@ export const getInfinite = async (
     },
   });
 };
+
+export const like = async (postId: number, userId: number) => {
+  await prisma.postLikes.create({
+    data: {
+      postId,
+      userId,
+    },
+  });
+};

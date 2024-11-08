@@ -52,9 +52,9 @@
           "maxLength": null
         },
         {
-          "id": "public.Comment.authorId",
-          "name": "authorId",
-          "columnName": "authorId",
+          "id": "public.Comment.userId",
+          "name": "userId",
+          "columnName": "userId",
           "type": "int4",
           "isRequired": true,
           "kind": "scalar",
@@ -85,7 +85,7 @@
           "isRequired": true,
           "kind": "object",
           "relationName": "CommentToUser",
-          "relationFromFields": ["authorId"],
+          "relationFromFields": ["userId"],
           "relationToFields": ["id"],
           "isList": false,
           "isId": false,
@@ -154,9 +154,9 @@
           "maxLength": null
         },
         {
-          "id": "public.CommentLikes.authorId",
-          "name": "authorId",
-          "columnName": "authorId",
+          "id": "public.CommentLikes.userId",
+          "name": "userId",
+          "columnName": "userId",
           "type": "int4",
           "isRequired": true,
           "kind": "scalar",
@@ -187,7 +187,7 @@
           "isRequired": true,
           "kind": "object",
           "relationName": "CommentLikesToUser",
-          "relationFromFields": ["authorId"],
+          "relationFromFields": ["userId"],
           "relationToFields": ["id"],
           "isList": false,
           "isId": false,
@@ -200,6 +200,11 @@
         {
           "name": "CommentLikes_pkey",
           "fields": ["id"],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "CommentLikes_commentId_userId_key",
+          "fields": ["commentId", "userId"],
           "nullNotDistinct": false
         }
       ]
@@ -256,9 +261,9 @@
           "maxLength": null
         },
         {
-          "id": "public.Post.authorId",
-          "name": "authorId",
-          "columnName": "authorId",
+          "id": "public.Post.userId",
+          "name": "userId",
+          "columnName": "userId",
           "type": "int4",
           "isRequired": true,
           "kind": "scalar",
@@ -275,7 +280,7 @@
           "isRequired": true,
           "kind": "object",
           "relationName": "PostToUser",
-          "relationFromFields": ["authorId"],
+          "relationFromFields": ["userId"],
           "relationToFields": ["id"],
           "isList": false,
           "isId": false,
@@ -358,9 +363,9 @@
           "maxLength": null
         },
         {
-          "id": "public.PostLikes.authorId",
-          "name": "authorId",
-          "columnName": "authorId",
+          "id": "public.PostLikes.userId",
+          "name": "userId",
+          "columnName": "userId",
           "type": "int4",
           "isRequired": true,
           "kind": "scalar",
@@ -391,7 +396,7 @@
           "isRequired": true,
           "kind": "object",
           "relationName": "PostLikesToUser",
-          "relationFromFields": ["authorId"],
+          "relationFromFields": ["userId"],
           "relationToFields": ["id"],
           "isList": false,
           "isId": false,
@@ -404,6 +409,11 @@
         {
           "name": "PostLikes_pkey",
           "fields": ["id"],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "PostLikes_postId_userId_key",
+          "fields": ["postId", "userId"],
           "nullNotDistinct": false
         }
       ]
