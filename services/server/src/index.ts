@@ -37,7 +37,12 @@ async function main() {
   const { generateToken, doubleCsrfProtection } = doubleCsrf({
     getSecret: () => CSRF_SECRET,
     cookieName: isDev ? 'x-csrf-token' : '__Host-auth.x-csrf-token',
-    cookieOptions: { sameSite: 'strict', path: '/', secure: !isDev },
+    cookieOptions: {
+      sameSite: 'strict',
+      path: '/',
+      secure: !isDev,
+      signed: true,
+    },
   });
 
   app.use(
@@ -48,6 +53,7 @@ async function main() {
       sameSite: 'strict',
       secure: !isDev,
       httpOnly: true,
+      signed: true,
     })
   );
 

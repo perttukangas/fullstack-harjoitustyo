@@ -39,6 +39,7 @@ export const userRouter = router({
         httpOnly: true,
         secure: !isDev,
         sameSite: 'strict',
+        signed: true,
       });
 
       return tokenContent;

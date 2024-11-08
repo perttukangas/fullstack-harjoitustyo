@@ -10,15 +10,17 @@ interface TokenUser {
 export const SESSION_TOKEN_COOKIE = 'AUTH_SESSION_TOKEN';
 
 export const createContext = async (opts: CreateExpressContextOptions) => {
-  async function getUserFromHeader() {
-    const authHeader = opts.req.cookies.SESSION_TOKEN_COOKIE;
+  async function getUserFromCookie() {
+    // This is not an user input
+    // eslint-disable-next-line security/detect-object-injection
+    const authHeader = opts.req.signedCookies[SESSION_TOKEN_COOKIE];
     if (authHeader) {
       const user = jwt.verify(authHeader, AUTH_SECRET) as TokenUser;
       return user.userId;
     }
     return null;
   }
-  const userId = await getUserFromHeader();
+  const userId = await getUserFromCookie();
   return {
     userId,
     req: opts.req,
