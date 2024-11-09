@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { StatusCode } from '@s/core/utils/status-code.js';
 
 import {
   protectedProcedure,
@@ -6,43 +6,36 @@ import {
   router,
 } from '@apiv1/trpc/index.js';
 
-import { getInfinite, like } from './database.js';
+import { create, getInfinite, like } from './database.js';
+import { createInput, infiniteInput, likeInput } from './validators.js';
 
 export const commentRouter = router({
-  infinite: publicProcedure
-    .input(
-      z.object({
-        postId: z.number(),
-        limit: z.number().min(5).max(100).nullish(),
-        cursor: z.number().nullish(),
-      })
-    )
-    .query(async (opts) => {
-      const { input } = opts;
+  infinite: publicProcedure.input(infiniteInput).query(async (opts) => {
+    const { limit, cursor, postId } = opts.input;
 
-      const limit = input.limit ?? 20;
-      const cursor = input.cursor;
-      const postId = input.postId;
+    const comments = await getInfinite({ postId, limit, cursor });
 
-      const comments = await getInfinite(postId, cursor, limit);
+    let nextCursor = undefined;
+    if (comments.length > limit) {
+      const nextItem = comments.pop();
+      nextCursor = nextItem?.id;
+    }
 
-      let nextCursor = undefined;
-      if (comments.length > limit) {
-        const nextItem = comments.pop();
-        nextCursor = nextItem?.id;
-      }
-
-      return {
-        comments,
-        nextCursor,
-      };
-    }),
-  like: protectedProcedure
-    .input(z.object({ commentId: z.number() }))
-    .mutation(async (opts) => {
-      const { commentId } = opts.input;
-      const userId = opts.ctx.userId;
-      await like(commentId, userId);
-      opts.ctx.res.status(201);
-    }),
+    return {
+      comments,
+      nextCursor,
+    };
+  }),
+  like: protectedProcedure.input(likeInput).mutation(async (opts) => {
+    const { commentId } = opts.input;
+    const userId = opts.ctx.userId;
+    await like({ commentId, userId });
+    opts.ctx.res.status(StatusCode.CREATED);
+  }),
+  create: protectedProcedure.input(createInput).mutation(async (opts) => {
+    const { content, postId } = opts.input;
+    const userId = opts.ctx.userId;
+    await create({ content, userId, postId });
+    opts.ctx.res.status(StatusCode.CREATED);
+  }),
 });

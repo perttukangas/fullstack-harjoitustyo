@@ -11,9 +11,9 @@ export const trpcMiddleware = createExpressMiddleware({
   onError({ error }) {
     if (error.code === 'INTERNAL_SERVER_ERROR') {
       lerror('Internal server error:', error);
-    }
 
-    // Incase of internal server error, we don't want to leak the error to the client
-    error.message = 'Internal server error';
+      // Incase of internal server error, we don't want to leak the error to the client
+      error.message = 'Internal server error';
+    }
   },
 });

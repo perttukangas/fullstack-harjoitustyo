@@ -13,8 +13,8 @@ export default function Login() {
       email: '',
       password: '',
     },
-    onSubmit: ({ value, formApi }) => {
-      loginMutation.mutate(value);
+    onSubmit: async ({ value, formApi }) => {
+      await loginMutation.mutateAsync(value);
       formApi.reset();
     },
     validatorAdapter: zodValidator(),

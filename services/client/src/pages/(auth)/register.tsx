@@ -13,8 +13,8 @@ export default function Register() {
       email: '',
       password: '',
     },
-    onSubmit: ({ value, formApi }) => {
-      registerMutation.mutate(value);
+    onSubmit: async ({ value, formApi }) => {
+      await registerMutation.mutateAsync(value);
       formApi.reset();
     },
     validatorAdapter: zodValidator(),

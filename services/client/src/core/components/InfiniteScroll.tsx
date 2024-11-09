@@ -9,7 +9,6 @@ interface InfiniteScrollProps<T> {
   renderRow: (item: T) => React.ReactNode;
   height: number;
   estimateSize: number;
-  overscan?: number;
   fetchNextPage: () => Promise<unknown>;
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
@@ -21,7 +20,6 @@ export default function InfiniteScroll<T>({
   renderRow,
   height,
   estimateSize,
-  overscan,
   fetchNextPage,
   isFetchingNextPage,
   hasNextPage,
@@ -32,7 +30,6 @@ export default function InfiniteScroll<T>({
     count: hasNextPage ? allRows.length : allRows.length + 1,
     getScrollElement: () => parentRef.current,
     estimateSize: () => estimateSize,
-    overscan: overscan ?? 5,
     measureElement:
       typeof window !== 'undefined' && !navigator.userAgent.includes('Firefox')
         ? (element) => element?.getBoundingClientRect().height

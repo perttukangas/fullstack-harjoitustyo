@@ -1,11 +1,14 @@
 import { prisma } from '@s/core/lib/prisma.js';
 
-export const getInfinite = async (
-  cursor: number | undefined | null,
-  pageSize: number
-) => {
+import {
+  InfiniteInput,
+  ProtectedCreateInput,
+  ProtectedLikeInput,
+} from './validators.js';
+
+export const getInfinite = async ({ limit, cursor }: InfiniteInput) => {
   return await prisma.post.findMany({
-    take: pageSize + 1,
+    take: limit + 1,
     cursor: cursor ? { id: cursor } : undefined,
     orderBy: { id: 'desc' },
     select: {
@@ -19,10 +22,24 @@ export const getInfinite = async (
   });
 };
 
-export const like = async (postId: number, userId: number) => {
-  await prisma.postLikes.create({
+export const like = async ({ postId, userId }: ProtectedLikeInput) => {
+  return await prisma.postLikes.create({
     data: {
       postId,
+      userId,
+    },
+  });
+};
+
+export const create = async ({
+  title,
+  content,
+  userId,
+}: ProtectedCreateInput) => {
+  return await prisma.post.create({
+    data: {
+      title,
+      content,
       userId,
     },
   });
