@@ -1,70 +1,101 @@
 import { useForm } from '@tanstack/react-form';
+import { Link } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
+import { produce } from 'immer';
 
-import InfiniteScroll from '@c/core/components/InfiniteScroll';
-import Spinner from '@c/core/components/Spinner';
-import { clientUtils, t } from '@c/core/utils/trpc';
+import { RouterOutputs } from '@c/core/utils/trpc';
+import { t } from '@c/core/utils/trpc';
 
-import { createInput } from '@apiv1/post/validators';
+import { editInput } from '@apiv1/post/validators';
 
-import Post from './_components/Post';
+type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
 
-export const Pending = () => <Spinner />;
-export const Loader = async () => {
-  const prefetch = await clientUtils.post.infinite.prefetchInfinite({});
-  return { prefetch };
-};
-
-export default function Index() {
-  const infinitePosts = t.post.infinite.useInfiniteQuery(
-    {},
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
-    }
-  );
-
+export default function Post({ _count, content, id, title }: InfinitePost) {
   const tUtils = t.useUtils();
+  const postLike = t.post.like.useMutation({
+    onSuccess: (_data, variables) => {
+      const { postId } = variables;
+      tUtils.post.infinite.setInfiniteData({}, (oldData) => {
+        return !oldData
+          ? oldData
+          : produce(oldData, (draft) => {
+              for (const page of draft.pages) {
+                if (!page.nextCursor || page.nextCursor < postId) {
+                  for (const post of page.posts) {
+                    if (post.id === postId) {
+                      post._count.likes += 1;
+                      break;
+                    }
+                  }
+                  break;
+                }
+              }
+            });
+      });
+    },
+  });
 
-  const { data, status } = infinitePosts;
-  const allRows = data ? data.pages.flatMap((d) => d.posts) : [];
-
-  const postCreate = t.post.create.useMutation({
+  const postRemove = t.post.remove.useMutation({
     onSuccess: () => {
       void tUtils.post.infinite.invalidate({});
     },
   });
 
+  const postEdit = t.post.edit.useMutation({
+    onSuccess: () => {
+      void tUtils.post.infinite.invalidate({});
+    },
+  });
+
+  const handleLike = async (postId: number) => {
+    await postLike.mutateAsync({ postId });
+  };
+
+  const handleRemove = async (postId: number) => {
+    await postRemove.mutateAsync({ postId });
+  };
+
   const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
-      content: '',
-      title: '',
+      postId: id,
+      content,
+      title,
     },
     onSubmit: async ({ value, formApi }) => {
-      await postCreate.mutateAsync(value);
+      await postEdit.mutateAsync(value);
       formApi.reset();
     },
     validatorAdapter: zodValidator(),
     validators: {
-      onSubmit: createInput,
+      onSubmit: editInput,
     },
   });
 
-  if (status === 'error') {
-    return <p>Error...</p>;
-  }
-
   return (
     <>
-      <InfiniteScroll
-        className="infinite-scroll-posts"
-        allRows={allRows}
-        renderRow={(post) => <Post {...post} />}
-        height={500}
-        estimateSize={100}
-        {...infinitePosts}
-      />
+      <Link to="/posts/$id" params={{ id: id.toString() }}>
+        {title}
+      </Link>
+      <p>
+        {id} {content}
+      </p>
+      <p>Likes: {_count.likes}</p>
+      <button
+        onClick={() => {
+          void handleLike(id);
+        }}
+      >
+        Like
+      </button>
+      <button
+        onClick={() => {
+          void handleRemove(id);
+        }}
+      >
+        Delete
+      </button>
       <div>
-        <h1>Create</h1>
+        <p>Edit</p>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -123,6 +154,8 @@ export default function Index() {
           </Subscribe>
         </form>
       </div>
+      <br />
+      <br />
     </>
   );
 }

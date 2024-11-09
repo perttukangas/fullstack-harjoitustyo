@@ -1,7 +1,6 @@
 import { useForm } from '@tanstack/react-form';
 import { LoaderFnContext, useMatch } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
-import { produce } from 'immer';
 import { z } from 'zod';
 
 import InfiniteScroll from '@c/core/components/InfiniteScroll';
@@ -9,6 +8,8 @@ import Spinner from '@c/core/components/Spinner';
 import { clientUtils, t } from '@c/core/utils/trpc';
 
 import { createInput } from '@apiv1/post/comment/validators';
+
+import Comment from './_components/Comment';
 
 export const Pending = () => <Spinner />;
 export const Loader = async (context: LoaderFnContext) => {
@@ -32,35 +33,9 @@ export default function Id() {
   );
 
   const tUtils = t.useUtils();
-  const commentLike = t.post.comment.like.useMutation({
-    onSuccess: (_data, variables) => {
-      const { commentId } = variables;
-      tUtils.post.comment.infinite.setInfiniteData({ postId }, (oldData) => {
-        return !oldData
-          ? oldData
-          : produce(oldData, (draft) => {
-              for (const page of draft.pages) {
-                if (!page.nextCursor || page.nextCursor < commentId) {
-                  for (const comment of page.comments) {
-                    if (comment.id === commentId) {
-                      comment._count.likes += 1;
-                      break;
-                    }
-                  }
-                  break;
-                }
-              }
-            });
-      });
-    },
-  });
 
   const { data, status } = infinitePostComments;
   const allRows = data ? data.pages.flatMap((d) => d.comments) : [];
-
-  const handleLike = async (commentId: number) => {
-    await commentLike.mutateAsync({ commentId });
-  };
 
   const createMutation = t.post.comment.create.useMutation({
     onSuccess: () => {
@@ -92,19 +67,7 @@ export default function Id() {
       <InfiniteScroll
         className="infinite-scroll-post-comments"
         allRows={allRows}
-        renderRow={(item) => (
-          <>
-            <p>{item.content}</p>
-            <p>Likes: {item._count.likes}</p>
-            <button
-              onClick={() => {
-                void handleLike(item.id);
-              }}
-            >
-              Like
-            </button>
-          </>
-        )}
+        renderRow={(comment) => <Comment postId={postId} {...comment} />}
         height={500}
         estimateSize={100}
         {...infinitePostComments}

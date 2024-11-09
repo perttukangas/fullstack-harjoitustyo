@@ -11,3 +11,4 @@
 | 6.11.2024  | 8                  | Experimenting with different forms, basic own auth implemenation instead, few refactors, add husky and lint-staged, implement hopefully secure csrf and cookie system            |
 | 7.11.2024  | 5                  | Switch to tanstack router and use lazy loading, simple post comments, and likes for posts and comments, global error boundary                                                    |
 | 8.11.2024  | 5                  | Use signed cookies, add prefetching for sites, add simple like button(s) with protected procedure                                                                                |
+| 9.11.2024  | 5                  | Add simple edit and delete for posts and comments                                                                                                                                |

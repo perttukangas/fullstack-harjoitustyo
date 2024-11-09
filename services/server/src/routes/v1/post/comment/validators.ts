@@ -19,3 +19,12 @@ export const createInput = z.object({
   content: z.string().min(10).max(5000),
 });
 export type ProtectedCreateInput = z.infer<typeof createInput> & Protected;
+
+export const removeInput = z.object({ commentId: z.number() });
+export type RemoveInput = z.infer<typeof removeInput>;
+
+export const editInput = z.object({
+  commentId: z.number(),
+  content: z.string().min(10).max(5000),
+});
+export type EditInput = z.infer<typeof editInput>;

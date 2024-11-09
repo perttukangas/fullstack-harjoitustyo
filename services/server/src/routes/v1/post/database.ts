@@ -1,9 +1,11 @@
 import { prisma } from '@s/core/lib/prisma.js';
 
 import {
+  EditInput,
   InfiniteInput,
   ProtectedCreateInput,
   ProtectedLikeInput,
+  RemoveInput,
 } from './validators.js';
 
 export const getInfinite = async ({ limit, cursor }: InfiniteInput) => {
@@ -42,5 +44,16 @@ export const create = async ({
       content,
       userId,
     },
+  });
+};
+
+export const remove = async ({ postId }: RemoveInput) => {
+  return await prisma.post.delete({ where: { id: postId } });
+};
+
+export const edit = async ({ postId, title, content }: EditInput) => {
+  return await prisma.post.update({
+    data: { title, content },
+    where: { id: postId },
   });
 };

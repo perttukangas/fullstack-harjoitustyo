@@ -6,8 +6,14 @@ import {
   router,
 } from '@apiv1/trpc/index.js';
 
-import { create, getInfinite, like } from './database.js';
-import { createInput, infiniteInput, likeInput } from './validators.js';
+import { create, edit, getInfinite, like, remove } from './database.js';
+import {
+  createInput,
+  editInput,
+  infiniteInput,
+  likeInput,
+  removeInput,
+} from './validators.js';
 
 export const commentRouter = router({
   infinite: publicProcedure.input(infiniteInput).query(async (opts) => {
@@ -36,6 +42,16 @@ export const commentRouter = router({
     const { content, postId } = opts.input;
     const userId = opts.ctx.userId;
     await create({ content, userId, postId });
+    opts.ctx.res.status(StatusCode.CREATED);
+  }),
+  remove: protectedProcedure.input(removeInput).mutation(async (opts) => {
+    const { commentId } = opts.input;
+    await remove({ commentId });
+    opts.ctx.res.status(StatusCode.OK);
+  }),
+  edit: protectedProcedure.input(editInput).mutation(async (opts) => {
+    const { commentId, content } = opts.input;
+    await edit({ commentId, content });
     opts.ctx.res.status(StatusCode.CREATED);
   }),
 });
