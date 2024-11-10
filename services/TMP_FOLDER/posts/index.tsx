@@ -1,32 +1,23 @@
 import { useForm } from '@tanstack/react-form';
-import { LoaderFnContext, useMatch } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
-import { z } from 'zod';
 
 import InfiniteScroll from '@c/core/components/InfiniteScroll';
 import Spinner from '@c/core/components/Spinner';
-import { clientUtils, t } from '@c/core/utils/trpc';
+import { clientUtils, t } from '@c/core/lib/trpc';
 
-import { createInput } from '@apiv1/post/comment/validators';
+import { createInput } from '@apiv1/post/validators';
 
-import Comment from './_components/Comment';
+import Post from './_components/Post';
 
 export const Pending = () => <Spinner />;
-export const Loader = async (context: LoaderFnContext) => {
-  const parsedParams = z
-    .object({ id: z.string().transform((val) => parseInt(val)) })
-    .parse(context.params);
-  const prefetch = await clientUtils.post.comment.infinite.prefetchInfinite({
-    postId: parsedParams.id,
-  });
+export const Loader = async () => {
+  const prefetch = await clientUtils.post.infinite.prefetchInfinite({});
   return { prefetch };
 };
 
-export default function Id() {
-  const { params } = useMatch({ from: '/posts/$id' });
-  const postId = Number(params.id);
-  const infinitePostComments = t.post.comment.infinite.useInfiniteQuery(
-    { postId },
+export default function Index() {
+  const infinitePosts = t.post.infinite.useInfiniteQuery(
+    {},
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     }
@@ -34,22 +25,22 @@ export default function Id() {
 
   const tUtils = t.useUtils();
 
-  const { data, status } = infinitePostComments;
-  const allRows = data ? data.pages.flatMap((d) => d.comments) : [];
+  const { data, status } = infinitePosts;
+  const allRows = data ? data.pages.flatMap((d) => d.posts) : [];
 
-  const createMutation = t.post.comment.create.useMutation({
+  const postCreate = t.post.create.useMutation({
     onSuccess: () => {
-      void tUtils.post.comment.infinite.invalidate({});
+      void tUtils.post.infinite.invalidate({});
     },
   });
 
   const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
-      postId,
       content: '',
+      title: '',
     },
     onSubmit: async ({ value, formApi }) => {
-      await createMutation.mutateAsync(value);
+      await postCreate.mutateAsync(value);
       formApi.reset();
     },
     validatorAdapter: zodValidator(),
@@ -65,12 +56,12 @@ export default function Id() {
   return (
     <>
       <InfiniteScroll
-        className="infinite-scroll-post-comments"
+        className="infinite-scroll-posts"
         allRows={allRows}
-        renderRow={(comment) => <Comment postId={postId} {...comment} />}
+        renderRow={(post) => <Post {...post} />}
         height={500}
         estimateSize={100}
-        {...infinitePostComments}
+        {...infinitePosts}
       />
       <div>
         <h1>Create</h1>
@@ -82,11 +73,32 @@ export default function Id() {
           }}
         >
           <div>
+            <Field name="title">
+              {(field) => (
+                <div>
+                  <label htmlFor={field.name}>Title:</label>
+                  <input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onChange={(e) => {
+                      field.handleChange(e.target.value);
+                    }}
+                    type="text"
+                  />
+                  {field.state.meta.errors.length > 0 ? (
+                    <em role="alert">{field.state.meta.errors.join(', ')}</em>
+                  ) : null}
+                </div>
+              )}
+            </Field>
+          </div>
+          <div>
             <Field name="content">
               {(field) => (
                 <div>
                   <label htmlFor={field.name}>Content:</label>
-                  <input
+                  <textarea
                     id={field.name}
                     name={field.name}
                     value={field.state.value}

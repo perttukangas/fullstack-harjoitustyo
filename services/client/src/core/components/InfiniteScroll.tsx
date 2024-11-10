@@ -1,8 +1,6 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef } from 'react';
 
-import Spinner from './Spinner';
-
 interface InfiniteScrollProps<T> {
   className: string;
   allRows: T[];
@@ -95,7 +93,7 @@ export default function InfiniteScroll<T>({
               >
                 {isLoaderRow ? (
                   hasNextPage ? (
-                    <Spinner />
+                    <p>Loading...</p>
                   ) : (
                     <p>Nothing more to load</p>
                   )

@@ -17,7 +17,8 @@ export const createInput = z.object({
   title: z.string().min(5).max(100),
   content: z.string().min(10).max(5000),
 });
-export type ProtectedCreateInput = z.infer<typeof createInput> & Protected;
+export type CreateInput = z.infer<typeof createInput>;
+export type ProtectedCreateInput = CreateInput & Protected;
 
 export const removeInput = z.object({ postId: z.number() });
 export type RemoveInput = z.infer<typeof removeInput>;
@@ -28,3 +29,4 @@ export const editInput = z.object({
   content: z.string().min(10).max(5000),
 });
 export type EditInput = z.infer<typeof editInput>;
+export type ProtectedEditInput = EditInput & Protected;

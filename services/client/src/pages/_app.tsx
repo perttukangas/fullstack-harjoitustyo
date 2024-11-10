@@ -1,23 +1,18 @@
-import { Link, Outlet } from '@tanstack/react-router';
+import { Outlet } from '@tanstack/react-router';
 
 import GlobalErrorBoundaryProvider from '@c/core/components/Providers/GlobalErrorBoundaryProvider';
 
+import Footer from './_components/Footer';
+
 export default function App() {
   return (
-    <section style={{ margin: 24 }}>
-      <header style={{ display: 'flex', gap: 24 }}>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/posts">Posts</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-      </header>
-
+    <div className="mx-auto max-w-screen-lg">
       <main>
         <GlobalErrorBoundaryProvider>
           <Outlet />
         </GlobalErrorBoundaryProvider>
       </main>
-    </section>
+      <Footer />
+    </div>
   );
 }

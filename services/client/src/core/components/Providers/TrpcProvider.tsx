@@ -7,7 +7,7 @@ import {
   queryClient,
   setCsrfToken,
   trpcClient,
-} from '@c/core/utils/trpc';
+} from '@c/core/lib/trpc';
 
 interface CsrfToken {
   token: string;

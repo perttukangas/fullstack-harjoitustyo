@@ -1,14 +1,14 @@
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
-import { t } from '@c/core/utils/trpc';
+import { t } from '@c/core/lib/trpc';
 
 import { loginRegisterValidator } from '@apiv1/user/validators';
 
 export default function Login() {
   const loginMutation = t.user.login.useMutation();
 
-  const { Field, handleSubmit, Subscribe } = useForm({
+  const form = useForm({
     defaultValues: {
       email: '',
       password: '',
@@ -30,11 +30,11 @@ export default function Login() {
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          void handleSubmit();
+          void form.handleSubmit();
         }}
       >
         <div>
-          <Field name="email">
+          <form.Field name="email">
             {(field) => (
               <div>
                 <label htmlFor={field.name}>Email:</label>
@@ -45,16 +45,17 @@ export default function Login() {
                   onChange={(e) => {
                     field.handleChange(e.target.value);
                   }}
+                  type="email"
                 />
                 {field.state.meta.errors.length > 0 ? (
                   <em role="alert">{field.state.meta.errors.join(', ')}</em>
                 ) : null}
               </div>
             )}
-          </Field>
+          </form.Field>
         </div>
         <div>
-          <Field name="password">
+          <form.Field name="password">
             {(field) => (
               <div>
                 <label htmlFor={field.name}>Password:</label>
@@ -65,21 +66,24 @@ export default function Login() {
                   onChange={(e) => {
                     field.handleChange(e.target.value);
                   }}
+                  type="password"
                 />
                 {field.state.meta.errors.length > 0 ? (
                   <em role="alert">{field.state.meta.errors.join(', ')}</em>
                 ) : null}
               </div>
             )}
-          </Field>
+          </form.Field>
         </div>
-        <Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+        >
           {([canSubmit, isSubmitting]) => (
             <button type="submit" disabled={!canSubmit}>
               {isSubmitting ? '...' : 'Submit'}
             </button>
           )}
-        </Subscribe>
+        </form.Subscribe>
       </form>
     </div>
   );

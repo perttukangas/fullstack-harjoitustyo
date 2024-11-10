@@ -1,36 +1,29 @@
 import { useForm } from '@tanstack/react-form';
+import { Link } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { produce } from 'immer';
 
-import { RouterOutputs } from '@c/core/utils/trpc';
-import { t } from '@c/core/utils/trpc';
+import { RouterOutputs } from '@c/core/lib/trpc';
+import { t } from '@c/core/lib/trpc';
 
-import { editInput } from '@apiv1/post/comment/validators';
+import { editInput } from '@apiv1/post/validators';
 
-type InfiniteComment =
-  RouterOutputs['post']['comment']['infinite']['comments'][0] & {
-    postId: number;
-  };
+type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
 
-export default function Comment({
-  _count,
-  content,
-  id,
-  postId,
-}: InfiniteComment) {
+export default function Post({ _count, content, id, title }: InfinitePost) {
   const tUtils = t.useUtils();
-  const commentLike = t.post.comment.like.useMutation({
+  const postLike = t.post.like.useMutation({
     onSuccess: (_data, variables) => {
-      const { commentId } = variables;
-      tUtils.post.comment.infinite.setInfiniteData({ postId }, (oldData) => {
+      const { postId } = variables;
+      tUtils.post.infinite.setInfiniteData({}, (oldData) => {
         return !oldData
           ? oldData
           : produce(oldData, (draft) => {
               for (const page of draft.pages) {
-                if (!page.nextCursor || page.nextCursor < commentId) {
-                  for (const comment of page.comments) {
-                    if (comment.id === commentId) {
-                      comment._count.likes += 1;
+                if (!page.nextCursor || page.nextCursor < postId) {
+                  for (const post of page.posts) {
+                    if (post.id === postId) {
+                      post._count.likes += 1;
                       break;
                     }
                   }
@@ -42,32 +35,34 @@ export default function Comment({
     },
   });
 
-  const commentRemove = t.post.comment.remove.useMutation({
+  const postRemove = t.post.remove.useMutation({
     onSuccess: () => {
-      void tUtils.post.comment.infinite.invalidate({ postId });
+      void tUtils.post.infinite.invalidate({});
     },
   });
 
-  const commentEdit = t.post.comment.edit.useMutation({
+  const postEdit = t.post.edit.useMutation({
     onSuccess: () => {
-      void tUtils.post.comment.infinite.invalidate({ postId });
+      void tUtils.post.infinite.invalidate({});
     },
   });
 
-  const handleLike = async (commentId: number) => {
-    await commentLike.mutateAsync({ commentId });
+  const handleLike = async (postId: number) => {
+    await postLike.mutateAsync({ postId });
   };
-  const handleRemove = async (commentId: number) => {
-    await commentRemove.mutateAsync({ commentId });
+
+  const handleRemove = async (postId: number) => {
+    await postRemove.mutateAsync({ postId });
   };
 
   const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
-      commentId: id,
+      postId: id,
       content,
+      title,
     },
     onSubmit: async ({ value, formApi }) => {
-      await commentEdit.mutateAsync(value);
+      await postEdit.mutateAsync(value);
       formApi.reset();
     },
     validatorAdapter: zodValidator(),
@@ -78,7 +73,12 @@ export default function Comment({
 
   return (
     <>
-      <p>{content}</p>
+      <Link to="/posts/$id" params={{ id: id.toString() }}>
+        {title}
+      </Link>
+      <p>
+        {id} {content}
+      </p>
       <p>Likes: {_count.likes}</p>
       <button
         onClick={() => {
@@ -104,11 +104,32 @@ export default function Comment({
           }}
         >
           <div>
+            <Field name="title">
+              {(field) => (
+                <div>
+                  <label htmlFor={field.name}>Title:</label>
+                  <input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onChange={(e) => {
+                      field.handleChange(e.target.value);
+                    }}
+                    type="text"
+                  />
+                  {field.state.meta.errors.length > 0 ? (
+                    <em role="alert">{field.state.meta.errors.join(', ')}</em>
+                  ) : null}
+                </div>
+              )}
+            </Field>
+          </div>
+          <div>
             <Field name="content">
               {(field) => (
                 <div>
                   <label htmlFor={field.name}>Content:</label>
-                  <input
+                  <textarea
                     id={field.name}
                     name={field.name}
                     value={field.state.value}

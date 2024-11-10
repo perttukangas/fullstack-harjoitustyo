@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
-import { t } from '@c/core/utils/trpc';
+import { t } from '@c/core/lib/trpc';
 
 import { loginRegisterValidator } from '@apiv1/user/validators';
 
@@ -45,6 +45,7 @@ export default function Register() {
                   onChange={(e) => {
                     field.handleChange(e.target.value);
                   }}
+                  type="email"
                 />
                 {field.state.meta.errors.length > 0 ? (
                   <em role="alert">{field.state.meta.errors.join(', ')}</em>
@@ -65,6 +66,7 @@ export default function Register() {
                   onChange={(e) => {
                     field.handleChange(e.target.value);
                   }}
+                  type="password"
                 />
                 {field.state.meta.errors.length > 0 ? (
                   <em role="alert">{field.state.meta.errors.join(', ')}</em>

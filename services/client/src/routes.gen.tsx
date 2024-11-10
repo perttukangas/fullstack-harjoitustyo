@@ -18,80 +18,13 @@ const _404 = createRoute({
   path: '*',
   component: NoMatch || Fragment,
 });
-const posts = createRoute({ getParentRoute: () => root, path: 'posts' }).lazy(
-  () =>
-    import('./pages/posts/_layout').then((m) =>
-      createLazyRoute('/posts')({ component: m.default })
-    )
-);
-const postsindex = createRoute({
-  getParentRoute: () => posts,
-  path: '/',
-  // @ts-ignore
-  loader: (...args) =>
-    import('./pages/posts/index').then((m) => m.Loader(...args)),
-}).lazy(() =>
-  import('./pages/posts/index').then((m) =>
-    createLazyRoute('/posts')({
-      component: m.default,
-      pendingComponent: m.Pending,
-    })
-  )
-);
-const postsid = createRoute({
-  getParentRoute: () => posts,
-  path: '$id',
-  // @ts-ignore
-  loader: (...args) =>
-    import('./pages/posts/[id]').then((m) => m.Loader(...args)),
-}).lazy(() =>
-  import('./pages/posts/[id]').then((m) =>
-    createLazyRoute('/posts/$id')({
-      component: m.default,
-      pendingComponent: m.Pending,
-    })
-  )
-);
-const auth = createRoute({ getParentRoute: () => root, id: 'auth' }).lazy(() =>
-  import('./pages/(auth)/_layout').then((m) =>
-    createLazyRoute('/auth')({ component: m.default })
-  )
-);
-const authregister = createRoute({
-  getParentRoute: () => auth,
-  path: 'register',
-}).lazy(() =>
-  import('./pages/(auth)/register').then((m) =>
-    createLazyRoute('/auth/register')({ component: m.default })
-  )
-);
-const authlogin = createRoute({
-  getParentRoute: () => auth,
-  path: 'login',
-}).lazy(() =>
-  import('./pages/(auth)/login').then((m) =>
-    createLazyRoute('/auth/login')({ component: m.default })
-  )
-);
-const about = createRoute({ getParentRoute: () => root, path: 'about' }).lazy(
-  () =>
-    import('./pages/about').then((m) =>
-      createLazyRoute('/about')({ component: m.default })
-    )
-);
 const index = createRoute({ getParentRoute: () => root, path: '/' }).lazy(() =>
   import('./pages/index').then((m) =>
     createLazyRoute('/')({ component: m.default })
   )
 );
 
-const config = root.addChildren([
-  posts.addChildren([postsindex, postsid]),
-  auth.addChildren([authregister, authlogin]),
-  about,
-  index,
-  _404,
-]);
+const config = root.addChildren([index, _404]);
 
 const router = createRouter({ routeTree: config });
 export const routes = config;
