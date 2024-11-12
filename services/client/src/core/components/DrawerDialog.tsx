@@ -20,8 +20,8 @@ import { useIsMobile } from '@c/core/hooks/use-is-mobile';
 
 interface DrawerDialogProps {
   trigger: React.ReactNode;
-  title: string;
-  description: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
   children: React.ReactNode;
   footer?: React.ReactNode;
   open: boolean;
@@ -49,7 +49,7 @@ export default function DrawerDialog({
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <div className="flex-1 overflow-y-auto">{children}</div>
+          <div className="overflow-y-auto">{children}</div>
           {footer}
         </DrawerContent>
       </Drawer>
@@ -64,7 +64,7 @@ export default function DrawerDialog({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div className="flex-1 overflow-y-auto">{children}</div>
+        <div className="overflow-y-auto">{children}</div>
         {footer}
       </DialogContent>
     </Dialog>

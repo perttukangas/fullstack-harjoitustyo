@@ -16,12 +16,6 @@ import { useToast } from '@c/core/hooks/use-toast';
 
 export default function RemovePost() {
   const { toast } = useToast();
-  //open?: boolean | undefined;
-  //slot?: string | undefined;
-  //style?: React.CSSProperties | undefined;
-  //title?: string | (string & React.ReactElement<any, string | React.JSXElementConstructor<any>>) | (string & Iterable<...>) | (string & React.ReactPortal) | undefined;
-  //... 276 more ...;
-  //description?: React.ReactNode
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
