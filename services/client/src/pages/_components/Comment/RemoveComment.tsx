@@ -12,16 +12,8 @@ import {
   AlertDialogTrigger,
 } from '@c/core/components/AlertDialog';
 import { Button } from '@c/core/components/Button';
-import { useToast } from '@c/core/hooks/use-toast';
 
-export default function RemovePost() {
-  const { toast } = useToast();
-  //open?: boolean | undefined;
-  //slot?: string | undefined;
-  //style?: React.CSSProperties | undefined;
-  //title?: string | (string & React.ReactElement<any, string | React.JSXElementConstructor<any>>) | (string & Iterable<...>) | (string & React.ReactPortal) | undefined;
-  //... 276 more ...;
-  //description?: React.ReactNode
+export default function RemoveComment() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -34,14 +26,12 @@ export default function RemovePost() {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            post.
+            comment.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => toast({ description: 'Removed', duration: 10000 })}
-          >
+          <AlertDialogAction onClick={() => console.log('REMOVE')}>
             Remove
           </AlertDialogAction>
         </AlertDialogFooter>

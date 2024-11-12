@@ -25,7 +25,7 @@ type SampleData = (typeof sampleData)[0];
 
 export default function Home() {
   return (
-    <main>
+    <>
       {sampleData.map((item: SampleData) => (
         <div key={item.postId}>
           <Card className="rounded-none">
@@ -50,11 +50,11 @@ export default function Home() {
                 <Heart />
               </Button>
               <p>{item.likes}</p>
-              <Comment />
+              <Comment postId={item.postId} />
             </CardFooter>
           </Card>
         </div>
       ))}
-    </main>
+    </>
   );
 }

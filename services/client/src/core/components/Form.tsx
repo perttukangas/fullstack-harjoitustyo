@@ -1,6 +1,5 @@
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
-import PropTypes from 'prop-types';
 import * as React from 'react';
 import {
   Controller,
@@ -63,9 +62,6 @@ const FormLabel = React.forwardRef<
   );
 });
 FormLabel.displayName = 'FormLabel';
-FormLabel.propTypes = {
-  className: PropTypes.string,
-};
 
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
