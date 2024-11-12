@@ -25,7 +25,7 @@ type SampleData = (typeof sampleData)[0];
 
 export default function Home() {
   return (
-    <>
+    <div className="mx-auto max-w-screen-lg">
       {sampleData.map((item: SampleData) => (
         <div key={item.postId}>
           <Card className="rounded-none">
@@ -55,6 +55,6 @@ export default function Home() {
           </Card>
         </div>
       ))}
-    </>
+    </div>
   );
 }

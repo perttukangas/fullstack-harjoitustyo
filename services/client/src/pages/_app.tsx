@@ -6,13 +6,15 @@ import Footer from './_components/Footer';
 
 export default function App() {
   return (
-    <div className="mx-auto max-w-screen-lg">
-      <main>
+    <div className="flex max-h-screen flex-col">
+      <main className="overflow-y-auto">
         <GlobalErrorBoundaryProvider>
           <Outlet />
         </GlobalErrorBoundaryProvider>
       </main>
-      <Footer />
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }

@@ -26,7 +26,6 @@ interface DrawerDialogProps {
   footer?: React.ReactNode;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  hide?: boolean;
 }
 
 export default function DrawerDialog({
@@ -44,7 +43,7 @@ export default function DrawerDialog({
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-        <DrawerContent className="flex max-h-[100vh] flex-col">
+        <DrawerContent className="flex max-h-screen flex-col">
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
