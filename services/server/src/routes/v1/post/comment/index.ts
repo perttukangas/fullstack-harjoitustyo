@@ -33,9 +33,9 @@ export const commentRouter = router({
     };
   }),
   like: protectedProcedure.input(likeInput).mutation(async (opts) => {
-    const { commentId } = opts.input;
+    const { id } = opts.input;
     const userId = opts.ctx.userId;
-    await like({ commentId, userId });
+    await like({ id, userId });
     opts.ctx.res.status(StatusCode.CREATED);
   }),
   create: protectedProcedure.input(createInput).mutation(async (opts) => {
@@ -45,13 +45,13 @@ export const commentRouter = router({
     opts.ctx.res.status(StatusCode.CREATED);
   }),
   remove: protectedProcedure.input(removeInput).mutation(async (opts) => {
-    const { commentId } = opts.input;
-    await remove({ commentId });
+    const { id } = opts.input;
+    await remove({ id });
     opts.ctx.res.status(StatusCode.OK);
   }),
   edit: protectedProcedure.input(editInput).mutation(async (opts) => {
-    const { commentId, content } = opts.input;
-    await edit({ commentId, content });
+    const { id, content } = opts.input;
+    await edit({ id, content });
     opts.ctx.res.status(StatusCode.CREATED);
   }),
 });

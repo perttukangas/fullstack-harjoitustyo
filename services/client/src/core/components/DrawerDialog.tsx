@@ -48,7 +48,7 @@ export default function DrawerDialog({
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <div className="overflow-y-auto">{children}</div>
+          <div className="h-full overflow-y-auto">{children}</div>
           {footer}
         </DrawerContent>
       </Drawer>
@@ -63,7 +63,9 @@ export default function DrawerDialog({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div className="overflow-y-auto">{children}</div>
+        <div className="flex h-full flex-col">
+          <div className="flex flex-1">{children}</div>
+        </div>
         {footer}
       </DialogContent>
     </Dialog>

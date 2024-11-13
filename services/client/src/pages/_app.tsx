@@ -6,13 +6,13 @@ import Footer from './_components/Footer';
 
 export default function App() {
   return (
-    <div className="flex max-h-screen flex-col">
-      <main className="overflow-y-auto">
+    <div>
+      <main>
         <GlobalErrorBoundaryProvider>
           <Outlet />
         </GlobalErrorBoundaryProvider>
       </main>
-      <footer>
+      <footer className="sticky bottom-0">
         <Footer />
       </footer>
     </div>

@@ -8,8 +8,8 @@ import {
   RemoveInput,
 } from './validators.js';
 
-export const getInfinite = async ({ limit, cursor }: InfiniteInput) => {
-  return await prisma.post.findMany({
+export const getInfinite = async ({ limit, cursor, userId }: InfiniteInput) => {
+  const posts = await prisma.post.findMany({
     take: limit + 1,
     cursor: cursor ? { id: cursor } : undefined,
     orderBy: { id: 'desc' },
@@ -18,16 +18,27 @@ export const getInfinite = async ({ limit, cursor }: InfiniteInput) => {
       title: true,
       content: true,
       _count: {
-        select: { likes: true },
+        select: { likes: true, comments: true },
       },
+      userId: true,
     },
   });
+
+  // Maximum limit is low
+  return posts.map((post) => ({
+    id: post.id,
+    title: post.title,
+    content: post.content,
+    likes: post._count.likes,
+    comments: post._count.comments,
+    creator: post.userId === userId,
+  }));
 };
 
-export const like = async ({ postId, userId }: ProtectedLikeInput) => {
+export const like = async ({ id, userId }: ProtectedLikeInput) => {
   return await prisma.postLikes.create({
     data: {
-      postId,
+      postId: id,
       userId,
     },
   });
@@ -47,13 +58,13 @@ export const create = async ({
   });
 };
 
-export const remove = async ({ postId }: RemoveInput) => {
-  return await prisma.post.delete({ where: { id: postId } });
+export const remove = async ({ id }: RemoveInput) => {
+  return await prisma.post.delete({ where: { id } });
 };
 
-export const edit = async ({ postId, title, content }: EditInput) => {
+export const edit = async ({ id, title, content }: EditInput) => {
   return await prisma.post.update({
     data: { title, content },
-    where: { id: postId },
+    where: { id },
   });
 };

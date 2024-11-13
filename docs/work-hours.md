@@ -13,3 +13,5 @@
 | 8.11.2024  | 5                  | Use signed cookies, add prefetching for sites, add simple like button(s) with protected procedure                                                                                |
 | 9.11.2024  | 5                  | Add simple edit and delete for posts and comments                                                                                                                                |
 | 10.11.2024 | 10                 | Use tailwindcss and shadcn components to make UI responsive and pretty                                                                                                           |
+| 12.11.2024 | 5                  | Adjusting the styles, auth component                                                                                                                                             |
+| 13.11.2024 | 2                  | Start integrating new UI to server.                                                                                                                                              |

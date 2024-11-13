@@ -35,9 +35,9 @@ export const postRouter = router({
     };
   }),
   like: protectedProcedure.input(likeInput).mutation(async (opts) => {
-    const { postId } = opts.input;
+    const { id } = opts.input;
     const userId = opts.ctx.userId;
-    await like({ postId, userId });
+    await like({ id, userId });
     opts.ctx.res.status(StatusCode.CREATED);
   }),
   create: protectedProcedure.input(createInput).mutation(async (opts) => {
@@ -47,13 +47,13 @@ export const postRouter = router({
     opts.ctx.res.status(StatusCode.CREATED);
   }),
   remove: protectedProcedure.input(removeInput).mutation(async (opts) => {
-    const { postId } = opts.input;
-    await remove({ postId });
+    const { id } = opts.input;
+    await remove({ id });
     opts.ctx.res.status(StatusCode.OK);
   }),
   edit: protectedProcedure.input(editInput).mutation(async (opts) => {
-    const { postId, title, content } = opts.input;
-    await edit({ title, content, postId });
+    const { id, title, content } = opts.input;
+    await edit({ title, content, id });
     opts.ctx.res.status(StatusCode.CREATED);
   }),
 });

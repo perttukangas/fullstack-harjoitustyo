@@ -1,11 +1,13 @@
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef } from 'react';
+
+import Loader from './Loader';
 
 interface InfiniteScrollProps<T> {
   className: string;
   allRows: T[];
-  renderRow: (item: T) => React.ReactNode;
-  height: number;
+  renderRow: (row: T) => React.ReactNode;
+  nothingMoreToLoad: React.ReactNode;
   estimateSize: number;
   fetchNextPage: () => Promise<unknown>;
   isFetchingNextPage: boolean;
@@ -16,25 +18,26 @@ export default function InfiniteScroll<T>({
   className,
   allRows,
   renderRow,
-  height,
+  nothingMoreToLoad,
   estimateSize,
   fetchNextPage,
   isFetchingNextPage,
   hasNextPage,
 }: InfiniteScrollProps<T>) {
-  const parentRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  const rowVirtualizer = useVirtualizer({
+  const virtualizer = useWindowVirtualizer({
     count: hasNextPage ? allRows.length : allRows.length + 1,
-    getScrollElement: () => parentRef.current,
+    scrollMargin: listRef.current?.offsetTop ?? 0,
     estimateSize: () => estimateSize,
+    overscan: 5,
     measureElement:
       typeof window !== 'undefined' && !navigator.userAgent.includes('Firefox')
         ? (element) => element?.getBoundingClientRect().height
         : undefined,
   });
 
-  const virtualItems = rowVirtualizer.getVirtualItems();
+  const virtualItems = virtualizer.getVirtualItems();
 
   useEffect(() => {
     const [lastItem] = [...virtualItems].reverse();
@@ -59,52 +62,42 @@ export default function InfiniteScroll<T>({
   ]);
 
   return (
-    <>
+    <div ref={listRef} className={className}>
       <div
-        ref={parentRef}
-        className={className}
+        className="relative w-full"
         style={{
-          height: `${height}px`,
-          width: `100%`,
-          overflow: 'auto',
+          height: `${virtualizer.getTotalSize()}px`,
         }}
       >
-        <div
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`,
-            width: '100%',
-            position: 'relative',
-          }}
-        >
-          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-            const isLoaderRow = virtualRow.index > allRows.length - 1;
-            const dataRow = allRows[virtualRow.index];
+        {virtualizer.getVirtualItems().map((row) => {
+          const isLoaderRow = row.index > allRows.length - 1;
+          const dataRow = allRows[row.index];
 
-            return (
-              <div
-                key={virtualRow.index}
-                data-index={virtualRow.index}
-                ref={(node) => rowVirtualizer.measureElement(node)}
-                style={{
-                  position: 'absolute',
-                  width: '100%',
-                  transform: `translateY(${virtualRow.start}px)`,
-                }}
-              >
-                {isLoaderRow ? (
-                  hasNextPage ? (
-                    <p>Loading...</p>
-                  ) : (
-                    <p>Nothing more to load</p>
-                  )
+          return (
+            <div
+              key={row.key}
+              data-index={row.index}
+              ref={(node) => virtualizer.measureElement(node)}
+              className="absolute w-full"
+              style={{
+                transform: `translateY(${
+                  row.start - virtualizer.options.scrollMargin
+                }px)`,
+              }}
+            >
+              {isLoaderRow ? (
+                hasNextPage ? (
+                  <Loader />
                 ) : (
-                  renderRow(dataRow)
-                )}
-              </div>
-            );
-          })}
-        </div>
+                  nothingMoreToLoad
+                )
+              ) : (
+                renderRow(dataRow)
+              )}
+            </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }

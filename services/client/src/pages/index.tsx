@@ -8,53 +8,61 @@ import {
   CardHeader,
   CardTitle,
 } from '@c/core/components/Card';
+import InfiniteScroll from '@c/core/components/InfiniteScroll';
+import { t } from '@c/core/lib/trpc';
 
 import Comment from './_components/Comment';
 import PostForm from './_components/Post/PostForm';
 import RemovePost from './_components/Post/RemovePost';
 
-const sampleData = Array.from({ length: 10 }, (_, index) => ({
-  postId: index + 6,
-  title: `Title ${index + 1}`,
-  content: `Content for post ${index + 1}`,
-  creator: index % 2 === 0,
-  likes: index,
-  comments: index + 5,
-}));
-type SampleData = (typeof sampleData)[0];
-
 export default function Home() {
+  const infinitePosts = t.post.infinite.useInfiniteQuery(
+    {},
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    }
+  );
+  const { data } = infinitePosts;
+  const allRows = data ? data.pages.flatMap((d) => d.posts) : [];
+
   return (
     <div className="mx-auto max-w-screen-lg">
-      {sampleData.map((item: SampleData) => (
-        <div key={item.postId}>
-          <Card className="rounded-none">
-            <CardHeader className="flex-row items-center justify-between gap-1">
-              <CardTitle>{item.title}</CardTitle>
-              {item.creator && (
-                <div className="flex items-center gap-1">
-                  <PostForm edit={item} />
-                  <RemovePost />
-                </div>
-              )}
-            </CardHeader>
-            <CardContent>
-              <p>{item.content}</p>
-            </CardContent>
-            <CardFooter className="flex-row items-center justify-start gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => console.log('LIKE')}
-              >
-                <Heart />
-              </Button>
-              <p>{item.likes}</p>
-              <Comment postId={item.postId} />
-            </CardFooter>
-          </Card>
-        </div>
-      ))}
+      <InfiniteScroll
+        className="infinite-scroll-posts"
+        allRows={allRows}
+        renderRow={(row) => {
+          return (
+            <Card className="rounded-none">
+              <CardHeader className="flex-row items-center justify-between gap-1">
+                <CardTitle>{row.title}</CardTitle>
+                {row.creator && (
+                  <div className="flex items-center gap-1">
+                    <PostForm edit={row} />
+                    <RemovePost />
+                  </div>
+                )}
+              </CardHeader>
+              <CardContent>
+                <p>{row.content}</p>
+              </CardContent>
+              <CardFooter className="flex-row items-center justify-start gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => console.log('LIKE')}
+                >
+                  <Heart />
+                </Button>
+                <p>{row.likes}</p>
+                <Comment {...row} />
+              </CardFooter>
+            </Card>
+          );
+        }}
+        nothingMoreToLoad={<p>Nothing more to load</p>}
+        estimateSize={200}
+        {...infinitePosts}
+      />
     </div>
   );
 }
