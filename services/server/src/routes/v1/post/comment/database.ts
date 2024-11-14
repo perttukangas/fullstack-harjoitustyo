@@ -4,7 +4,7 @@ import {
   EditInput,
   InfiniteInput,
   ProtectedCreateInput,
-  ProtectedLikeInput,
+  ProtectedLikeUnlikeInput,
   RemoveInput,
 } from './validators.js';
 
@@ -25,6 +25,17 @@ export const getInfinite = async ({
         select: { likes: true },
       },
       userId: true,
+      likes: userId
+        ? {
+            select: {
+              userId: true,
+            },
+            where: {
+              userId,
+            },
+            take: 1,
+          }
+        : undefined,
     },
     where: {
       postId,
@@ -37,16 +48,45 @@ export const getInfinite = async ({
     content: comment.content,
     likes: comment._count.likes,
     creator: comment.userId === userId,
+    liked: comment.likes?.length > 0,
   }));
 };
 
-export const like = async ({ id, userId }: ProtectedLikeInput) => {
+export const like = async ({ id, userId }: ProtectedLikeUnlikeInput) => {
   await prisma.commentLikes.create({
     data: {
       commentId: id,
       userId,
     },
   });
+};
+
+export const unlike = async ({ id, userId }: ProtectedLikeUnlikeInput) => {
+  return await prisma.commentLikes.delete({
+    where: {
+      commentId_userId: {
+        commentId: id,
+        userId,
+      },
+    },
+  });
+};
+
+export const hasLiked = async ({
+  id,
+  userId,
+}: {
+  id: number;
+  userId: number;
+}) => {
+  const commentLike = await prisma.commentLikes.findFirst({
+    where: {
+      commentId: id,
+      userId,
+    },
+  });
+
+  return !!commentLike;
 };
 
 export const create = async ({
@@ -72,4 +112,21 @@ export const edit = async ({ id, content }: EditInput) => {
     data: { content },
     where: { id },
   });
+};
+
+export const isCreator = async ({
+  id,
+  userId,
+}: {
+  id: number;
+  userId: number;
+}) => {
+  const comment = await prisma.comment.findFirst({
+    where: {
+      id,
+      userId,
+    },
+  });
+
+  return !!comment;
 };

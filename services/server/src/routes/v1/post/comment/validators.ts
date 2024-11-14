@@ -15,8 +15,9 @@ interface Protected {
   userId: number;
 }
 
-export const likeInput = z.object({ id: z.number() });
-export type ProtectedLikeInput = z.infer<typeof likeInput> & Protected;
+export const likeUnlikeInput = z.object({ id: z.number() });
+export type ProtectedLikeUnlikeInput = z.infer<typeof likeUnlikeInput> &
+  Protected;
 
 export const createInput = z.object({
   postId: z.number(),

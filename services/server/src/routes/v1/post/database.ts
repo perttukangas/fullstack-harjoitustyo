@@ -4,7 +4,7 @@ import {
   EditInput,
   InfiniteInput,
   ProtectedCreateInput,
-  ProtectedLikeInput,
+  ProtectedLikeUnlikeInput,
   RemoveInput,
 } from './validators.js';
 
@@ -21,15 +21,17 @@ export const getInfinite = async ({ limit, cursor, userId }: InfiniteInput) => {
         select: { likes: true, comments: true },
       },
       userId: true,
-      likes: {
-        select: {
-          userId: true,
-        },
-        where: {
-          userId,
-        },
-        take: 1,
-      },
+      likes: userId
+        ? {
+            select: {
+              userId: true,
+            },
+            where: {
+              userId,
+            },
+            take: 1,
+          }
+        : undefined,
     },
   });
 
@@ -41,11 +43,11 @@ export const getInfinite = async ({ limit, cursor, userId }: InfiniteInput) => {
     likes: post._count.likes,
     comments: post._count.comments,
     creator: post.userId === userId,
-    liked: post.likes.length > 0,
+    liked: post.likes?.length > 0,
   }));
 };
 
-export const like = async ({ id, userId }: ProtectedLikeInput) => {
+export const like = async ({ id, userId }: ProtectedLikeUnlikeInput) => {
   return await prisma.postLikes.create({
     data: {
       postId: id,
@@ -53,7 +55,8 @@ export const like = async ({ id, userId }: ProtectedLikeInput) => {
     },
   });
 };
-export const unlike = async ({ id, userId }: ProtectedLikeInput) => {
+
+export const unlike = async ({ id, userId }: ProtectedLikeUnlikeInput) => {
   return await prisma.postLikes.delete({
     where: {
       postId_userId: {

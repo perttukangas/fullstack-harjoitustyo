@@ -23,7 +23,7 @@ import {
   createInput,
   editInput,
   infiniteInput,
-  likeInput,
+  likeUnlikeInput,
   removeInput,
 } from './validators.js';
 
@@ -46,7 +46,7 @@ export const postRouter = router({
       nextCursor,
     };
   }),
-  like: protectedProcedure.input(likeInput).mutation(async (opts) => {
+  like: protectedProcedure.input(likeUnlikeInput).mutation(async (opts) => {
     const { id } = opts.input;
     const userId = opts.ctx.userId;
 
@@ -61,7 +61,7 @@ export const postRouter = router({
     await like({ id, userId });
     opts.ctx.res.status(StatusCode.CREATED);
   }),
-  unlike: protectedProcedure.input(likeInput).mutation(async (opts) => {
+  unlike: protectedProcedure.input(likeUnlikeInput).mutation(async (opts) => {
     const { id } = opts.input;
     const userId = opts.ctx.userId;
 
