@@ -37,6 +37,7 @@ export const userRouter = router({
       secure: !isDev,
       sameSite: 'strict',
       signed: true,
+      httpOnly: true,
     });
 
     return tokenContent;
@@ -66,5 +67,21 @@ export const userRouter = router({
     });
 
     opts.ctx.res.status(201);
+  }),
+  authorized: publicProcedure.query(async (opts) => {
+    // This is not an user input
+    // eslint-disable-next-line security/detect-object-injection
+    const token = opts.ctx.req.signedCookies[SESSION_TOKEN_COOKIE];
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      jwt.verify(token, AUTH_SECRET);
+      return true;
+    } catch {
+      return false;
+    }
   }),
 });

@@ -5,7 +5,3 @@ export const loginSignupInput = z.object({
   password: z.string().min(6).max(50),
 });
 export type LoginSignupInput = z.infer<typeof loginSignupInput>;
-
-export const sessionSchema = z.object({
-  id: z.number(),
-});

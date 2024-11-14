@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from '@c/core/components/Form';
 import { Input } from '@c/core/components/Input';
+import { useSession } from '@c/core/hooks/use-session';
 import { useToast } from '@c/core/hooks/use-toast';
 import { t } from '@c/core/lib/trpc';
 
@@ -24,12 +25,14 @@ import {
 
 export default function LoginSignup() {
   const { toast } = useToast();
+  const { setUser } = useSession();
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
 
   const loginMutation = t.user.login.useMutation({
-    onSuccess() {
+    onSuccess(data) {
       form.reset();
+      setUser(data);
       setOpen(false);
       toast({ description: 'You are now logged in!' });
     },
