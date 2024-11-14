@@ -3,9 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { AUTH_SECRET } from '@s/core/lib/envalid.js';
 
-interface TokenUser {
-  userId: number;
-}
+import { sessionSchema } from './validators.js';
 
 export const SESSION_TOKEN_COOKIE = 'AUTH_SESSION_TOKEN';
 
@@ -15,8 +13,9 @@ export const createContext = async (opts: CreateExpressContextOptions) => {
     // eslint-disable-next-line security/detect-object-injection
     const authHeader = opts.req.signedCookies[SESSION_TOKEN_COOKIE];
     if (authHeader) {
-      const user = jwt.verify(authHeader, AUTH_SECRET) as TokenUser;
-      return user.userId;
+      const userJwtPayload = jwt.verify(authHeader, AUTH_SECRET);
+      const session = sessionSchema.parse(userJwtPayload);
+      return session.id;
     }
     return null;
   }

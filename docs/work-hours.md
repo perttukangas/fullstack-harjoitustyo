@@ -15,3 +15,4 @@
 | 10.11.2024 | 10                 | Use tailwindcss and shadcn components to make UI responsive and pretty                                                                                                           |
 | 12.11.2024 | 5                  | Adjusting the styles, auth component                                                                                                                                             |
 | 13.11.2024 | 2                  | Start integrating new UI to server.                                                                                                                                              |
+| 14.11.2024 | 3                  | Fix infinity scroll ref issue, continue integrating with new UI                                                                                                                  |

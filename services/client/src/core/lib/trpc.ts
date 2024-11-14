@@ -3,6 +3,8 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client';
 import { createTRPCQueryUtils, createTRPCReact } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
 
+import { toast } from '@c/core/hooks/use-toast';
+
 import type { AppRouter } from '../../../../server/src/routes/v1/index';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL as string;
@@ -46,7 +48,30 @@ export const trpcClient = t.createClient({
   ],
 });
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    mutations: {
+      onError: (error) => {
+        if (isTRPCClientError(error)) {
+          toast({ variant: 'destructive', description: `${error.message}` });
+        } else {
+          toast({
+            variant: 'destructive',
+            description: `Internal server error!`,
+          });
+
+          if (import.meta.env.DEV) {
+            console.error(
+              'Printing non-trpc error in development mode.',
+              error
+            );
+          }
+        }
+      },
+    },
+  },
+});
+
 export const clientUtils = createTRPCQueryUtils({
   queryClient,
   client: trpcClient,

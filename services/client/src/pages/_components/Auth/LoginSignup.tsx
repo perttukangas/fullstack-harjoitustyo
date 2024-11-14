@@ -14,15 +14,33 @@ import {
   FormMessage,
 } from '@c/core/components/Form';
 import { Input } from '@c/core/components/Input';
+import { useToast } from '@c/core/hooks/use-toast';
+import { t } from '@c/core/lib/trpc';
 
 import {
-  type LoginRegisterInput,
-  loginRegisterInput,
+  type LoginSignupInput,
+  loginSignupInput,
 } from '@apiv1/user/validators';
 
-export default function Login() {
+export default function LoginSignup() {
+  const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
+
+  const loginMutation = t.user.login.useMutation({
+    onSuccess() {
+      form.reset();
+      setOpen(false);
+      toast({ description: 'You are now logged in!' });
+    },
+  });
+  const signupMutation = t.user.signup.useMutation({
+    onSuccess() {
+      form.reset();
+      setSignup(!signup);
+      toast({ description: 'You have successfully signed up!' });
+    },
+  });
 
   const messages = {
     title: signup ? 'Signup' : 'Login',
@@ -30,24 +48,10 @@ export default function Login() {
     descriptionLink: signup ? 'Login' : 'Signup',
   };
 
-  const form = useForm<LoginRegisterInput>({
-    resolver: zodResolver(loginRegisterInput),
+  const form = useForm<LoginSignupInput>({
+    resolver: zodResolver(loginSignupInput),
     defaultValues: { email: '', password: '' },
   });
-
-  const onLogin = async (values: LoginRegisterInput) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log('LOGIN', values);
-    form.reset();
-    setOpen(false);
-  };
-
-  const onSignup = async (values: LoginRegisterInput) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log('SIGNUP', values);
-    form.reset();
-    setOpen(false);
-  };
 
   return (
     <DrawerDialog
@@ -77,7 +81,11 @@ export default function Login() {
             className="w-full"
             disabled={form.formState.isSubmitting}
             onClick={(e) => {
-              void form.handleSubmit(signup ? onSignup : onLogin)(e);
+              void form.handleSubmit(
+                signup
+                  ? (data) => signupMutation.mutate(data)
+                  : (data) => loginMutation.mutate(data)
+              )(e);
             }}
           >
             {messages.title}

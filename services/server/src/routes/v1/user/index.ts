@@ -8,10 +8,10 @@ import { prisma } from '@s/core/lib/prisma.js';
 import { SESSION_TOKEN_COOKIE } from '@apiv1/trpc/auth.js';
 import { publicProcedure, router } from '@apiv1/trpc/index.js';
 
-import { loginRegisterInput } from './validators.js';
+import { loginSignupInput } from './validators.js';
 
 export const userRouter = router({
-  login: publicProcedure.input(loginRegisterInput).mutation(async (opts) => {
+  login: publicProcedure.input(loginSignupInput).mutation(async (opts) => {
     const { email, password } = opts.input;
 
     const existingUser = await prisma.user.findFirst({
@@ -30,11 +30,10 @@ export const userRouter = router({
       });
     }
 
-    const tokenContent = { userId: existingUser.id };
-    const token = jwt.sign({ userId: existingUser.id }, AUTH_SECRET);
+    const tokenContent = { id: existingUser.id };
+    const token = jwt.sign(tokenContent, AUTH_SECRET);
 
     opts.ctx.res.cookie(SESSION_TOKEN_COOKIE, token, {
-      httpOnly: true,
       secure: !isDev,
       sameSite: 'strict',
       signed: true,
@@ -42,7 +41,7 @@ export const userRouter = router({
 
     return tokenContent;
   }),
-  register: publicProcedure.input(loginRegisterInput).mutation(async (opts) => {
+  signup: publicProcedure.input(loginSignupInput).mutation(async (opts) => {
     const { email, password } = opts.input;
 
     const existingUser = await prisma.user.findFirst({
