@@ -21,6 +21,15 @@ export const getInfinite = async ({ limit, cursor, userId }: InfiniteInput) => {
         select: { likes: true, comments: true },
       },
       userId: true,
+      likes: {
+        select: {
+          userId: true,
+        },
+        where: {
+          userId,
+        },
+        take: 1,
+      },
     },
   });
 
@@ -32,6 +41,7 @@ export const getInfinite = async ({ limit, cursor, userId }: InfiniteInput) => {
     likes: post._count.likes,
     comments: post._count.comments,
     creator: post.userId === userId,
+    liked: post.likes.length > 0,
   }));
 };
 
@@ -42,6 +52,33 @@ export const like = async ({ id, userId }: ProtectedLikeInput) => {
       userId,
     },
   });
+};
+export const unlike = async ({ id, userId }: ProtectedLikeInput) => {
+  return await prisma.postLikes.delete({
+    where: {
+      postId_userId: {
+        postId: id,
+        userId,
+      },
+    },
+  });
+};
+
+export const hasLiked = async ({
+  id,
+  userId,
+}: {
+  id: number;
+  userId: number;
+}) => {
+  const postLike = await prisma.postLikes.findFirst({
+    where: {
+      postId: id,
+      userId,
+    },
+  });
+
+  return !!postLike;
 };
 
 export const create = async ({
@@ -67,4 +104,21 @@ export const edit = async ({ id, title, content }: EditInput) => {
     data: { title, content },
     where: { id },
   });
+};
+
+export const isCreator = async ({
+  id,
+  userId,
+}: {
+  id: number;
+  userId: number;
+}) => {
+  const post = await prisma.post.findFirst({
+    where: {
+      id,
+      userId,
+    },
+  });
+
+  return !!post;
 };

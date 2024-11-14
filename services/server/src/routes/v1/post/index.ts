@@ -1,3 +1,5 @@
+import { TRPCError } from '@trpc/server';
+
 import { StatusCode } from '@s/core/utils/status-code.js';
 
 import {
@@ -7,7 +9,16 @@ import {
 } from '@apiv1/trpc/index.js';
 
 import { commentRouter } from './comment/index.js';
-import { create, edit, getInfinite, like, remove } from './database.js';
+import {
+  create,
+  edit,
+  getInfinite,
+  hasLiked,
+  isCreator,
+  like,
+  remove,
+  unlike,
+} from './database.js';
 import {
   createInput,
   editInput,
@@ -20,8 +31,9 @@ export const postRouter = router({
   comment: commentRouter,
   infinite: publicProcedure.input(infiniteInput).query(async (opts) => {
     const { limit, cursor } = opts.input;
+    const userId = opts.ctx.userId;
 
-    const posts = await getInfinite({ cursor, limit });
+    const posts = await getInfinite({ cursor, limit, userId });
 
     let nextCursor = undefined;
     if (posts.length > limit) {
@@ -37,8 +49,32 @@ export const postRouter = router({
   like: protectedProcedure.input(likeInput).mutation(async (opts) => {
     const { id } = opts.input;
     const userId = opts.ctx.userId;
+
+    const liked = await hasLiked({ id, userId });
+    if (liked) {
+      throw new TRPCError({
+        code: 'CONFLICT',
+        message: 'You have already liked this post',
+      });
+    }
+
     await like({ id, userId });
     opts.ctx.res.status(StatusCode.CREATED);
+  }),
+  unlike: protectedProcedure.input(likeInput).mutation(async (opts) => {
+    const { id } = opts.input;
+    const userId = opts.ctx.userId;
+
+    const liked = await hasLiked({ id, userId });
+    if (!liked) {
+      throw new TRPCError({
+        code: 'CONFLICT',
+        message: 'You have not liked this post',
+      });
+    }
+
+    await unlike({ id, userId });
+    opts.ctx.res.status(StatusCode.OK);
   }),
   create: protectedProcedure.input(createInput).mutation(async (opts) => {
     const { title, content } = opts.input;
@@ -48,11 +84,31 @@ export const postRouter = router({
   }),
   remove: protectedProcedure.input(removeInput).mutation(async (opts) => {
     const { id } = opts.input;
+    const userId = opts.ctx.userId;
+
+    const creator = await isCreator({ id, userId });
+    if (!creator) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'You are not the creator of this post',
+      });
+    }
+
     await remove({ id });
     opts.ctx.res.status(StatusCode.OK);
   }),
   edit: protectedProcedure.input(editInput).mutation(async (opts) => {
     const { id, title, content } = opts.input;
+    const userId = opts.ctx.userId;
+
+    const creator = await isCreator({ id, userId });
+    if (!creator) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'You are not the creator of this post',
+      });
+    }
+
     await edit({ title, content, id });
     opts.ctx.res.status(StatusCode.CREATED);
   }),

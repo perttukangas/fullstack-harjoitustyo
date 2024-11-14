@@ -5,7 +5,17 @@ import { Context } from './auth.js';
 const t = initTRPC.context<Context>().create();
 
 export const router = t.router;
-export const publicProcedure = t.procedure;
+
+export const publicProcedure = t.procedure.use(function isAuthed(opts) {
+  // Nullable here
+  const userId = opts.ctx.userId ?? undefined;
+  return opts.next({
+    ctx: {
+      userId,
+    },
+  });
+});
+
 export const protectedProcedure = t.procedure.use(function isAuthed(opts) {
   const userId = opts.ctx.userId;
   if (!userId) {
