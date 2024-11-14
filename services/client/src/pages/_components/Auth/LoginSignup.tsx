@@ -1,8 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { User } from 'lucide-react';
+import { CirclePower, User } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@c/core/components/AlertDialog';
 import { Button } from '@c/core/components/Button';
 import DrawerDialog from '@c/core/components/DrawerDialog';
 import {
@@ -25,7 +36,7 @@ import {
 
 export default function LoginSignup() {
   const { toast } = useToast();
-  const { setUser } = useSession();
+  const { user, setUser } = useSession();
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
 
@@ -44,6 +55,13 @@ export default function LoginSignup() {
       toast({ description: 'You have successfully signed up!' });
     },
   });
+  const logoutMutation = t.user.logout.useMutation({
+    onSuccess() {
+      setUser(undefined);
+      setOpen(false);
+      toast({ description: 'You have successfully logged out!' });
+    },
+  });
 
   const messages = {
     title: signup ? 'Signup' : 'Login',
@@ -55,6 +73,33 @@ export default function LoginSignup() {
     resolver: zodResolver(loginSignupInput),
     defaultValues: { email: '', password: '' },
   });
+
+  if (user) {
+    return (
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <CirclePower />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to log out? You will need to log in again to
+              access your account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => logoutMutation.mutate()}>
+              Log out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  }
 
   return (
     <DrawerDialog

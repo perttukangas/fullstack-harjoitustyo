@@ -4,9 +4,14 @@ import jwt from 'jsonwebtoken';
 
 import { AUTH_SECRET, isDev } from '@s/core/lib/envalid.js';
 import { prisma } from '@s/core/lib/prisma.js';
+import { StatusCode } from '@s/core/utils/status-code.js';
 
 import { SESSION_TOKEN_COOKIE } from '@apiv1/trpc/auth.js';
-import { publicProcedure, router } from '@apiv1/trpc/index.js';
+import {
+  protectedProcedure,
+  publicProcedure,
+  router,
+} from '@apiv1/trpc/index.js';
 
 import { loginSignupInput } from './validators.js';
 
@@ -66,7 +71,7 @@ export const userRouter = router({
       },
     });
 
-    opts.ctx.res.status(201);
+    opts.ctx.res.status(StatusCode.CREATED);
   }),
   authorized: publicProcedure.query(async (opts) => {
     // This is not an user input
@@ -83,5 +88,15 @@ export const userRouter = router({
     } catch {
       return false;
     }
+  }),
+  logout: protectedProcedure.mutation(async (opts) => {
+    opts.ctx.res.clearCookie(SESSION_TOKEN_COOKIE, {
+      secure: !isDev,
+      sameSite: 'strict',
+      signed: true,
+      httpOnly: true,
+    });
+
+    opts.ctx.res.status(StatusCode.OK);
   }),
 });

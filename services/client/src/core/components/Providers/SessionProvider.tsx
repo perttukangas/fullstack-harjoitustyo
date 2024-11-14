@@ -35,7 +35,7 @@ export default function SessionProvider({
         if (!data) {
           removeItem(StorageType.USER);
         } else {
-          setItem(StorageType.USER, localUser);
+          setUser(localUser);
         }
       }
     }
