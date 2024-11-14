@@ -69,8 +69,14 @@ export default function Comment(post: InfinitePost) {
             </Card>
           );
         }}
-        nothingMoreToLoad={<p>Nothing more to load</p>}
-        estimateSize={100}
+        nothingMoreToLoad={
+          <Card className="rounded-none">
+            <CardContent className="items-center p-6 text-center">
+              <p>Nothing more to load</p>
+            </CardContent>
+          </Card>
+        }
+        estimateSize={200}
         {...infiniteComments}
       />
     </DrawerDialog>

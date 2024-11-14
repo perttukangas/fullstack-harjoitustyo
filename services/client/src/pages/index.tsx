@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@c/core/components/Card';
-import InfiniteScroll from '@c/core/components/InfiniteScroll';
+import InfiniteScrollWindow from '@c/core/components/InfiniteScrollWindow';
 import { t } from '@c/core/lib/trpc';
 
 import Comment from './_components/Comment';
@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <div className="mx-auto max-w-screen-lg">
-      <InfiniteScroll
+      <InfiniteScrollWindow
         className="infinite-scroll-posts"
         allRows={allRows}
         renderRow={(row) => {
@@ -59,7 +59,13 @@ export default function Home() {
             </Card>
           );
         }}
-        nothingMoreToLoad={<p>Nothing more to load</p>}
+        nothingMoreToLoad={
+          <Card className="rounded-none">
+            <CardContent className="items-center p-6 text-center">
+              <p>Nothing more to load</p>
+            </CardContent>
+          </Card>
+        }
         estimateSize={200}
         {...infinitePosts}
       />

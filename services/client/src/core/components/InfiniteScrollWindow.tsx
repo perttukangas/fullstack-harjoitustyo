@@ -1,14 +1,12 @@
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef } from 'react';
-
-import { cn } from '@c/core/lib/tailwind';
 
 import Loader from './Loader';
 
-interface InfiniteScrollProps<T> {
+interface InfiniteScrollWindowProps<T> {
   className: string;
   allRows: T[];
-  renderRow: (item: T) => React.ReactNode;
+  renderRow: (row: T) => React.ReactNode;
   nothingMoreToLoad: React.ReactNode;
   estimateSize: number;
   fetchNextPage: () => Promise<unknown>;
@@ -16,7 +14,7 @@ interface InfiniteScrollProps<T> {
   hasNextPage: boolean;
 }
 
-export default function InfiniteScroll<T>({
+export default function InfiniteScrollWindow<T>({
   className,
   allRows,
   renderRow,
@@ -25,13 +23,14 @@ export default function InfiniteScroll<T>({
   fetchNextPage,
   isFetchingNextPage,
   hasNextPage,
-}: InfiniteScrollProps<T>) {
-  const parentRef = useRef<HTMLDivElement>(null);
+}: InfiniteScrollWindowProps<T>) {
+  const listRef = useRef<HTMLDivElement>(null);
 
-  const virtualizer = useVirtualizer({
+  const virtualizer = useWindowVirtualizer({
     count: hasNextPage ? allRows.length : allRows.length + 1,
-    getScrollElement: () => parentRef.current,
+    scrollMargin: listRef.current?.offsetTop ?? 0,
     estimateSize: () => estimateSize,
+    overscan: 5,
     measureElement:
       typeof window !== 'undefined' && !navigator.userAgent.includes('Firefox')
         ? (element) => element?.getBoundingClientRect().height
@@ -63,28 +62,27 @@ export default function InfiniteScroll<T>({
   ]);
 
   return (
-    <div
-      ref={parentRef}
-      className={cn('relative h-full overflow-y-auto', className)}
-    >
+    <div ref={listRef} className={className}>
       <div
         className="relative w-full"
         style={{
           height: `${virtualizer.getTotalSize()}px`,
         }}
       >
-        {virtualizer.getVirtualItems().map((virtualRow) => {
-          const isLoaderRow = virtualRow.index > allRows.length - 1;
-          const dataRow = allRows[virtualRow.index];
+        {virtualizer.getVirtualItems().map((row) => {
+          const isLoaderRow = row.index > allRows.length - 1;
+          const dataRow = allRows[row.index];
 
           return (
             <div
-              key={virtualRow.index}
-              data-index={virtualRow.index}
+              key={row.key}
+              data-index={row.index}
               ref={virtualizer.measureElement}
               className="absolute w-full"
               style={{
-                transform: `translateY(${virtualRow.start}px)`,
+                transform: `translateY(${
+                  row.start - virtualizer.options.scrollMargin
+                }px)`,
               }}
             >
               {isLoaderRow ? (
