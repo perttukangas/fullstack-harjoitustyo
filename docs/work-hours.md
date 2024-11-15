@@ -16,4 +16,4 @@
 | 12.11.2024 | 5                  | Adjusting the styles, auth component                                                                                                                                             |
 | 13.11.2024 | 2                  | Start integrating new UI to server.                                                                                                                                              |
 | 14.11.2024 | 3                  | Fix infinity scroll ref issue, continue integrating with new UI                                                                                                                  |
-| 15.11.2024 | 4                  | Logout, use session, proper handling of procedures, all basic CRUD things to posts                                                                                               |
+| 15.11.2024 | 5                  | Logout, use session, proper handling of procedures, all basic CRUD things to posts and comments                                                                                  |

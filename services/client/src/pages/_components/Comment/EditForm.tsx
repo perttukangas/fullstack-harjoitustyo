@@ -14,22 +14,28 @@ import {
   FormMessage,
 } from '@c/core/components/Form';
 import { Textarea } from '@c/core/components/Textarea';
+import { useToast } from '@c/core/hooks/use-toast';
+import { t } from '@c/core/lib/trpc';
 
 import { type EditInput, editInput } from '@apiv1/post/comment/validators';
 
-export default function EditForm(edit: EditInput) {
+export default function EditForm(edit: EditInput & { postId: number }) {
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+  const tUtils = t.useUtils();
+
+  const editMutation = t.post.comment.edit.useMutation({
+    onSuccess: async () => {
+      await tUtils.post.comment.infinite.invalidate({ postId: edit.postId });
+      setOpen(false);
+      toast({ description: 'You have successfully edited your comment!' });
+    },
+  });
 
   const form = useForm<EditInput>({
     resolver: zodResolver(editInput),
     defaultValues: edit,
   });
-
-  const onEdit = async (values: EditInput) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log('EDIT', values);
-    setOpen(false);
-  };
 
   return (
     <DrawerDialog
@@ -48,7 +54,7 @@ export default function EditForm(edit: EditInput) {
             className="w-full"
             disabled={form.formState.isSubmitting}
             onClick={(e) => {
-              void form.handleSubmit(onEdit)(e);
+              void form.handleSubmit((data) => editMutation.mutate(data))(e);
             }}
           >
             Submit

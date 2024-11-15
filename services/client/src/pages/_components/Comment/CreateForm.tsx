@@ -11,6 +11,8 @@ import {
   FormMessage,
 } from '@c/core/components/Form';
 import { Textarea } from '@c/core/components/Textarea';
+import { useToast } from '@c/core/hooks/use-toast';
+import { t } from '@c/core/lib/trpc';
 
 import { type CreateInput, createInput } from '@apiv1/post/comment/validators';
 
@@ -19,22 +21,27 @@ export default function CreateForm({
 }: {
   postId: CreateInput['postId'];
 }) {
+  const { toast } = useToast();
+  const tUtils = t.useUtils();
+
+  const createMutation = t.post.comment.create.useMutation({
+    onSuccess: async () => {
+      await tUtils.post.comment.infinite.invalidate({ postId });
+      form.reset();
+      toast({ description: 'You have successfully created a new comment!' });
+    },
+  });
+
   const form = useForm<CreateInput>({
     resolver: zodResolver(createInput),
     defaultValues: { content: '', postId },
   });
 
-  const onSubmit = async (values: CreateInput) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log('SUBMIT', values);
-    form.reset();
-  };
-
   return (
     <Form {...form}>
       <form
         onSubmit={(e) => {
-          void form.handleSubmit(onSubmit)(e);
+          void form.handleSubmit((data) => createMutation.mutate(data))(e);
         }}
       >
         <div className="flex w-full flex-row items-center justify-between gap-1">

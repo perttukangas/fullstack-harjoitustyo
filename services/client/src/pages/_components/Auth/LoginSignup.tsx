@@ -87,7 +87,7 @@ export default function LoginSignup() {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+            <AlertDialogTitle>Confirm log out</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to log out? You will need to log in again to
               access your account.
