@@ -13,9 +13,9 @@ import InfiniteScrollWindow from '@c/core/components/InfiniteScrollWindow';
 import { useSession } from '@c/core/hooks/use-session';
 import { t } from '@c/core/lib/trpc';
 
-import Comment from './_components/Comment';
-import PostForm from './_components/Post/PostForm';
-import RemovePost from './_components/Post/RemovePost';
+import CommentLoader from './_components/Comment/CommentLoader';
+import PostFormLoader from './_components/Post/PostFormLoader';
+import RemovePostLoader from './_components/Post/RemovePostLoader';
 
 export default function Home() {
   const { user } = useSession();
@@ -70,8 +70,8 @@ export default function Home() {
                 <CardTitle>{row.title}</CardTitle>
                 {row.creator && (
                   <div className="flex items-center gap-1">
-                    <PostForm edit={row} />
-                    <RemovePost id={row.id} />
+                    <PostFormLoader edit={row} />
+                    <RemovePostLoader id={row.id} />
                   </div>
                 )}
               </CardHeader>
@@ -94,7 +94,7 @@ export default function Home() {
                   <Heart className={row.liked ? 'fill-primary' : ''} />
                 </Button>
                 <p>{row.likes}</p>
-                <Comment {...row} />
+                <CommentLoader {...row} />
               </CardFooter>
             </Card>
           );

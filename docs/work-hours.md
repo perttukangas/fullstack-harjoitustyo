@@ -17,3 +17,4 @@
 | 13.11.2024 | 2                  | Start integrating new UI to server.                                                                                                                                              |
 | 14.11.2024 | 3                  | Fix infinity scroll ref issue, continue integrating with new UI                                                                                                                  |
 | 15.11.2024 | 5                  | Logout, use session, proper handling of procedures, all basic CRUD things to posts and comments                                                                                  |
+| 16.11.2024 | 1                  | Experimenting with code splitting, got initial size ~30% lower (gzip 144kB -> 101kB) 1                                                                                           |

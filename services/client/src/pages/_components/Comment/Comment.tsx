@@ -1,6 +1,5 @@
 import { produce } from 'immer';
-import { Heart, MessageCircle } from 'lucide-react';
-import { useState } from 'react';
+import { Heart } from 'lucide-react';
 
 import { Button } from '@c/core/components/Button';
 import { Card, CardContent, CardFooter } from '@c/core/components/Card';
@@ -15,8 +14,13 @@ import RemoveComment from './RemoveComment';
 
 type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
 
-export default function Comment(post: InfinitePost) {
-  const [open, setOpen] = useState(false);
+interface CommentProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  post: InfinitePost;
+}
+
+export default function Comment({ open, setOpen, post }: CommentProps) {
   const { user } = useSession();
   const tUtils = t.useUtils();
   const infiniteComments = t.post.comment.infinite.useInfiniteQuery(
@@ -62,14 +66,6 @@ export default function Comment(post: InfinitePost) {
 
   return (
     <DrawerDialog
-      trigger={
-        <>
-          <Button onClick={() => setOpen(true)} variant="ghost" size="icon">
-            <MessageCircle />
-          </Button>
-          <p>{post.comments}</p>
-        </>
-      }
       title={post.title}
       description={post.content}
       open={open}

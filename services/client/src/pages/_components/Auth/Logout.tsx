@@ -8,24 +8,26 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@c/core/components/AlertDialog';
+import { useSession } from '@c/core/hooks/use-session';
 import { useToast } from '@c/core/hooks/use-toast';
 import { t } from '@c/core/lib/trpc';
 
-import { type RemoveInput } from '@apiv1/post/validators';
-
-interface RemovePostProps {
+interface LogoutProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id: RemoveInput['id'];
 }
 
-export default function RemovePost({ open, setOpen, id }: RemovePostProps) {
+export default function Logout({ open, setOpen }: LogoutProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
-  const removeMutation = t.post.remove.useMutation({
+  const { setUser } = useSession();
+
+  const logoutMutation = t.user.logout.useMutation({
     onSuccess: async () => {
-      await tUtils.post.infinite.invalidate({});
-      toast({ description: 'You have successfully removed your post!' });
+      setUser(undefined);
+      setOpen(false);
+      toast({ description: 'You have successfully logged out!' });
+      await tUtils.invalidate();
     },
   });
 
@@ -33,16 +35,16 @@ export default function RemovePost({ open, setOpen, id }: RemovePostProps) {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm post deletion</AlertDialogTitle>
+          <AlertDialogTitle>Confirm log out</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this post? This action is
-            irreversible and the post will be permanently removed.
+            Are you sure you want to log out? You will need to log in again to
+            access your account.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => removeMutation.mutate({ id })}>
-            Remove
+          <AlertDialogAction onClick={() => logoutMutation.mutate()}>
+            Log out
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

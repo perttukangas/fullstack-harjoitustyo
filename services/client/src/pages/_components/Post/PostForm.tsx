@@ -1,6 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CirclePlus, Pencil } from 'lucide-react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@c/core/components/Button';
@@ -20,10 +18,15 @@ import { t } from '@c/core/lib/trpc';
 
 import { type EditInput, createInput, editInput } from '@apiv1/post/validators';
 
-export default function PostForm({ edit }: { edit?: EditInput }) {
+interface PostFormProps {
+  edit?: EditInput;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function PostForm({ edit, open, setOpen }: PostFormProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
-  const [open, setOpen] = useState(false);
   const createMutation = t.post.create.useMutation({
     onSuccess: async () => {
       await tUtils.post.infinite.invalidate({});
@@ -55,11 +58,6 @@ export default function PostForm({ edit }: { edit?: EditInput }) {
 
   return (
     <DrawerDialog
-      trigger={
-        <Button onClick={() => setOpen(true)} variant="ghost" size="icon">
-          {isEditing ? <Pencil /> : <CirclePlus />}
-        </Button>
-      }
       title={messages.title}
       description={messages.description}
       open={open}

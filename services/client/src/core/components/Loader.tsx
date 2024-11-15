@@ -1,6 +1,25 @@
 import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-export default function Loader() {
+interface LoaderProps {
+  delay?: number;
+}
+
+export default function Loader({ delay = 500 }: LoaderProps) {
+  const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoader(true);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  if (!showLoader) {
+    return null;
+  }
+
   return (
     <div className="flex h-full w-full items-center justify-center">
       <Loader2 className="animate-spin" />

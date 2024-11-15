@@ -1,19 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CirclePower, User } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@c/core/components/AlertDialog';
 import { Button } from '@c/core/components/Button';
 import DrawerDialog from '@c/core/components/DrawerDialog';
 import {
@@ -34,11 +22,15 @@ import {
   loginSignupInput,
 } from '@apiv1/user/validators';
 
-export default function LoginSignup() {
+interface LoginSignupProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function LoginSignup({ open, setOpen }: LoginSignupProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
-  const { user, setUser } = useSession();
-  const [open, setOpen] = useState(false);
+  const { setUser } = useSession();
   const [signup, setSignup] = useState(false);
 
   const loginMutation = t.user.login.useMutation({
@@ -57,14 +49,6 @@ export default function LoginSignup() {
       toast({ description: 'You have successfully signed up!' });
     },
   });
-  const logoutMutation = t.user.logout.useMutation({
-    onSuccess: async () => {
-      setUser(undefined);
-      setOpen(false);
-      toast({ description: 'You have successfully logged out!' });
-      await tUtils.invalidate();
-    },
-  });
 
   const messages = {
     title: signup ? 'Signup' : 'Login',
@@ -77,40 +61,8 @@ export default function LoginSignup() {
     defaultValues: { email: '', password: '' },
   });
 
-  if (user) {
-    return (
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <CirclePower />
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm log out</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to log out? You will need to log in again to
-              access your account.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => logoutMutation.mutate()}>
-              Log out
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    );
-  }
-
   return (
     <DrawerDialog
-      trigger={
-        <Button onClick={() => setOpen(true)} variant="ghost" size="icon">
-          <User />
-        </Button>
-      }
       title={messages.title}
       description={
         <span>

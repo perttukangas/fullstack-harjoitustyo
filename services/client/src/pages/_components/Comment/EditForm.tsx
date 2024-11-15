@@ -38,47 +38,51 @@ export default function EditForm(edit: EditInput & { postId: number }) {
   });
 
   return (
-    <DrawerDialog
-      trigger={
-        <Button onClick={() => setOpen(true)} variant="ghost" size="icon">
-          <Pencil />
-        </Button>
-      }
-      title="Edit comment"
-      description="Edit your comment!"
-      open={open}
-      setOpen={setOpen}
-      footer={
-        <div className="mx-4 mb-2 md:mx-0 md:mb-0">
-          <Button
-            className="w-full"
-            disabled={form.formState.isSubmitting}
-            onClick={(e) => {
-              void form.handleSubmit((data) => editMutation.mutate(data))(e);
-            }}
-          >
-            Submit
-          </Button>
-        </div>
-      }
-    >
-      <Form {...form}>
-        <form className="mx-4 mb-2 md:mx-0 md:mb-0">
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Content</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="My post content" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </form>
-      </Form>
-    </DrawerDialog>
+    <>
+      <Button onClick={() => setOpen(true)} variant="ghost" size="icon">
+        <Pencil />
+      </Button>
+      {open && (
+        <DrawerDialog
+          title="Edit comment"
+          description="Edit your comment!"
+          open={open}
+          setOpen={setOpen}
+          footer={
+            <div className="mx-4 mb-2 md:mx-0 md:mb-0">
+              <Button
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+                onClick={(e) => {
+                  void form.handleSubmit((data) => editMutation.mutate(data))(
+                    e
+                  );
+                }}
+              >
+                Submit
+              </Button>
+            </div>
+          }
+        >
+          <Form {...form}>
+            <form className="mx-4 mb-2 md:mx-0 md:mb-0">
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Content</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="My post content" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+        </DrawerDialog>
+      )}
+    </>
   );
 }
