@@ -15,16 +15,30 @@ import {
 } from '@c/core/components/Form';
 import { Input } from '@c/core/components/Input';
 import { Textarea } from '@c/core/components/Textarea';
+import { useToast } from '@c/core/hooks/use-toast';
+import { t } from '@c/core/lib/trpc';
 
-import {
-  type CreateInput,
-  type EditInput,
-  createInput,
-  editInput,
-} from '@apiv1/post/validators';
+import { type EditInput, createInput, editInput } from '@apiv1/post/validators';
 
 export default function PostForm({ edit }: { edit?: EditInput }) {
+  const { toast } = useToast();
+  const tUtils = t.useUtils();
   const [open, setOpen] = useState(false);
+  const createMutation = t.post.create.useMutation({
+    onSuccess: async () => {
+      await tUtils.post.infinite.invalidate({});
+      form.reset();
+      setOpen(false);
+      toast({ description: 'You have successfully created a new post!' });
+    },
+  });
+  const editMutation = t.post.edit.useMutation({
+    onSuccess: async () => {
+      await tUtils.post.infinite.invalidate({});
+      setOpen(false);
+      toast({ description: 'You have successfully edited your post!' });
+    },
+  });
 
   const isEditing = !!edit;
   const messages = {
@@ -38,19 +52,6 @@ export default function PostForm({ edit }: { edit?: EditInput }) {
     resolver: zodResolver(isEditing ? editInput : createInput),
     defaultValues: isEditing ? edit : { content: '', title: '' },
   });
-
-  const onSubmit = async (values: CreateInput) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log('SUBMIT', values);
-    form.reset();
-    setOpen(false);
-  };
-
-  const onEdit = async (values: EditInput) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log('EDIT', values);
-    setOpen(false);
-  };
 
   return (
     <DrawerDialog
@@ -69,7 +70,11 @@ export default function PostForm({ edit }: { edit?: EditInput }) {
             className="w-full"
             disabled={form.formState.isSubmitting}
             onClick={(e) => {
-              void form.handleSubmit(isEditing ? onEdit : onSubmit)(e);
+              void form.handleSubmit(
+                isEditing
+                  ? (data) => editMutation.mutate(data)
+                  : (data) => createMutation.mutate(data)
+              )(e);
             }}
           >
             Submit

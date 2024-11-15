@@ -13,9 +13,20 @@ import {
 } from '@c/core/components/AlertDialog';
 import { Button } from '@c/core/components/Button';
 import { useToast } from '@c/core/hooks/use-toast';
+import { t } from '@c/core/lib/trpc';
 
-export default function RemovePost() {
+import { type RemoveInput } from '@apiv1/post/validators';
+
+export default function RemovePost({ id }: RemoveInput) {
   const { toast } = useToast();
+  const tUtils = t.useUtils();
+  const removeMutation = t.post.remove.useMutation({
+    onSuccess: async () => {
+      await tUtils.post.infinite.invalidate({});
+      toast({ description: 'You have successfully removed your post!' });
+    },
+  });
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -25,17 +36,15 @@ export default function RemovePost() {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Confirm post deletion</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            post.
+            Are you sure you want to delete this post? This action is
+            irreversible and the post will be permanently removed.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => toast({ description: 'Removed', duration: 10000 })}
-          >
+          <AlertDialogAction onClick={() => removeMutation.mutate({ id })}>
             Remove
           </AlertDialogAction>
         </AlertDialogFooter>

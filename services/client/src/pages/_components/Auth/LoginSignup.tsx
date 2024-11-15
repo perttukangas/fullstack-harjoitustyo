@@ -36,30 +36,33 @@ import {
 
 export default function LoginSignup() {
   const { toast } = useToast();
+  const tUtils = t.useUtils();
   const { user, setUser } = useSession();
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
 
   const loginMutation = t.user.login.useMutation({
-    onSuccess(data) {
+    onSuccess: async (data) => {
       form.reset();
       setUser(data);
       setOpen(false);
       toast({ description: 'You are now logged in!' });
+      await tUtils.invalidate();
     },
   });
   const signupMutation = t.user.signup.useMutation({
-    onSuccess() {
+    onSuccess: () => {
       form.reset();
       setSignup(!signup);
       toast({ description: 'You have successfully signed up!' });
     },
   });
   const logoutMutation = t.user.logout.useMutation({
-    onSuccess() {
+    onSuccess: async () => {
       setUser(undefined);
       setOpen(false);
       toast({ description: 'You have successfully logged out!' });
+      await tUtils.invalidate();
     },
   });
 
