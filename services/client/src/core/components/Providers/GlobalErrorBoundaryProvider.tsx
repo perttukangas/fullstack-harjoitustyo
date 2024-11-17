@@ -1,6 +1,15 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 
+import { Button } from '@c/core/components/Button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@c/core/components/Card';
+
 export default function GlobalErrorBoundaryProvider({
   children,
 }: {
@@ -12,9 +21,20 @@ export default function GlobalErrorBoundaryProvider({
         <ErrorBoundary
           onReset={reset}
           fallbackRender={({ resetErrorBoundary }) => (
-            <div>
-              There was an error!
-              <button onClick={() => resetErrorBoundary()}>Try again</button>
+            <div className="m-10 flex items-center justify-center">
+              <Card className="w-full max-w-md">
+                <CardHeader>
+                  <CardTitle className="text-center">
+                    Something went wrong
+                  </CardTitle>
+                  <CardDescription className="text-center">
+                    An unexpected error has occurred. Please try again.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                  <Button onClick={() => resetErrorBoundary()}>Retry</Button>
+                </CardContent>
+              </Card>
             </div>
           )}
         >
