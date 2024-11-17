@@ -5,7 +5,7 @@ interface LoaderProps {
   delay?: number;
 }
 
-export default function Loader({ delay = 500 }: LoaderProps) {
+export default function Loader({ delay = 1000 }: LoaderProps) {
   const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {

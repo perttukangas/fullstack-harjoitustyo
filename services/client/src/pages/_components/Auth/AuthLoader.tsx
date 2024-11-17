@@ -8,7 +8,7 @@ import { useSession } from '@c/core/hooks/use-session';
 const LoginSignup = lazy(() => import('./LoginSignup'));
 const Logout = lazy(() => import('./Logout'));
 
-export default function LoginSignupLoader() {
+export default function AuthLoader() {
   const [open, setOpen] = useState(false);
   const { user } = useSession();
 
