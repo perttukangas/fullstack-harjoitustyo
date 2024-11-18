@@ -1,0 +1,27 @@
+name: Main Flow
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+jobs:
+  main:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Run client smoke tests
+        run: |
+          cd services/client
+          npm ci
+          npm run lint:check
+          npm run prettier:check
+
+      - name: Run server smoke tests
+        run: |
+          cd services/client
+          npm ci
+          npm run lint:check
+          npm run prettier:check
