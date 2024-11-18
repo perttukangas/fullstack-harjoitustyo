@@ -1,4 +1,4 @@
-import './instrument.js';
+import 'instrument.js';
 
 import * as Sentry from '@sentry/node';
 import cookieParser from 'cookie-parser';
