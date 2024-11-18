@@ -18,3 +18,5 @@
 | 14.11.2024 | 3                  | Fix infinity scroll ref issue, continue integrating with new UI                                                                                                                  |
 | 15.11.2024 | 5                  | Logout, use session, proper handling of procedures, all basic CRUD things to posts and comments                                                                                  |
 | 16.11.2024 | 1                  | Experimenting with code splitting, got initial size ~30% lower (gzip 144kB -> 101kB) 1                                                                                           |
+| 17.11.2024 | 5                  | Delay loader. Basic Docker, in the end decided to go with single Dockerfile due to timelimits                                                                                    |
+| 18.11.2024 | 6                  | Experimenting with monitoring and profiling, ended up with Sentry. Added basic github actions                                                                                    |

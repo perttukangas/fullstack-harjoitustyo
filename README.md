@@ -2,17 +2,32 @@
 
 ## Todo:
 
-- basic unit test setup
-- basic e2e test setup
-- stress tests
-- monitoring
-- profiling
-- containerization
+Monitoring, profiling
+
+- Sentry with its integrations
+
+K8S
+
 - scaling app
-- scaling database
-- automated rest api docs generation
-- ci/cd
-- vulnerability scanning
-- automated dependency updates
-- query caching
-- frontend seo, accessibility etc scanner
+- scaling database via CockroachDB
+
+CI/CD
+
+- handle everything below
+
+Stress tests
+
+- K6 http stress testing
+
+Deploy
+
+- Deploy base app to Heroku due to not having credits for running k8s
+
+Security and dependencies
+
+- Vulnerability scanning
+- Automated dependency updates
+
+Web page quality scanning
+
+- Via chrome lighthouse
