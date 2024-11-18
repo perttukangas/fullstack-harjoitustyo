@@ -7,11 +7,6 @@ import { toast } from '@c/core/hooks/use-toast';
 
 import type { AppRouter } from '../../../../server/src/routes/v1/index';
 
-const serverUrl = import.meta.env.VITE_SERVER_URL as string;
-if (!serverUrl) {
-  throw new Error('VITE_SERVER_URL is not defined');
-}
-
 export let csrfToken: string;
 
 export const setCsrfToken = (token: string) => {
@@ -32,7 +27,7 @@ export const Provider = t.Provider;
 export const trpcClient = t.createClient({
   links: [
     httpBatchLink({
-      url: `${serverUrl}/api/v1`,
+      url: `/api/v1`,
       headers() {
         return {
           'x-csrf-token': csrfToken,

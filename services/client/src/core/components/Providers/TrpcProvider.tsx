@@ -20,12 +20,9 @@ export default function TrpcProvider({
 }) {
   useEffect(() => {
     const fetchCsrfToken = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/api/csrf`,
-        {
-          credentials: 'include',
-        }
-      );
+      const response = await fetch(`/api/csrf`, {
+        credentials: 'include',
+      });
       const data = (await response.json()) as CsrfToken;
       setCsrfToken(data.token);
     };

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "prod:build": "tsc && tsc-alias",
-    "prod:start": "node dist/index.js",
+    "build": "tsc && tsc-alias",
+    "start": "prisma migrate deploy && node ./dist/index.js",
     "dev": "npm run dev:migrate && tsx watch ./src/index.ts",
     "dev:migrate": "prisma migrate dev && npx @snaplet/seed sync",
     "dev:seed": "npx prisma db seed",

@@ -23,12 +23,9 @@ add_if_not_exists $SERVER_ENV_FILE "DATABASE_URL" "postgresql://admin:password@l
 add_if_not_exists $SERVER_ENV_FILE "NODE_ENV" "development" "Defines the environment type"
 add_if_not_exists $SERVER_ENV_FILE "PORT" "3003" "Port for the backend server"
 add_if_not_exists $SERVER_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
-add_if_not_exists $SERVER_ENV_FILE "CLIENT_URL" "http://localhost:5173" "Development frontend url"
+add_if_not_exists $SERVER_ENV_FILE "CLIENT_URL" "http://localhost:3003" "Development frontend url"
 add_if_not_exists $SERVER_ENV_FILE "COOKIE_SECRET" $(openssl rand -hex 32) "Secret for cookies"
 add_if_not_exists $SERVER_ENV_FILE "CSRF_SECRET" $(openssl rand -hex 32) "Secret for csrf"
-
-CLIENT_ENV_FILE=../services/client/.env
-add_if_not_exists $CLIENT_ENV_FILE "VITE_SERVER_URL" "http://localhost:3003" "Development backend url"
 
 # ROOT
 cd ..

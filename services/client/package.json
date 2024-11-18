@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "prod:build": "vite build",
+    "build": "vite build",
     "dev": "vite",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",

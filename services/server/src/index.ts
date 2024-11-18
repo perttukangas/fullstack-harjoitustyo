@@ -24,6 +24,10 @@ async function main() {
 
   app.use(helmet());
 
+  if (!isDev) {
+    app.use(express.static('static'));
+  }
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
