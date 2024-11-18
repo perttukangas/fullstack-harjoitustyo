@@ -1,3 +1,6 @@
+import './instrument.js';
+
+import * as Sentry from '@sentry/node';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { doubleCsrf } from 'csrf-csrf';
@@ -75,6 +78,9 @@ async function main() {
     res.json({ token: generateToken(req, res) });
   });
   app.use('/api/v1', trpcMiddleware);
+
+  // After controllers, before any error handler
+  app.use(Sentry.expressErrorHandler());
 
   app.use(
     (

@@ -26,6 +26,9 @@ add_if_not_exists $SERVER_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret
 add_if_not_exists $SERVER_ENV_FILE "CLIENT_URL" "http://localhost:3003" "Development frontend url"
 add_if_not_exists $SERVER_ENV_FILE "COOKIE_SECRET" $(openssl rand -hex 32) "Secret for cookies"
 add_if_not_exists $SERVER_ENV_FILE "CSRF_SECRET" $(openssl rand -hex 32) "Secret for csrf"
+add_if_not_exists $SERVER_ENV_FILE "SENTRY_ORG" "xxx" "Server sentry organization"
+add_if_not_exists $SERVER_ENV_FILE "SENTRY_PROJECT" "xxx" "Server sentry project"
+add_if_not_exists $SERVER_ENV_FILE "SENTRY_AUTH_TOKEN" "xxx" "Server sentry auth token"
 
 # ROOT
 cd ..

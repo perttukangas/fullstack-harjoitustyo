@@ -3,18 +3,22 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc && tsc-alias",
-    "start": "prisma migrate deploy && node ./dist/index.js",
+    "build": "tsc && tsc-alias && npm run sentry:sourcemaps",
+    "start": "prisma migrate deploy && node --import ./dist/instrument.js ./dist/index.js",
     "dev": "npm run dev:migrate && tsx watch ./src/index.ts",
     "dev:migrate": "prisma migrate dev && npx @snaplet/seed sync",
     "dev:seed": "npx prisma db seed",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier:check": "prettier --check '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",
-    "prettier:fix": "prettier --write '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'"
+    "prettier:fix": "prettier --write '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org university-of-helsinki-vh --project fsproject-server ./dist && sentry-cli sourcemaps upload --org university-of-helsinki-vh --project fsproject-server ./dist"
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",
+    "@sentry/cli": "^2.38.2",
+    "@sentry/node": "^8.38.0",
+    "@sentry/profiling-node": "^8.38.0",
     "@trpc/client": "^11.0.0-rc.608",
     "@trpc/server": "^11.0.0-rc.608",
     "bcrypt": "^5.1.1",
