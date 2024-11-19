@@ -20,3 +20,4 @@
 | 16.11.2024 | 1                  | Experimenting with code splitting, got initial size ~30% lower (gzip 144kB -> 101kB) 1                                                                                           |
 | 17.11.2024 | 5                  | Delay loader. Basic Docker, in the end decided to go with single Dockerfile due to timelimits                                                                                    |
 | 18.11.2024 | 6                  | Experimenting with monitoring and profiling, ended up with Sentry. Added basic github actions                                                                                    |
+| 19.11.2024 | 5                  | Experimenting with stress testing. Added docker compose with resource limits for testing purposes                                                                                |
