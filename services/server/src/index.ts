@@ -47,7 +47,7 @@ async function main() {
     cookieOptions: {
       sameSite: 'strict',
       path: '/',
-      secure: !isDev,
+      secure: true,
       signed: true,
     },
   });
@@ -58,7 +58,7 @@ async function main() {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       sameSite: 'strict',
-      secure: !isDev,
+      secure: true,
       httpOnly: true,
       signed: true,
     })

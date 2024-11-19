@@ -39,7 +39,7 @@ export const userRouter = router({
     const token = jwt.sign(tokenContent, AUTH_SECRET);
 
     opts.ctx.res.cookie(SESSION_TOKEN_COOKIE, token, {
-      secure: !isDev,
+      secure: true,
       sameSite: 'strict',
       signed: true,
       httpOnly: true,
@@ -91,7 +91,7 @@ export const userRouter = router({
   }),
   logout: protectedProcedure.mutation(async (opts) => {
     opts.ctx.res.clearCookie(SESSION_TOKEN_COOKIE, {
-      secure: !isDev,
+      secure: true,
       sameSite: 'strict',
       signed: true,
       httpOnly: true,
