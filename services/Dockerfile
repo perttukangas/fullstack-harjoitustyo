@@ -1,4 +1,4 @@
-FROM node:23-alpine3.20 AS builder
+FROM node:22-alpine3.20 AS builder
 
 WORKDIR /usr/src/app
 
@@ -16,7 +16,9 @@ RUN cd ./client \
 RUN cd ./server \
   && npm prune --omit=dev
 
-FROM node:23-alpine3.20 AS runner
+FROM node:22-alpine3.20 AS runner
+
+WORKDIR /usr/src/app
 
 COPY --chown=node:node --from=builder /usr/src/app/client/dist ./static
 
@@ -25,8 +27,6 @@ COPY --chown=node:node --from=builder /usr/src/app/server/dist ./dist
 COPY --chown=node:node --from=builder /usr/src/app/server/package*.json ./
 COPY --chown=node:node --from=builder /usr/src/app/server/prisma/migrations ./prisma/migrations
 COPY --chown=node:node --from=builder /usr/src/app/server/prisma/schema.prisma ./prisma/schema.prisma
-
-WORKDIR /usr/src/app
 
 USER node
 
