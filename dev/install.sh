@@ -2,11 +2,6 @@
 
 # ENVIRONMENT VARIABLES
 
-SERVER_ENV_FILE=../services/server/.env
-if [ ! -f $SERVER_ENV_FILE ]; then
-  touch $SERVER_ENV_FILE
-fi
-
 add_if_not_exists() {
   local env_file=$1
   local var_name=$2
@@ -19,6 +14,11 @@ add_if_not_exists() {
   fi
 }
 
+SERVER_ENV_FILE=../services/server/.env
+if [ ! -f $SERVER_ENV_FILE ]; then
+  touch $SERVER_ENV_FILE
+fi
+
 add_if_not_exists $SERVER_ENV_FILE "DATABASE_URL" "postgresql://admin:password@localhost:5433/fullstack-db-dev?schema=public" "Required for Prisma"
 add_if_not_exists $SERVER_ENV_FILE "NODE_ENV" "development" "Defines the environment type"
 add_if_not_exists $SERVER_ENV_FILE "PORT" "3003" "Port for the backend server"
@@ -26,9 +26,21 @@ add_if_not_exists $SERVER_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret
 add_if_not_exists $SERVER_ENV_FILE "CLIENT_URL" "http://localhost:3003" "Development frontend url"
 add_if_not_exists $SERVER_ENV_FILE "COOKIE_SECRET" $(openssl rand -hex 32) "Secret for cookies"
 add_if_not_exists $SERVER_ENV_FILE "CSRF_SECRET" $(openssl rand -hex 32) "Secret for csrf"
-add_if_not_exists $SERVER_ENV_FILE "SENTRY_ORG" "xxx" "Server sentry organization"
-add_if_not_exists $SERVER_ENV_FILE "SENTRY_PROJECT" "xxx" "Server sentry project"
-add_if_not_exists $SERVER_ENV_FILE "SENTRY_AUTH_TOKEN" "xxx" "Server sentry auth token"
+add_if_not_exists $SERVER_ENV_FILE "SENTRY_AUTH_TOKEN" "xxx" "Sentry auth token"
+
+SERVER_DEV_FULL_ENV_FILE=.env.dev-full
+if [ ! -f $SERVER_DEV_FULL_ENV_FILE ]; then
+  touch $SERVER_DEV_FULL_ENV_FILE
+fi
+
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "DATABASE_URL" "postgresql://admin:password@localhost:5433/fullstack-db-dev-full?schema=public" "Required for Prisma"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "NODE_ENV" "test" "Defines the environment type"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "PORT" "3005" "Port for the backend server"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "CLIENT_URL" "http://localhost:3005" "Development full frontend url"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "COOKIE_SECRET" $(openssl rand -hex 32) "Secret for cookies"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "CSRF_SECRET" $(openssl rand -hex 32) "Secret for csrf"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "SENTRY_AUTH_TOKEN" "xxx" "Sentry auth token"
 
 # ROOT
 cd ..

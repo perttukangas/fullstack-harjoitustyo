@@ -6,6 +6,10 @@ Monitoring, profiling
 
 - Sentry with its integrations
 
+Rate limiting
+
+- After stress tests to see how it works out
+
 K8S
 
 - scaling app
@@ -13,7 +17,7 @@ K8S
 
 CI/CD
 
-- handle everything below
+- Handle everything below
 
 Stress tests
 

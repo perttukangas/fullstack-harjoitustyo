@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { AUTH_SECRET, isDev } from '@s/core/lib/envalid.js';
+import { AUTH_SECRET } from '@s/core/lib/envalid.js';
 import { prisma } from '@s/core/lib/prisma.js';
 import { StatusCode } from '@s/core/utils/status-code.js';
 

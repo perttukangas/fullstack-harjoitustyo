@@ -9,6 +9,7 @@ const env = cleanEnv(process.env, {
   CLIENT_URL: url(),
   COOKIE_SECRET: str(),
   CSRF_SECRET: str(),
+  SENTRY_AUTH_TOKEN: str(),
 });
 
 export const isDev = env.isDev;

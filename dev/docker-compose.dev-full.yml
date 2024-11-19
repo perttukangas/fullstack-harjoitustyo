@@ -1,0 +1,37 @@
+services:
+  dev-full-db:
+    image: postgres:17.0-alpine3.20
+    container_name: postgres-dev-full
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    user: postgres
+    volumes:
+      - postgresdevfulldb:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h dev-full-db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+  dev-full-app:
+    build: ../services
+    container_name: dev-full-app
+    ports:
+      - "127.0.0.1:5173:3005"
+    depends_on:
+      dev-full-db:
+        condition: service_healthy
+    env_file: ".env.dev-full"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M
+
+volumes:
+  postgresdevfulldb:
