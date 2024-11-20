@@ -19,7 +19,7 @@ services:
           cpus: "0.5"
           memory: 512M
   dev-full-app:
-    build: ../services
+    build: ../
     container_name: dev-full-app
     ports:
       - "127.0.0.1:5173:3005"

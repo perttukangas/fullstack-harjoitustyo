@@ -66,3 +66,8 @@ docker compose -f ../../dev/docker-compose.dev.yml down
 cd ../client
 
 npm install
+
+# STRESS TEST
+cd ../../test/stress-test
+
+npm install

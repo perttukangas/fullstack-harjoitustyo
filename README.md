@@ -1,4 +1,4 @@
-# Fullstack harjoitustyo
+# Fullstack harjoitustyö
 
 ## Todo:
 
