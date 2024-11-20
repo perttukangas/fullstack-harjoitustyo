@@ -26,3 +26,10 @@ jobs:
           npm ci
           npm run lint:check
           npm run prettier:check
+
+      - name: Run stress test smoke tests
+        run: |
+          cd test/stress-test
+          npm ci
+          npm run lint:check
+          npm run prettier:check

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "rm -R -f ./dist && tsc && tsc-alias",
     "start": "prisma migrate deploy && node --import ./dist/instrument.js ./dist/index.js",
     "dev": "npm run dev:migrate && tsx watch ./src/index.ts",
     "dev:migrate": "prisma migrate dev && npx @snaplet/seed sync",
