@@ -3,9 +3,10 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client';
 import { createTRPCQueryUtils, createTRPCReact } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
 
-import { toast } from '@cc/hooks/use-toast';
+// Requires npm run build to be ran first in server folder
+import type { AppRouter } from '@tapiv1/index';
 
-import type { AppRouter } from '../../../../server/src/routes/v1/index';
+import { toast } from '@cc/hooks/use-toast';
 
 export let csrfToken: string;
 

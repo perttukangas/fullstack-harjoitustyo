@@ -1,4 +1,4 @@
-import type { RemoveInput } from '@apiv1/post/validators';
+import type { RemoveInput } from '@tapiv1/post/shared-validators';
 
 import {
   AlertDialog,

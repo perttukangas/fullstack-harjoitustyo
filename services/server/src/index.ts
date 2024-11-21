@@ -1,10 +1,9 @@
-import 'instrument.js';
+import './instrument.js';
 
 import * as Sentry from '@sentry/node';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { doubleCsrf } from 'csrf-csrf';
-import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';

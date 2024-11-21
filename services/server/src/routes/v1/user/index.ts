@@ -13,7 +13,8 @@ import {
   router,
 } from '@apiv1/trpc/index.js';
 
-import { loginSignupInput } from './validators.js';
+import type { SessionSchema } from '../trpc/shared-validators.js';
+import { loginSignupInput } from './shared-validators.js';
 
 export const userRouter = router({
   login: publicProcedure.input(loginSignupInput).mutation(async (opts) => {
@@ -35,7 +36,7 @@ export const userRouter = router({
       });
     }
 
-    const tokenContent = { id: existingUser.id };
+    const tokenContent: SessionSchema = { id: existingUser.id };
     const token = jwt.sign(tokenContent, AUTH_SECRET);
 
     opts.ctx.res.cookie(SESSION_TOKEN_COOKIE, token, {

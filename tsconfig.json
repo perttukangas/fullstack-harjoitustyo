@@ -7,7 +7,8 @@
 
       "@sc/*": ["services/server/src/core/*"],
       "@s/*": ["services/server/src/*"],
-      "@apiv1/*": ["services/server/src/routes/v1/*"]
+      "@apiv1/*": ["services/server/src/routes/v1/*"],
+      "@tapiv1/*": ["services/server/types/routes/v1/*"]
     }
   }
 }

@@ -25,7 +25,7 @@ import {
   infiniteInput,
   likeUnlikeInput,
   removeInput,
-} from './validators.js';
+} from './shared-validators.js';
 
 export const postRouter = router({
   comment: commentRouter,

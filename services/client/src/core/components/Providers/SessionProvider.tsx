@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import type { SessionSchema } from '@apiv1/trpc/validators.js';
+import type { SessionSchema } from '@tapiv1/trpc/shared-validators';
 
 import { SessionContext } from '@cc/hooks/use-session';
 import { t } from '@cc/lib/trpc';

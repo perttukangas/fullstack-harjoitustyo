@@ -2,8 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import type { CreateInput } from '@apiv1/post/comment/validators';
-import { createInput } from '@apiv1/post/comment/validators';
+import { createInput } from '@apiv1/post/comment/shared-validators';
+
+import type { CreateInput } from '@tapiv1/post/comment/shared-validators';
 
 import { Button } from '@cc/components/Button';
 import {

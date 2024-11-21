@@ -19,7 +19,7 @@ if [ ! -f $SERVER_ENV_FILE ]; then
   touch $SERVER_ENV_FILE
 fi
 
-add_if_not_exists $SERVER_ENV_FILE "DATABASE_URL" "postgresql://admin:password@localhost:5433/fullstack-db-dev?schema=public" "Required for Prisma"
+add_if_not_exists $SERVER_ENV_FILE "DATABASE_URL" "postgresql://postgres:password@localhost:5433/fullstack-db-dev?schema=public" "Required for Prisma"
 add_if_not_exists $SERVER_ENV_FILE "NODE_ENV" "development" "Defines the environment type"
 add_if_not_exists $SERVER_ENV_FILE "PORT" "3003" "Port for the backend server"
 add_if_not_exists $SERVER_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
@@ -33,7 +33,7 @@ if [ ! -f $SERVER_DEV_FULL_ENV_FILE ]; then
   touch $SERVER_DEV_FULL_ENV_FILE
 fi
 
-add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "DATABASE_URL" "postgresql://admin:password@localhost:5433/fullstack-db-dev-full?schema=public" "Required for Prisma"
+add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "DATABASE_URL" "postgresql://postgres:password@localhost:5433/fullstack-db-dev-full?schema=public" "Required for Prisma"
 add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "NODE_ENV" "test" "Defines the environment type"
 add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "PORT" "3005" "Port for the backend server"
 add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
@@ -41,6 +41,13 @@ add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "CLIENT_URL" "http://localhost:3005"
 add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "COOKIE_SECRET" $(openssl rand -hex 32) "Secret for cookies"
 add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "CSRF_SECRET" $(openssl rand -hex 32) "Secret for csrf"
 add_if_not_exists $SERVER_DEV_FULL_ENV_FILE "SENTRY_AUTH_TOKEN" "xxx" "Sentry auth token"
+
+STRESS_TEST_ENV_FILE=../test/stress-test/.env
+if [ ! -f $STRESS_TEST_ENV_FILE ]; then
+  touch $STRESS_TEST_ENV_FILE
+fi
+
+add_if_not_exists $STRESS_TEST_ENV_FILE "BASE_URL" "http://localhost:3005" "Development full url"
 
 # ROOT
 cd ..
@@ -60,6 +67,7 @@ npm install
 npx prisma migrate dev
 npx @snaplet/seed init prisma/seed
 npx prisma db seed
+npm run build
 docker compose -f ../../dev/docker-compose.dev.yml down
 
 # FRONTEND

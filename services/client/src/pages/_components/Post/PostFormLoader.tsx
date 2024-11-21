@@ -1,7 +1,7 @@
 import { CirclePlus, Pencil } from 'lucide-react';
 import { Suspense, lazy, useState } from 'react';
 
-import type { EditInput } from '@apiv1/post/validators';
+import type { EditInput } from '@tapiv1/post/shared-validators';
 
 import { Button } from '@cc/components/Button';
 import Loader from '@cc/components/Loader';

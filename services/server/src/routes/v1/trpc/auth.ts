@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { AUTH_SECRET } from '@sc/lib/envalid.js';
 
-import { sessionSchema } from './validators.js';
+import { sessionSchema } from './shared-validators.js';
 
 export const SESSION_TOKEN_COOKIE = 'AUTH_SESSION_TOKEN';
 

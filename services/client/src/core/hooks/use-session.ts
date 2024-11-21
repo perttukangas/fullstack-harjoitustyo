@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import type { SessionSchema } from '@apiv1/trpc/validators.js';
+import type { SessionSchema } from '@tapiv1/trpc/shared-validators';
 
 export const SessionContext = createContext<
   | {

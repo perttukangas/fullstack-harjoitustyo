@@ -9,10 +9,6 @@ COPY tsconfig.json ./
 COPY ./services/server/package*.json ./services/server/
 RUN cd ./services/server && npm ci
 
-# Prisma client layer
-COPY ./services/server/prisma ./services/server/prisma/
-RUN cd ./services/server && npx prisma generate
-
 # Rest of the server layer
 COPY ./services/server/ ./services/server/
 RUN cd ./services/server && npm run build

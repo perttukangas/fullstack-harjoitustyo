@@ -24,7 +24,7 @@ import {
   infiniteInput,
   likeUnlikeInput,
   removeInput,
-} from './validators.js';
+} from './shared-validators.js';
 
 export const commentRouter = router({
   infinite: publicProcedure.input(infiniteInput).query(async (opts) => {

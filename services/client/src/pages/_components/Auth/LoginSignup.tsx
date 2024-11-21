@@ -2,10 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-  type LoginSignupInput,
-  loginSignupInput,
-} from '@apiv1/user/validators';
+import { loginSignupInput } from '@apiv1/user/shared-validators';
+
+import type { LoginSignupInput } from '@tapiv1/user/shared-validators';
 
 import { Button } from '@cc/components/Button';
 import DrawerDialog from '@cc/components/DrawerDialog';

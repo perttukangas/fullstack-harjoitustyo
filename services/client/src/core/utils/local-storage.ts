@@ -1,4 +1,4 @@
-import type { SessionSchema } from '@apiv1/trpc/validators.js';
+import type { SessionSchema } from '@tapiv1/trpc/shared-validators';
 
 interface StorageTypeValue {
   user?: SessionSchema;

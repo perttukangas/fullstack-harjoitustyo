@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/node';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
+import 'dotenv/config';
 
 import { NODE_ENV } from '@sc/lib/envalid.js';
 

@@ -3,8 +3,9 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { EditInput } from '@apiv1/post/comment/validators';
-import { editInput } from '@apiv1/post/comment/validators';
+import { editInput } from '@apiv1/post/comment/shared-validators';
+
+import type { EditInput } from '@tapiv1/post/comment/shared-validators';
 
 import { Button } from '@cc/components/Button';
 import DrawerDialog from '@cc/components/DrawerDialog';

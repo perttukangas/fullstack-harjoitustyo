@@ -6,7 +6,7 @@ import {
   ProtectedCreateInput,
   ProtectedLikeUnlikeInput,
   RemoveInput,
-} from './validators.js';
+} from './shared-validators.js';
 
 export const getInfinite = async ({
   postId,

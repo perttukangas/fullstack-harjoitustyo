@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import type { EditInput } from '@apiv1/post/validators';
-import { createInput, editInput } from '@apiv1/post/validators';
+import { createInput, editInput } from '@apiv1/post/shared-validators';
+
+import type { EditInput } from '@tapiv1/post/shared-validators';
 
 import { Button } from '@cc/components/Button';
 import DrawerDialog from '@cc/components/DrawerDialog';

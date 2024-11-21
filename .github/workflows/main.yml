@@ -16,7 +16,7 @@ jobs:
         run: |
           cd services/server
           npm ci
-          npx prisma generate
+          npm run build
           npm run lint:check
           npm run prettier:check
 
@@ -24,6 +24,7 @@ jobs:
         run: |
           cd services/client
           npm ci
+          npm run build
           npm run lint:check
           npm run prettier:check
 
@@ -31,5 +32,6 @@ jobs:
         run: |
           cd test/stress-test
           npm ci
+          npm run build
           npm run lint:check
           npm run prettier:check

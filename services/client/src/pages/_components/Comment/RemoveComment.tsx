@@ -1,6 +1,6 @@
 import { Trash } from 'lucide-react';
 
-import type { RemoveInput } from '@apiv1/post/comment/validators';
+import type { RemoveInput } from '@tapiv1/post/comment/shared-validators';
 
 import {
   AlertDialog,

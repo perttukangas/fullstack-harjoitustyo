@@ -1,7 +1,7 @@
 import { Trash } from 'lucide-react';
 import { Suspense, lazy, useState } from 'react';
 
-import type { RemoveInput } from '@apiv1/post/validators';
+import type { RemoveInput } from '@tapiv1/post/shared-validators';
 
 import { Button } from '@cc/components/Button';
 import Loader from '@cc/components/Loader';

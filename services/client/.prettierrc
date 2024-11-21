@@ -11,6 +11,7 @@
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
     "^@apiv1/(.*)$",
+    "^@tapiv1/(.*)$",
     "^@c/(.*)$",
     "^@cc/(.*)$",
     "^[./]"
