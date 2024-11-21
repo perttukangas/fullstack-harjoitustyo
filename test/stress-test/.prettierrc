@@ -4,16 +4,7 @@
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5",
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports"
-  ],
-  "importOrder": [
-    "(.*)instrument(.*)",
-    "<THIRD_PARTY_MODULES>",
-    "^@s/core/(.*)$",
-    "^@apiv1/(.*)$",
-    "^[./]"
-  ],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }

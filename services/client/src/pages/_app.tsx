@@ -1,6 +1,6 @@
 import { Outlet } from '@tanstack/react-router';
 
-import GlobalErrorBoundaryProvider from '@c/core/components/Providers/GlobalErrorBoundaryProvider';
+import GlobalErrorBoundaryProvider from '@cc/components/Providers/GlobalErrorBoundaryProvider';
 
 import Footer from './_components/Footer';
 

@@ -1,12 +1,12 @@
 import { produce } from 'immer';
 import { Heart } from 'lucide-react';
 
-import { Button } from '@c/core/components/Button';
-import { Card, CardContent, CardFooter } from '@c/core/components/Card';
-import DrawerDialog from '@c/core/components/DrawerDialog';
-import InfiniteScroll from '@c/core/components/InfiniteScroll';
-import { useSession } from '@c/core/hooks/use-session';
-import { RouterOutputs, t } from '@c/core/lib/trpc';
+import { Button } from '@cc/components/Button';
+import { Card, CardContent, CardFooter } from '@cc/components/Card';
+import DrawerDialog from '@cc/components/DrawerDialog';
+import InfiniteScroll from '@cc/components/InfiniteScroll';
+import { useSession } from '@cc/hooks/use-session';
+import { RouterOutputs, t } from '@cc/lib/trpc';
 
 import CommentForm from './CreateForm';
 import EditForm from './EditForm';

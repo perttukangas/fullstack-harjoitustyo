@@ -3,7 +3,7 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client';
 import { createTRPCQueryUtils, createTRPCReact } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
 
-import { toast } from '@c/core/hooks/use-toast';
+import { toast } from '@cc/hooks/use-toast';
 
 import type { AppRouter } from '../../../../server/src/routes/v1/index';
 

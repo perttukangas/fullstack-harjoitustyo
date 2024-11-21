@@ -1,8 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '@c/core/components/Button';
-import DrawerDialog from '@c/core/components/DrawerDialog';
+import type { EditInput } from '@apiv1/post/validators';
+import { createInput, editInput } from '@apiv1/post/validators';
+
+import { Button } from '@cc/components/Button';
+import DrawerDialog from '@cc/components/DrawerDialog';
 import {
   Form,
   FormControl,
@@ -10,13 +13,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@c/core/components/Form';
-import { Input } from '@c/core/components/Input';
-import { Textarea } from '@c/core/components/Textarea';
-import { useToast } from '@c/core/hooks/use-toast';
-import { t } from '@c/core/lib/trpc';
-
-import { type EditInput, createInput, editInput } from '@apiv1/post/validators';
+} from '@cc/components/Form';
+import { Input } from '@cc/components/Input';
+import { Textarea } from '@cc/components/Textarea';
+import { useToast } from '@cc/hooks/use-toast';
+import { t } from '@cc/lib/trpc';
 
 interface PostFormProps {
   edit?: EditInput;

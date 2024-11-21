@@ -1,14 +1,14 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { Button } from '@c/core/components/Button';
+import { Button } from '@cc/components/Button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@c/core/components/Card';
+} from '@cc/components/Card';
 
 export default function GlobalErrorBoundaryProvider({
   children,

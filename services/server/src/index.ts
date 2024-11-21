@@ -15,8 +15,8 @@ import {
   CSRF_SECRET,
   PORT,
   isDev,
-} from '@s/core/lib/envalid.js';
-import { LogLevel, error, info, shouldLog } from '@s/core/utils/logger.js';
+} from '@sc/lib/envalid.js';
+import { LogLevel, error, info, shouldLog } from '@sc/utils/logger.js';
 
 import { trpcMiddleware } from '@apiv1/trpc/middleware.js';
 

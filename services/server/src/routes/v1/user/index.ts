@@ -2,9 +2,9 @@ import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { AUTH_SECRET } from '@s/core/lib/envalid.js';
-import { prisma } from '@s/core/lib/prisma.js';
-import { StatusCode } from '@s/core/utils/status-code.js';
+import { AUTH_SECRET } from '@sc/lib/envalid.js';
+import { prisma } from '@sc/lib/prisma.js';
+import { StatusCode } from '@sc/utils/status-code.js';
 
 import { SESSION_TOKEN_COOKIE } from '@apiv1/trpc/auth.js';
 import {

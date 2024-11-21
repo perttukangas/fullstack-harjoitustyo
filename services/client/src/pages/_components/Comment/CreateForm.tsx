@@ -2,19 +2,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '@c/core/components/Button';
+import type { CreateInput } from '@apiv1/post/comment/validators';
+import { createInput } from '@apiv1/post/comment/validators';
+
+import { Button } from '@cc/components/Button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@c/core/components/Form';
-import { Textarea } from '@c/core/components/Textarea';
-import { useToast } from '@c/core/hooks/use-toast';
-import { t } from '@c/core/lib/trpc';
-
-import { type CreateInput, createInput } from '@apiv1/post/comment/validators';
+} from '@cc/components/Form';
+import { Textarea } from '@cc/components/Textarea';
+import { useToast } from '@cc/hooks/use-toast';
+import { t } from '@cc/lib/trpc';
 
 export default function CreateForm({
   postId,

@@ -1,5 +1,7 @@
 import { Trash } from 'lucide-react';
 
+import type { RemoveInput } from '@apiv1/post/comment/validators';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,12 +12,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@c/core/components/AlertDialog';
-import { Button } from '@c/core/components/Button';
-import { useToast } from '@c/core/hooks/use-toast';
-import { t } from '@c/core/lib/trpc';
-
-import { type RemoveInput } from '@apiv1/post/comment/validators';
+} from '@cc/components/AlertDialog';
+import { Button } from '@cc/components/Button';
+import { useToast } from '@cc/hooks/use-toast';
+import { t } from '@cc/lib/trpc';
 
 export default function RemoveComment({
   id,

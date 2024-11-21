@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import { SessionContext } from '@c/core/hooks/use-session';
-import { t } from '@c/core/lib/trpc';
+import type { SessionSchema } from '@apiv1/trpc/validators.js';
+
+import { SessionContext } from '@cc/hooks/use-session';
+import { t } from '@cc/lib/trpc';
 import {
   StorageType,
   getItem,
   removeItem,
   setItem,
-} from '@c/core/utils/local-storage';
-
-import { type SessionSchema } from '@apiv1/trpc/validators.js';
+} from '@cc/utils/local-storage';
 
 export default function SessionProvider({
   children,

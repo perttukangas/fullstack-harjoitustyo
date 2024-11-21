@@ -7,10 +7,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@c/core/components/AlertDialog';
-import { useSession } from '@c/core/hooks/use-session';
-import { useToast } from '@c/core/hooks/use-toast';
-import { t } from '@c/core/lib/trpc';
+} from '@cc/components/AlertDialog';
+import { useSession } from '@cc/hooks/use-session';
+import { useToast } from '@cc/hooks/use-toast';
+import { t } from '@cc/lib/trpc';
 
 interface LogoutProps {
   open: boolean;

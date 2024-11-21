@@ -2,8 +2,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '@c/core/components/Button';
-import DrawerDialog from '@c/core/components/DrawerDialog';
+import {
+  type LoginSignupInput,
+  loginSignupInput,
+} from '@apiv1/user/validators';
+
+import { Button } from '@cc/components/Button';
+import DrawerDialog from '@cc/components/DrawerDialog';
 import {
   Form,
   FormControl,
@@ -11,16 +16,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@c/core/components/Form';
-import { Input } from '@c/core/components/Input';
-import { useSession } from '@c/core/hooks/use-session';
-import { useToast } from '@c/core/hooks/use-toast';
-import { t } from '@c/core/lib/trpc';
-
-import {
-  type LoginSignupInput,
-  loginSignupInput,
-} from '@apiv1/user/validators';
+} from '@cc/components/Form';
+import { Input } from '@cc/components/Input';
+import { useSession } from '@cc/hooks/use-session';
+import { useToast } from '@cc/hooks/use-toast';
+import { t } from '@cc/lib/trpc';
 
 interface LoginSignupProps {
   open: boolean;

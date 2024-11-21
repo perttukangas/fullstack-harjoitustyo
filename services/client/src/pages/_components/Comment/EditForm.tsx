@@ -3,8 +3,11 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '@c/core/components/Button';
-import DrawerDialog from '@c/core/components/DrawerDialog';
+import type { EditInput } from '@apiv1/post/comment/validators';
+import { editInput } from '@apiv1/post/comment/validators';
+
+import { Button } from '@cc/components/Button';
+import DrawerDialog from '@cc/components/DrawerDialog';
 import {
   Form,
   FormControl,
@@ -12,12 +15,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@c/core/components/Form';
-import { Textarea } from '@c/core/components/Textarea';
-import { useToast } from '@c/core/hooks/use-toast';
-import { t } from '@c/core/lib/trpc';
-
-import { type EditInput, editInput } from '@apiv1/post/comment/validators';
+} from '@cc/components/Form';
+import { Textarea } from '@cc/components/Textarea';
+import { useToast } from '@cc/hooks/use-toast';
+import { t } from '@cc/lib/trpc';
 
 export default function EditForm(edit: EditInput & { postId: number }) {
   const [open, setOpen] = useState(false);

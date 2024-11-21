@@ -9,13 +9,13 @@ import {
   FormProvider,
 } from 'react-hook-form';
 
-import { Label } from '@c/core/components/Label';
+import { Label } from '@cc/components/Label';
 import {
   FormFieldContext,
   FormItemContext,
   useFormField,
-} from '@c/core/hooks/form-field';
-import { cn } from '@c/core/lib/tailwind';
+} from '@cc/hooks/form-field';
+import { cn } from '@cc/lib/tailwind';
 
 const Form = FormProvider;
 

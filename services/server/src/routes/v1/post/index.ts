@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 
-import { StatusCode } from '@s/core/utils/status-code.js';
+import { StatusCode } from '@sc/utils/status-code.js';
 
 import {
   protectedProcedure,

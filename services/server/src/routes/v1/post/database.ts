@@ -1,4 +1,4 @@
-import { prisma } from '@s/core/lib/prisma.js';
+import { prisma } from '@sc/lib/prisma.js';
 
 import {
   EditInput,

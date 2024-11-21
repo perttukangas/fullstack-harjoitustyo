@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@c/core/*": ["services/client/src/core/*"],
+      "@cc/*": ["services/client/src/core/*"],
       "@c/*": ["services/client/src/*"],
 
-      "@s/core/*": ["services/server/src/core/*"],
+      "@sc/*": ["services/server/src/core/*"],
       "@s/*": ["services/server/src/*"],
       "@apiv1/*": ["services/server/src/routes/v1/*"]
     }

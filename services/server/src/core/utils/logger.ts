@@ -1,4 +1,4 @@
-import { LOG_LEVEL } from '@s/core/lib/envalid.js';
+import { LOG_LEVEL } from '@sc/lib/envalid.js';
 
 export enum LogLevel {
   DEBUG,

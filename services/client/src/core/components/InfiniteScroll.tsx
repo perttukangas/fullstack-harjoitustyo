@@ -1,7 +1,7 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef } from 'react';
 
-import { cn } from '@c/core/lib/tailwind';
+import { cn } from '@cc/lib/tailwind';
 
 import Loader from './Loader';
 

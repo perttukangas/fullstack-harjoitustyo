@@ -1,7 +1,7 @@
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express';
 import jwt from 'jsonwebtoken';
 
-import { AUTH_SECRET } from '@s/core/lib/envalid.js';
+import { AUTH_SECRET } from '@sc/lib/envalid.js';
 
 import { sessionSchema } from './validators.js';
 

@@ -1,9 +1,9 @@
 import { CirclePower, User } from 'lucide-react';
 import { Suspense, lazy, useState } from 'react';
 
-import { Button } from '@c/core/components/Button';
-import Loader from '@c/core/components/Loader';
-import { useSession } from '@c/core/hooks/use-session';
+import { Button } from '@cc/components/Button';
+import Loader from '@cc/components/Loader';
+import { useSession } from '@cc/hooks/use-session';
 
 const LoginSignup = lazy(() => import('./LoginSignup'));
 const Logout = lazy(() => import('./Logout'));

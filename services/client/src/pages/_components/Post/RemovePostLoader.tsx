@@ -1,10 +1,10 @@
 import { Trash } from 'lucide-react';
 import { Suspense, lazy, useState } from 'react';
 
-import { Button } from '@c/core/components/Button';
-import Loader from '@c/core/components/Loader';
+import type { RemoveInput } from '@apiv1/post/validators';
 
-import { type RemoveInput } from '@apiv1/post/validators';
+import { Button } from '@cc/components/Button';
+import Loader from '@cc/components/Loader';
 
 const RemovePost = lazy(() => import('./RemovePost'));
 

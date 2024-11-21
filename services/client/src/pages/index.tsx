@@ -1,17 +1,17 @@
 import { produce } from 'immer';
 import { Heart } from 'lucide-react';
 
-import { Button } from '@c/core/components/Button';
+import { Button } from '@cc/components/Button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@c/core/components/Card';
-import InfiniteScrollWindow from '@c/core/components/InfiniteScrollWindow';
-import { useSession } from '@c/core/hooks/use-session';
-import { t } from '@c/core/lib/trpc';
+} from '@cc/components/Card';
+import InfiniteScrollWindow from '@cc/components/InfiniteScrollWindow';
+import { useSession } from '@cc/hooks/use-session';
+import { t } from '@cc/lib/trpc';
 
 import CommentLoader from './_components/Comment/CommentLoader';
 import PostFormLoader from './_components/Post/PostFormLoader';

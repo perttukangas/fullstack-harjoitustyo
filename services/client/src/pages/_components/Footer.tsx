@@ -1,4 +1,4 @@
-import { useSession } from '@c/core/hooks/use-session';
+import { useSession } from '@cc/hooks/use-session';
 
 import AuthLoader from './Auth/AuthLoader';
 import PostFormLoader from './Post/PostFormLoader';

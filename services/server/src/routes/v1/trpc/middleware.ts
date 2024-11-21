@@ -1,6 +1,6 @@
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 
-import { error as lerror } from '@s/core/utils/logger.js';
+import { error as lerror } from '@sc/utils/logger.js';
 
 import { appRouter } from '../index.js';
 import { createContext } from './auth.js';

@@ -6,15 +6,15 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@c/core/components/Dialog';
+} from '@cc/components/Dialog';
 import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-} from '@c/core/components/Drawer';
-import { useIsMobile } from '@c/core/hooks/use-is-mobile';
+} from '@cc/components/Drawer';
+import { useIsMobile } from '@cc/hooks/use-is-mobile';
 
 interface DrawerDialogProps {
   title?: React.ReactNode;

@@ -1,3 +1,5 @@
+import type { RemoveInput } from '@apiv1/post/validators';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -7,11 +9,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@c/core/components/AlertDialog';
-import { useToast } from '@c/core/hooks/use-toast';
-import { t } from '@c/core/lib/trpc';
-
-import { type RemoveInput } from '@apiv1/post/validators';
+} from '@cc/components/AlertDialog';
+import { useToast } from '@cc/hooks/use-toast';
+import { t } from '@cc/lib/trpc';
 
 interface RemovePostProps {
   open: boolean;

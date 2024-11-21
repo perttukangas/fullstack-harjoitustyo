@@ -8,7 +8,13 @@
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ],
-  "importOrder": ["^@c/core/(.*)$", "^@apiv1/(.*)$", "^[./]"],
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@apiv1/(.*)$",
+    "^@c/(.*)$",
+    "^@cc/(.*)$",
+    "^[./]"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
