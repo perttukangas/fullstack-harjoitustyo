@@ -22,3 +22,4 @@
 | 18.11.2024 | 6                  | Experimenting with monitoring and profiling, ended up with Sentry. Added basic github actions                                                                                    |
 | 19.11.2024 | 5                  | Experimenting with stress testing. Added docker compose with resource limits for testing purposes                                                                                |
 | 20.11.2024 | 5                  | Do the base setup for stress tests with k6 and typescript                                                                                                                        |
+| 21.11.2024 | 3                  | Slight refactors, first basic stress test                                                                                                                                        |
