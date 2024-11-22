@@ -5,6 +5,7 @@
 Monitoring, profiling
 
 - Sentry with its integrations
+- Sourcemaps
 
 Rate limiting
 
@@ -15,17 +16,9 @@ K8S
 - scaling app
 - scaling database via CockroachDB
 
-CI/CD
-
-- Handle everything below
-
 Stress tests
 
 - K6 http stress testing
-
-Deploy
-
-- Deploy base app to Heroku due to not having credits for running k8s
 
 Security and dependencies
 
@@ -35,3 +28,7 @@ Security and dependencies
 Web page quality scanning
 
 - Via chrome lighthouse
+
+Backups
+
+- Via cronjobs

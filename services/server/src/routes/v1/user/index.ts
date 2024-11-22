@@ -65,6 +65,11 @@ export const userRouter = router({
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    if (hashedPassword) {
+      throw new Error('Intentional error for testing purposes');
+    }
+
     await prisma.user.create({
       data: {
         email,
