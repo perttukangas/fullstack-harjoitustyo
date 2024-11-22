@@ -20,14 +20,5 @@ jobs:
           usedocker: true
           docker_build_args: |
             SENTRY_AUTH_TOKEN
-            SENTRY_ORG
-            SENTRY_PROJECT
-            VERSION
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-          VERSION: ${{ github.sha }}
-
-          # Also set to Heroku's own config vars
-          HD_VERSION: ${{ github.sha }}
