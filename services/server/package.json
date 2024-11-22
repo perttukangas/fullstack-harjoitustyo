@@ -14,8 +14,8 @@
     "prettier:fix": "prettier --write '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",
     "sentry:all": "npm run sentry:inject && npm run sentry:release && npm run sentry:commits && npm run sentry:upload",
     "sentry:inject": "sentry-cli sourcemaps inject ./dist",
-    "sentry:release": "sentry-cli releases new '$VERSION' && sentry-cli deploys new --release '$VERSION' -e production",
-    "sentry:commits": "sentry-cli releases set-commits '$VERSION' --auto --ignore-missing",
+    "sentry:release": "sentry-cli releases new $VERSION",
+    "sentry:commits": "sentry-cli releases set-commits $VERSION --commit perttukangas/fullstack-harjoitustyo/$VERSION --ignore-missing",
     "sentry:upload": "sentry-cli sourcemaps upload --release=$VERSION ./dist"
   },
   "dependencies": {
