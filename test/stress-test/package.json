@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "rm -R -f ./dist && tsc && tsc-alias",
+    "start": "docker compose -f docker-compose.dev.yml up --build",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier:check": "prettier --check '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",

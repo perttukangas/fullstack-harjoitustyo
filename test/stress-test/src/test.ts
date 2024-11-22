@@ -5,12 +5,12 @@ import { Options } from 'k6/options';
 import { createAuth, getAuth, getCsrf } from './utils/setup.js';
 import { API, API_STR } from './utils/tags.js';
 
-const MAX_VUS = 5;
+const MAX_VUS = 100;
 
 export const options: Options = {
   stages: [
-    { target: MAX_VUS, duration: '3s' },
-    { target: MAX_VUS, duration: '3s' },
+    { target: MAX_VUS, duration: '5s' },
+    { target: MAX_VUS, duration: '60s' },
     { target: 0, duration: '3s' },
   ],
   thresholds: {
@@ -24,7 +24,7 @@ export function setup() {
   for (let i = 0; i < MAX_VUS; i++) {
     const csrf = getCsrf();
     const payload = {
-      email: `test${i}@example.com`,
+      email: `${i}test@example.com`,
       password: `${i}223344`,
     };
     createAuth({ csrf, ...payload });

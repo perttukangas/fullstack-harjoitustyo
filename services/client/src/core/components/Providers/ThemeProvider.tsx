@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { ThemeProviderContext } from '@cc/hooks/theme';
+import { ThemeProviderContext } from '@cc/hooks/use-theme';
 
 type Theme = 'dark' | 'light' | 'system';
 
@@ -44,6 +44,10 @@ export default function ThemeProvider({
       localStorage.setItem(storageKey, theme);
       setTheme(theme);
     },
+    isDark:
+      theme === 'dark' ||
+      (theme === 'system' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches),
   };
 
   return (

@@ -16,8 +16,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.25"
-          memory: 128M
+          cpus: "0.05"
+          memory: 64M
   dev-full-app:
     build: ../
     container_name: dev-full-app
@@ -30,8 +30,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.25"
-          memory: 128M
+          cpus: "1.25"
+          memory: 256M
 
 volumes:
   postgresdevfulldb:
