@@ -23,4 +23,4 @@
 | 19.11.2024 | 5                  | Experimenting with stress testing. Added docker compose with resource limits for testing purposes                                                                                |
 | 20.11.2024 | 5                  | Do the base setup for stress tests with k6 and typescript                                                                                                                        |
 | 21.11.2024 | 3                  | Slight refactors, first basic stress test                                                                                                                                        |
-| 22.11.2024 | 3                  | Deploy, and light/dark mode switch                                                                                                                                               |
+| 22.11.2024 | 6                  | Deploy, light/dark mode switch, messing with Sentry                                                                                                                              |

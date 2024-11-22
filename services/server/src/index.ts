@@ -78,10 +78,6 @@ async function main() {
   });
   app.use('/api/v1', trpcMiddleware);
 
-  app.get('/api/error', () => {
-    throw new Error('Intentional error for testing purposes');
-  });
-
   // After controllers, before any error handler
   app.use(Sentry.expressErrorHandler());
 

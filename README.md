@@ -2,11 +2,6 @@
 
 ## Todo:
 
-Monitoring, profiling
-
-- Sentry with its integrations
-- Sourcemaps
-
 Rate limiting
 
 - After stress tests to see how it works out
