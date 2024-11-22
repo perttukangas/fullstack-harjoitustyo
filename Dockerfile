@@ -19,7 +19,7 @@ COPY ./services/server/ ./services/server/
 RUN cd ./services/server && npm run build
 
 # Run Sentry sourcemaps upload if CI
-RUN if [ -n "$SENTRY_AUTH_TOKEN" ]; then cd ./services/server && npm run sentry:all; fi
+RUN if [ -n "$SENTRY_AUTH_TOKEN" ]; then cd ./services/server && npm run sentry:sourcemaps; fi
 
 # Clean sourcemaps so they aren't in final build
 RUN cd ./services/server && find ./dist -name "*.js.map" -type f -delete
