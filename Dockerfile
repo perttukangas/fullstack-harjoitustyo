@@ -1,5 +1,9 @@
 FROM node:22-alpine3.20@sha256:b64ced2e7cd0a4816699fe308ce6e8a08ccba463c757c00c14cd372e3d2c763e AS builder
 
+# CI
+ARG SENTRY_AUTH_TOKEN
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+
 WORKDIR /usr/src/app
 
 COPY tsconfig.json ./
@@ -12,6 +16,12 @@ RUN cd ./services/server && npm ci
 # Rest of the server layer
 COPY ./services/server/ ./services/server/
 RUN cd ./services/server && npm run build
+
+# Run Sentry sourcemaps upload if CI
+RUN if [ -n "$SENTRY_AUTH_TOKEN" ]; then cd ./services/server && npm run sentry:sourcemaps; fi
+
+# Clean sourcemaps so they aren't in final build
+RUN cd ./services/server && find ./dist -name "*.js.map" -type f -delete
 
 # CLIENT
 # Package lock files layer

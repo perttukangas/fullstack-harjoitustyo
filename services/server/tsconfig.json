@@ -10,8 +10,14 @@
     "moduleResolution": "NodeNext",
     "outDir": "dist",
 
+    // Some types used by client
     "declaration": true,
-    "declarationDir": "types"
+    "declarationDir": "types",
+
+    // Used by Sentry to upload sourcemaps
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/"
   },
   "include": ["src"]
 }
