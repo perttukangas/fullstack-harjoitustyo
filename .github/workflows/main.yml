@@ -1,4 +1,4 @@
-name: Main Flow
+name: Main flow
 
 on:
   push:
@@ -6,32 +6,10 @@ on:
     types: [opened, synchronize, ready_for_review]
 
 jobs:
-  main:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: Run server smoke tests
-        run: |
-          cd services/server
-          npm ci
-          npm run build
-          npm run lint:check
-          npm run prettier:check
-
-      - name: Run client smoke tests
-        run: |
-          cd services/client
-          npm ci
-          npm run build
-          npm run lint:check
-          npm run prettier:check
-
-      - name: Run stress test smoke tests
-        run: |
-          cd test/stress-test
-          npm ci
-          npm run build
-          npm run lint:check
-          npm run prettier:check
+  smoke-test:
+    uses: ./.github/workflows/smoke-test.yml
+    if: ${{ !github.event.pull_request.draft }}
+  deploy:
+    uses: ./.github/workflows/heroku-deploy.yml
+    needs: ["smoke-test"]
+    secrets: inherit
