@@ -42,13 +42,13 @@ export default function DrawerDialog({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerContent className="flex max-h-screen flex-col">
+        <DrawerContent className="flex max-h-full flex-col">
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
           {children}
-          {footer}
+          <div className="sticky bottom-0">{footer}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -56,13 +56,13 @@ export default function DrawerDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="flex max-h-[95vh] flex-col">
+      <DialogContent className="flex max-h-[90%] flex-col">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {children}
-        {footer}
+        <div className="sticky bottom-0">{footer}</div>
       </DialogContent>
     </Dialog>
   );
