@@ -14,7 +14,7 @@ import {
   FormFieldContext,
   FormItemContext,
   useFormField,
-} from '@cc/hooks/form-field';
+} from '@cc/hooks/use-form-field';
 import { cn } from '@cc/lib/tailwind';
 
 const Form = FormProvider;

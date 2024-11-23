@@ -33,7 +33,11 @@ export default function DrawerDialog({
   open,
   setOpen,
 }: DrawerDialogProps) {
-  const isMobile = useIsMobile();
+  const { isMobile, loading } = useIsMobile();
+
+  if (loading) {
+    return null;
+  }
 
   if (isMobile) {
     return (
