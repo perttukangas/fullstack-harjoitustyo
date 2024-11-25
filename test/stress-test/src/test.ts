@@ -9,9 +9,8 @@ const MAX_VUS = 100;
 
 export const options: Options = {
   stages: [
-    { target: MAX_VUS, duration: '5s' },
-    { target: MAX_VUS, duration: '60s' },
-    { target: 0, duration: '3s' },
+    { target: MAX_VUS, duration: '90s' },
+    { target: MAX_VUS, duration: '210s' },
   ],
   thresholds: {
     [`http_req_failed${API_STR}`]: ['rate<0.01'],

@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  smoke-test:
+  stress-test:
     runs-on: ubuntu-22.04
     steps:
       - name: checkout
