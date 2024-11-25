@@ -5,7 +5,7 @@ import { Options } from 'k6/options';
 import { createAuth, getAuth, getCsrf } from './utils/setup.js';
 import { API, API_STR } from './utils/tags.js';
 
-const MAX_VUS = 100;
+const MAX_VUS = 50;
 
 export const options: Options = {
   stages: [
