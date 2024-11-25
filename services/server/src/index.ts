@@ -78,6 +78,10 @@ async function main() {
   });
   app.use('/api/v1', trpcMiddleware);
 
+  app.get('/healthz', (_req: express.Request, res: express.Response) => {
+    res.status(200).send('OK');
+  });
+
   // After controllers, before any error handler
   app.use(Sentry.expressErrorHandler());
 
