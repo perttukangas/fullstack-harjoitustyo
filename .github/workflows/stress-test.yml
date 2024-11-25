@@ -28,6 +28,15 @@ jobs:
         with:
           k6-version: "0.54.0"
 
+      - name: Wait for health check
+        uses: emilioschepis/wait-for-endpoint@v1.0.4
+        with:
+          url: http://localhost:3005/healthz
+          method: GET
+          expected-status: 200
+          timeout: 60000
+          interval: 1000
+
       - name: Run K6
         uses: grafana/run-k6-action@v1
         env:
