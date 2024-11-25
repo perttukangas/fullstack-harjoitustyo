@@ -1,0 +1,23 @@
+name: Stress test flow
+
+on:
+  workflow_call:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: dev/docker-compose.dev-full.yml
+          up-flags: "-d --build"
+          down-flags: "-v"
+
+      - uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: test/stress-test/docker-compose.dev.yml
+          up-flags: "--build"
+          down-flags: "-v"

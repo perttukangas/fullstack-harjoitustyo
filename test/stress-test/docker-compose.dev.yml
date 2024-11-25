@@ -3,5 +3,5 @@ services:
     build: .
     command: run test.js
     environment:
-      - BASE_URL=http://localhost:3005
+      BASE_URL: http://localhost:3005
     network_mode: host

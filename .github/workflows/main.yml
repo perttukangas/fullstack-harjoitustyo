@@ -9,7 +9,10 @@ jobs:
   smoke-test:
     uses: ./.github/workflows/smoke-test.yml
     if: ${{ !github.event.pull_request.draft }}
+  stress-test:
+    uses: ./.github/workflows/stress-test.yml
+    needs: ["smoke-test"]
   deploy:
     uses: ./.github/workflows/heroku-deploy.yml
-    needs: ["smoke-test"]
+    needs: ["stress-test"]
     secrets: inherit

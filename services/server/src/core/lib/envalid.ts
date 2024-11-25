@@ -13,6 +13,7 @@ const env = cleanEnv(process.env, {
 });
 
 export const isDev = env.isDev;
+export const isTest = env.isTest;
 
 export const {
   NODE_ENV,
