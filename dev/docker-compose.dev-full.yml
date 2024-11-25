@@ -13,11 +13,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    #deploy:
-    #  resources:
-    #    limits:
-    #      cpus: "0.05"
-    #      memory: 64M
+    deploy:
+      resources:
+        limits:
+          cpus: "0.05"
+          memory: 64M
   dev-full-app:
     build: ../
     container_name: dev-full-app
@@ -27,19 +27,19 @@ services:
       dev-full-db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:password@postgres-dev-full:5432/fullstack-db-dev-full?schema=public
+      DATABASE_URL: "postgresql://postgres:password@postgres-dev-full:5432/fullstack-db-dev-full?schema=public"
       NODE_ENV: test
       PORT: 3005
-      AUTH_SECRET: abcdefghi
-      CLIENT_URL: http://localhost:3005
-      COOKIE_SECRET: jklmnopq
-      CSRF_SECRET: rstuvwxyz
-      SENTRY_AUTH_TOKEN: DisabledWithNodeEnvTest
-    #deploy:
-    #  resources:
-    #    limits:
-    #      cpus: "1.25"
-    #      memory: 256M
+      AUTH_SECRET: "abcdefghi"
+      CLIENT_URL: "http://localhost:3005"
+      COOKIE_SECRET: "jklmnopq"
+      CSRF_SECRET: "rstuvwxyz"
+      SENTRY_AUTH_TOKEN: "DisabledWithNodeEnvTest"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
 
 volumes:
   postgresdevfulldb:
