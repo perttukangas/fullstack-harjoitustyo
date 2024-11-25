@@ -17,8 +17,11 @@ jobs:
           up-flags: "-d --build"
           down-flags: "-v"
 
-      - name: Change working directory
-        run: cd ./test/stress-test/src
+      - name: Build stress tests
+        run: |
+          cd test/stress-test
+          npm ci
+          npm run build
 
       - name: Setup K6
         uses: grafana/setup-k6-action@v1
@@ -29,7 +32,6 @@ jobs:
         uses: grafana/run-k6-action@v1
         env:
           BASE_URL: http://localhost:3005
-          K6_COMPATIBILITY_MODE: experimental_enhanced
         with:
           path: |
-            ./test.ts
+            ./test/stress-test/dist/test.js

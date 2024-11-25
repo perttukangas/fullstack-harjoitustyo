@@ -2,8 +2,8 @@ import { check, sleep } from 'k6';
 import http from 'k6/http';
 import { Options } from 'k6/options';
 
-import { createAuth, getAuth, getCsrf } from './utils/setup';
-import { API, API_STR } from './utils/tags';
+import { createAuth, getAuth, getCsrf } from './utils/setup.js';
+import { API, API_STR } from './utils/tags.js';
 
 const MAX_VUS = 100;
 
