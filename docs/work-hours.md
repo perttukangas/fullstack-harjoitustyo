@@ -26,3 +26,4 @@
 | 22.11.2024 | 6                  | Deploy, light/dark mode switch, messing with Sentry                                                                                                                              |
 | 23.11.2024 | 1                  | Adjustments to mobile view                                                                                                                                                       |
 | 25.11.2024 | 3                  | Add stress tests to pipeline                                                                                                                                                     |
+| 26.11.2024 | 9                  | Heroku health check and rollback, add dependabot, add CodeQL analysis, integrate Trivy docker image scan to CodeQL                                                               |

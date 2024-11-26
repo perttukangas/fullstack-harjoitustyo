@@ -10,12 +10,6 @@ K8S
 
 - scaling app
 - scaling database via CockroachDB
-  Security and dependencies
-
-- Vulnerability scanning
-- Automated dependency updates
-- CodeQL
-- Snyk
 
 Web page quality scanning
 

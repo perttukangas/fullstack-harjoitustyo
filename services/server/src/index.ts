@@ -95,11 +95,6 @@ async function main() {
     );
   }
 
-  app.get('/:path', function (req, res) {
-    const path = req.params.path;
-    res.sendFile(path);
-  });
-
   // After controllers, before any error handler
   app.use(Sentry.expressErrorHandler());
 
