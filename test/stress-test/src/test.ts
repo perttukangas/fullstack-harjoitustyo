@@ -1,9 +1,10 @@
 import { check, sleep } from 'k6';
+import { fail } from 'k6';
 import http from 'k6/http';
 import { Options } from 'k6/options';
 
 import { createAuth, getAuth, getCsrf } from './utils/setup.js';
-import { API, API_STR } from './utils/tags.js';
+import { API, API_STR, SETUP } from './utils/tags.js';
 
 const MAX_VUS = 50;
 
@@ -19,6 +20,13 @@ export const options: Options = {
 };
 
 export function setup() {
+  const resetResponse = http.get(`${__ENV.BASE_URL}/api/reset-database`, {
+    ...SETUP,
+  });
+  if (resetResponse.status !== 200) {
+    fail(`Reset database failed`);
+  }
+
   const clients = [];
   for (let i = 0; i < MAX_VUS; i++) {
     const csrf = getCsrf();
@@ -42,13 +50,31 @@ export default function (clients: ReturnType<typeof setup>) {
     content: `Bbbbb Bbbbb ${__VU}`,
   });
 
-  const res = http.post(`${__ENV.BASE_URL}/api/v1/post.create`, postPayload, {
-    headers: client.headers,
-    ...API,
+  const createResponse = http.post(
+    `${__ENV.BASE_URL}/api/v1/post.create`,
+    postPayload,
+    {
+      headers: client.headers,
+      ...API,
+    }
+  );
+
+  check(createResponse, {
+    'Create status is 201': (r) => r.status === 201,
   });
 
-  check(res, {
-    'status is 201': (r) => r.status === 201,
+  sleep(1);
+
+  const getResponse = http.get(
+    `${__ENV.BASE_URL}/api/v1/post.infinite?input=%7B%220%22%3A%7B%22direction%22%3A%22forward%22%7D%7D`,
+    {
+      headers: client.headers,
+      ...API,
+    }
+  );
+
+  check(getResponse, {
+    'Get status is 200': (r) => r.status === 200,
   });
 
   sleep(1);

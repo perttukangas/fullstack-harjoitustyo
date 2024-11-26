@@ -14,7 +14,9 @@ import {
   CSRF_SECRET,
   PORT,
   isDev,
+  isTest,
 } from '@sc/lib/envalid.js';
+import { resetDatabase } from '@sc/lib/prisma.js';
 import { LogLevel, error, info, shouldLog } from '@sc/utils/logger.js';
 
 import { trpcMiddleware } from '@apiv1/trpc/middleware.js';
@@ -76,11 +78,22 @@ async function main() {
   app.get('/api/csrf', (req: express.Request, res: express.Response) => {
     res.json({ token: generateToken(req, res) });
   });
+
   app.use('/api/v1', trpcMiddleware);
 
-  app.get('/healthz', (_req: express.Request, res: express.Response) => {
-    res.status(200).send('OK');
+  app.get('/api/healthz', (_req: express.Request, res: express.Response) => {
+    res.status(200).send('ok');
   });
+
+  if (isTest || isDev) {
+    app.get(
+      '/api/reset-database',
+      async (_req: express.Request, res: express.Response) => {
+        const truncatedTables = await resetDatabase();
+        res.status(200).send(truncatedTables);
+      }
+    );
+  }
 
   // After controllers, before any error handler
   app.use(Sentry.expressErrorHandler());

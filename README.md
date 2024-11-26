@@ -10,15 +10,12 @@ K8S
 
 - scaling app
 - scaling database via CockroachDB
-
-Stress tests
-
-- K6 http stress testing
-
-Security and dependencies
+  Security and dependencies
 
 - Vulnerability scanning
 - Automated dependency updates
+- CodeQL
+- Snyk
 
 Web page quality scanning
 

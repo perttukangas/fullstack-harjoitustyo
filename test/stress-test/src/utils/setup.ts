@@ -75,6 +75,6 @@ export const createAuth = ({ csrf, email, password }: AuthInputs) => {
   });
 
   if (res.status !== 201) {
-    fail(`Acoount create failed`);
+    fail(`Account create failed`);
   }
 };
