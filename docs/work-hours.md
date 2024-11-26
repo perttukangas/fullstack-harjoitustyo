@@ -27,3 +27,5 @@
 | 23.11.2024 | 1                  | Adjustments to mobile view                                                                                                                                                       |
 | 25.11.2024 | 3                  | Add stress tests to pipeline                                                                                                                                                     |
 | 26.11.2024 | 9                  | Heroku health check and rollback, add dependabot, add CodeQL analysis, integrate Trivy docker image scan to CodeQL                                                               |
+
+Total Time Spent (hours): 127

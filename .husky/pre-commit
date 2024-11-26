@@ -1,3 +1,6 @@
 # .husky/pre-commit
 
+chmod +x ./.husky/total-time
+./.husky/total-time
+
 npx lint-staged

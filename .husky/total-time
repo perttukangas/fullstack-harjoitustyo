@@ -1,0 +1,16 @@
+#!/bin/sh
+
+file="./docs/work-hours.md"
+total_time=$(awk -F '|' '{sum+=$3} END {print sum}' "$file")
+total_time_spent="Total Time Spent (hours):"
+
+if grep -q "$total_time_spent" "$file"; then
+  current_total_time=$(grep "$total_time_spent" "$file" | awk -F ': ' '{print $2}')
+  if [ "$total_time" != "$current_total_time" ]; then
+    sed -i "s/$total_time_spent.*/$total_time_spent $total_time/" "$file"
+    git add "$file"
+  fi
+else
+  echo "$total_time_spent $total_time" >> "$file"
+  git add "$file"
+fi
