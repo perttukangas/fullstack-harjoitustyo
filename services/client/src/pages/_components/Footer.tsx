@@ -16,11 +16,21 @@ export default function Footer() {
       <AuthLoader />
       {user && <PostFormLoader />}
       {isDark ? (
-        <Button onClick={() => setTheme('light')} variant="ghost" size="icon">
+        <Button
+          onClick={() => setTheme('light')}
+          variant="ghost"
+          size="icon"
+          aria-label="switch-light-theme"
+        >
           <Sun />
         </Button>
       ) : (
-        <Button onClick={() => setTheme('dark')} variant="ghost" size="icon">
+        <Button
+          onClick={() => setTheme('dark')}
+          variant="ghost"
+          size="icon"
+          aria-label="switch-dark-theme"
+        >
           <Moon />
         </Button>
       )}

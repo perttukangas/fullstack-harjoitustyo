@@ -14,7 +14,12 @@ export default function AuthLoader() {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="ghost" size="icon">
+      <Button
+        aria-label={user ? 'logout' : 'signup'}
+        onClick={() => setOpen(true)}
+        variant="ghost"
+        size="icon"
+      >
         {user ? <CirclePower /> : <User />}
       </Button>
       {open && (
