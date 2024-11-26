@@ -17,14 +17,22 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
+
+          # Required for Heroku docker
+          stack: container
           usedocker: true
+
+          # Docker build context
           appdir: "services"
           docker_build_args: |
             SENTRY_AUTH_TOKEN
             SENTRY_ORG
             SENTRY_PROJECT
+
+          # Health check
           healthcheck: "https://fs-project-41e16305e0df.herokuapp.com/healthz"
           checkstring: "OK"
+          delay: 30
           rollbackonhealthcheckfailed: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
