@@ -10,12 +10,27 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Analyze URL
+      - name: Compose up server
+        uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: docker/docker-compose.all.yml
+          up-flags: "-d --build"
+          down-flags: "-v"
+
+      - name: Wait for health check
+        uses: emilioschepis/wait-for-endpoint@v1.0.4
+        with:
+          url: http://localhost:3005/api/healthz
+          method: GET
+          expected-status: 200
+          timeout: 60000
+          interval: 1000
+
+      - name: Analyze URLs
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
-            https://example.com/
-            https://example.com/blog
-          budgetPath: ./budget.json
+            http://localhost:3005
+          #budgetPath: ./lighthouse/budget.json
           uploadArtifacts: true
           temporaryPublicStorage: true
