@@ -41,11 +41,12 @@ updates:
           - patch
       react:
         patterns:
-          - "*react*"
+          - "react"
+          - "react-dom"
         update-types:
           - minor
           - patch
-      bump:
+      general:
         patterns:
           - "*"
         update-types:
@@ -65,8 +66,9 @@ updates:
           - "*prisma*"
       major-react:
         patterns:
-          - "*react*"
-      major-bump:
+          - "react"
+          - "react-dom"
+      major-general:
         patterns:
           - "*"
 
@@ -79,6 +81,12 @@ updates:
     schedule:
       interval: "monthly"
     groups:
-      bump:
+      general:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      major-general:
         patterns:
           - "*"
