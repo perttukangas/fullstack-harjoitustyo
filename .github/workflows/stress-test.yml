@@ -13,7 +13,7 @@ jobs:
       - name: Compose up server
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
-          compose-file: dev/docker-compose.dev-full.yml
+          compose-file: docker/docker-compose.all-limited.yml
           up-flags: "-d --build"
           down-flags: "-v"
 

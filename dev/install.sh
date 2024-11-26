@@ -19,7 +19,7 @@ if [ ! -f $SERVER_ENV_FILE ]; then
   touch $SERVER_ENV_FILE
 fi
 
-add_if_not_exists $SERVER_ENV_FILE "DATABASE_URL" "postgresql://postgres:password@localhost:5433/fullstack-db-dev?schema=public" "Required for Prisma"
+add_if_not_exists $SERVER_ENV_FILE "DATABASE_URL" "postgresql://postgres:password@localhost:5433/db-dev?schema=public" "Required for Prisma"
 add_if_not_exists $SERVER_ENV_FILE "NODE_ENV" "development" "Defines the environment type"
 add_if_not_exists $SERVER_ENV_FILE "PORT" "3003" "Port for the backend server"
 add_if_not_exists $SERVER_ENV_FILE "AUTH_SECRET" $(openssl rand -hex 32) "Secret for authentication"
@@ -35,9 +35,9 @@ npm install
 
 # BACKEND
 
-cd dev
+cd docker
 docker compose -f docker-compose.dev.yml up -d --build
-DATABASE_CONTAINER="postgres-dev"
+DATABASE_CONTAINER="dev-db"
 until docker exec $DATABASE_CONTAINER pg_isready ; do sleep 1 ; done
 
 cd ../services/server
@@ -47,7 +47,7 @@ npx prisma migrate dev
 npx @snaplet/seed init prisma/seed
 npx prisma db seed
 npm run build
-docker compose -f ../../dev/docker-compose.dev.yml down
+docker compose -f ../../docker/docker-compose.dev.yml down
 
 # FRONTEND
 cd ../client

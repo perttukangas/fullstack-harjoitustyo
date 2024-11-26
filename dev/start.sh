@@ -1,10 +1,10 @@
 #!/bin/bash
 
-docker compose -f docker-compose.dev.yml up -d --build
-DATABASE_CONTAINER="postgres-dev"
+docker compose -f ../docker/docker-compose.dev.yml up -d --build
+DATABASE_CONTAINER="dev-db"
 until docker exec $DATABASE_CONTAINER pg_isready ; do sleep 1 ; done
 
-trap "docker compose -f docker-compose.dev.yml down" INT TERM
+trap "docker compose -f ../docker/docker-compose.dev.yml down" INT TERM
 
 (cd ../services/server && npm run dev) &
 server_pid=$!
@@ -16,4 +16,4 @@ wait $server_pid
 wait $client_pid
 
 # For funny business
-docker compose -f docker-compose.dev.yml down
+docker compose -f ../docker/docker-compose.dev.yml down

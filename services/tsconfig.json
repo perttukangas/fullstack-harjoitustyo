@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@cc/*": ["client/src/core/*"],
+      "@c/*": ["client/src/*"],
+
+      "@sc/*": ["server/src/core/*"],
+      "@s/*": ["server/src/*"],
+      "@apiv1/*": ["server/src/routes/v1/*"],
+      "@tapiv1/*": ["server/types/routes/v1/*"]
+    }
+  }
+}

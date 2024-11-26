@@ -1,0 +1,22 @@
+services:
+  dev-db-all:
+    extends:
+      file: ./docker-compose.all.yml
+      service: dev-db-all
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 64M
+  dev-app-all:
+    extends:
+      file: ./docker-compose.all.yml
+      service: dev-app-all
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+
+volumes:
+  devdball:
