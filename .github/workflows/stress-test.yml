@@ -6,6 +6,7 @@ on:
 jobs:
   stress-test:
     runs-on: ubuntu-22.04
+    if: ${{ github.event_name == 'push' }}
     steps:
       - name: checkout
         uses: actions/checkout@v4

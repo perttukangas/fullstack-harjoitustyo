@@ -1,4 +1,3 @@
-
 version: 2
 updates:
   - package-ecosystem: "npm"
@@ -11,6 +10,18 @@ updates:
       - "/test/stress-test"
     schedule:
       interval: "weekly"
+    groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      version-bump:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: "docker"
     commit-message:
@@ -20,10 +31,15 @@ updates:
       - "/test/stress-test"
     schedule:
       interval: "weekly"
-
-  - package-ecosystem: "github-actions"
-    commit-message:
-      prefix: "[github-actions] "
-    directory: "/"
-    schedule:
-      interval: "weekly"
+    groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      version-bump:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
