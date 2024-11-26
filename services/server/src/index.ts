@@ -25,7 +25,7 @@ async function main() {
   info('Starting server...');
 
   info('Test CODEQL');
-  info(`[INFO] Environment: ${process.env}`);
+  console.log(`[INFO] Environment: ${process.env}`);
 
   const app = express();
 
