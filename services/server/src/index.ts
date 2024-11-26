@@ -24,6 +24,9 @@ import { trpcMiddleware } from '@apiv1/trpc/middleware.js';
 async function main() {
   info('Starting server...');
 
+  info('Test CODEQL');
+  info(`[INFO] Environment: ${process.env}`);
+
   const app = express();
 
   app.use(helmet());
