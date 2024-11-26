@@ -31,4 +31,5 @@ jobs:
         with:
           urls: |
             http://localhost:3005
+          configPath: ".github/lighthouse/lighthouserc-assertions.json"
           uploadArtifacts: true
