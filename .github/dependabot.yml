@@ -18,41 +18,57 @@ updates:
       vite:
         patterns:
           - "*vite*"
+        update-types:
+          - minor
+          - patch
       trpc:
         patterns:
           - "*trpc*"
+        update-types:
+          - minor
+          - patch
       sentry:
         patterns:
           - "*sentry*"
+        update-types:
+          - minor
+          - patch
       prisma:
         patterns:
           - "*prisma*"
+        update-types:
+          - minor
+          - patch
       react:
         patterns:
           - "*react*"
+        update-types:
+          - minor
+          - patch
       bump:
         patterns:
           - "*"
-    ignore:
-      - dependency-name: "*"
         update-types:
-          - version-update:semver-major
-
-  - package-ecosystem: "npm"
-    commit-message:
-      prefix: "[NPM MAJOR] "
-    directories:
-      - "/"
-      - "/services/client"
-      - "/services/server"
-      - "/test/stress-test"
-    schedule:
-      interval: "monthly"
-    ignore:
-      - dependency-name: "*"
-        update-types:
-          - version-update:semver-minor
-          - version-update:semver-patch
+          - minor
+          - patch
+      major-vite:
+        patterns:
+          - "*vite*"
+      major-trpc:
+        patterns:
+          - "*trpc*"
+      major-sentry:
+        patterns:
+          - "*sentry*"
+      major-prisma:
+        patterns:
+          - "*prisma*"
+      major-react:
+        patterns:
+          - "*react*"
+      major-bump:
+        patterns:
+          - "*"
 
   - package-ecosystem: "docker"
     commit-message:
