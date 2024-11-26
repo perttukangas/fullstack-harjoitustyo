@@ -1,0 +1,29 @@
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    commit-message:
+      prefix: "[npm] "
+    directories:
+      - "/"
+      - "/services/client"
+      - "/services/server"
+      - "/test/stress-test"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    commit-message:
+      prefix: "[docker] "
+    directories:
+      - "/services/"
+      - "/test/stress-test"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "github-actions"
+    commit-message:
+      prefix: "[github-actions] "
+    directory: "/"
+    schedule:
+      interval: "weekly"
