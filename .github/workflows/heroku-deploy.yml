@@ -22,6 +22,9 @@ jobs:
             SENTRY_AUTH_TOKEN
             SENTRY_ORG
             SENTRY_PROJECT
+          healthcheck: "https://fs-project-41e16305e0df.herokuapp.com/healthz"
+          checkstring: "OK"
+          rollbackonhealthcheckfailed: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
