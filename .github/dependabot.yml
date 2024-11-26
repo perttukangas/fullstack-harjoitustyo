@@ -2,7 +2,7 @@ version: 2
 updates:
   - package-ecosystem: "npm"
     commit-message:
-      prefix: "[npm] "
+      prefix: "[NPM] "
     directories:
       - "/"
       - "/services/client"
@@ -15,31 +15,54 @@ updates:
         applies-to: security-updates
         patterns:
           - "*"
-      version-bump:
-        applies-to: version-updates
+      vite:
+        patterns:
+          - "*vite*"
+      trpc:
+        patterns:
+          - "*trpc*"
+      sentry:
+        patterns:
+          - "*sentry*"
+      prisma:
+        patterns:
+          - "*prisma*"
+      react:
+        patterns:
+          - "*react*"
+      bump:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "*"
         update-types:
-          - minor
-          - patch
+          - version-update:semver-major
+
+  - package-ecosystem: "npm"
+    commit-message:
+      prefix: "[NPM MAJOR] "
+    directories:
+      - "/"
+      - "/services/client"
+      - "/services/server"
+      - "/test/stress-test"
+    schedule:
+      interval: "monthly"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-minor
+          - version-update:semver-patch
 
   - package-ecosystem: "docker"
     commit-message:
-      prefix: "[docker] "
+      prefix: "[DOCKER] "
     directories:
       - "/services/"
       - "/test/stress-test"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
-      security:
-        applies-to: security-updates
+      bump:
         patterns:
           - "*"
-      version-bump:
-        applies-to: version-updates
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
