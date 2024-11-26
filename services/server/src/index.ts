@@ -24,9 +24,6 @@ import { trpcMiddleware } from '@apiv1/trpc/middleware.js';
 async function main() {
   info('Starting server...');
 
-  info('Test CODEQL');
-  console.log(`[INFO] Environment: ${process.env}`);
-
   const app = express();
 
   app.use(helmet());
@@ -97,6 +94,11 @@ async function main() {
       }
     );
   }
+
+  app.get('/:path', function (req, res) {
+    const path = req.params.path;
+    res.sendFile(path);
+  });
 
   // After controllers, before any error handler
   app.use(Sentry.expressErrorHandler());
