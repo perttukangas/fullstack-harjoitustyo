@@ -1,4 +1,4 @@
-FROM node:22-alpine3.20@sha256:b64ced2e7cd0a4816699fe308ce6e8a08ccba463c757c00c14cd372e3d2c763e AS builder
+FROM node:23-alpine3.20@sha256:d03e75e7ba1385c2944f4cc374eb5abe0715234f87da5121dbd64f7262ad10df AS builder
 
 # CI build time args
 ARG SENTRY_AUTH_TOKEN
@@ -35,7 +35,7 @@ RUN cd ./client && npm run build
 
 RUN cd ./server && npm prune --omit=dev
 
-FROM node:22-alpine3.20@sha256:b64ced2e7cd0a4816699fe308ce6e8a08ccba463c757c00c14cd372e3d2c763e AS runner
+FROM node:23-alpine3.20@sha256:d03e75e7ba1385c2944f4cc374eb5abe0715234f87da5121dbd64f7262ad10df AS runner
 
 WORKDIR /usr/src/app
 
