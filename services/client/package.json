@@ -21,7 +21,7 @@
     "@tanstack/react-query": "^5.60.6",
     "@tanstack/react-router": "^1.82.1",
     "@tanstack/react-virtual": "^3.10.9",
-    "@trpc/client": "^11.0.0-rc.608",
+    "@trpc/client": "^11.0.0-rc.645",
     "@trpc/react-query": "^11.0.0-rc.608",
     "@trpc/server": "^11.0.0-rc.608",
     "class-variance-authority": "^0.7.0",
