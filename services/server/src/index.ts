@@ -9,6 +9,7 @@ import express from 'express';
 import { slowDown } from 'express-slow-down';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'path';
 
 import {
   CLIENT_URL,
@@ -31,8 +32,9 @@ async function main() {
   app.use(compression());
   app.use(helmet());
 
+  const staticPath = 'static';
   if (!isDev) {
-    app.use(express.static('static'));
+    app.use(express.static(staticPath));
   }
 
   app.use(express.json());
@@ -87,29 +89,22 @@ async function main() {
         delayMs: () => 500,
       });
 
-  app.get(
-    '/api/csrf',
-    apiLimiter,
-    (req: express.Request, res: express.Response) => {
-      res.json({ token: generateToken(req, res) });
-    }
-  );
+  app.get('/api/csrf', apiLimiter, (req, res) => {
+    res.json({ token: generateToken(req, res) });
+  });
 
   app.use('/api/v1', apiLimiter, trpcMiddleware);
 
-  app.get('/api/healthz', (_req: express.Request, res: express.Response) => {
+  app.get('/api/healthz', (req, res) => {
     res.status(200).send('ok');
   });
 
   // Test or dev environment specific routes and/or functions
   if (isTest || isDev) {
-    app.get(
-      '/api/reset-database',
-      async (_req: express.Request, res: express.Response) => {
-        const truncatedTables = await resetDatabase();
-        res.status(200).send(truncatedTables);
-      }
-    );
+    app.get('/api/reset-database', async (req, res) => {
+      const truncatedTables = await resetDatabase();
+      res.status(200).send(truncatedTables);
+    });
 
     if (isTest) {
       // Simple seed for testing purposes
@@ -117,6 +112,12 @@ async function main() {
       // this is just for initial boot
       await simpleSeed();
     }
+  }
+
+  if (!isDev) {
+    app.get('*', (req, res) => {
+      res.status(404).sendFile(path.resolve(staticPath, 'index.html'));
+    });
   }
 
   // After controllers, before any error handler
