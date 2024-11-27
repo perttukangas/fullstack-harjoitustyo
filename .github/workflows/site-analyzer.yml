@@ -1,24 +1,24 @@
-name: Site Analyzer
+name: Site Analyzer flow
 
 on:
   workflow_call:
 
 jobs:
-  analyze:
+  main:
     runs-on: ubuntu-22.04
     if: ${{ github.event_name == 'push' }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Compose up server
+      - name: compose up server
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: docker/docker-compose.all.yml
           up-flags: "-d --build"
           down-flags: "-v"
 
-      - name: Wait for health check
+      - name: wait for health check
         uses: emilioschepis/wait-for-endpoint@v1.0.4
         with:
           url: http://localhost:3005/api/healthz
@@ -27,7 +27,7 @@ jobs:
           timeout: 60000
           interval: 1000
 
-      - name: Analyze URLs
+      - name: analyze url
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |

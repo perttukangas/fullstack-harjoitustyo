@@ -1,16 +1,16 @@
-name: Smoke test flow
+name: Smoke test Flow
 
 on:
   workflow_call:
 
 jobs:
-  smoke-test:
+  main:
     runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Run server smoke tests
+      - name: run server smoke tests
         run: |
           cd services/server
           npm ci
@@ -18,7 +18,7 @@ jobs:
           npm run lint:check
           npm run prettier:check
 
-      - name: Run client smoke tests
+      - name: run client smoke tests
         run: |
           cd services/client
           npm ci

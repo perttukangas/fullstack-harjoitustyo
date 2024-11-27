@@ -1,17 +1,17 @@
-name: Heroku deploy flow
+name: Heroku deploy Flow
 
 on:
   workflow_call:
 
 jobs:
-  heroku-deploy:
+  main:
     runs-on: ubuntu-22.04
     if: ${{ github.event_name == 'push' }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Heroku deploy
+      - name: heroku deploy
         uses: akhileshns/heroku-deploy@v3.13.15
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}

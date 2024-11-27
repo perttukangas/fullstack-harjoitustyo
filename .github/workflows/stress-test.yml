@@ -1,35 +1,35 @@
-name: Stress test flow
+name: Stress test Flow
 
 on:
   workflow_call:
 
 jobs:
-  stress-test:
+  main:
     runs-on: ubuntu-22.04
     if: ${{ github.event_name == 'push' }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Compose up server
+      - name: compose up server
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: docker/docker-compose.all-limited.yml
           up-flags: "-d --build"
           down-flags: "-v"
 
-      - name: Build stress tests
+      - name: build stress tests
         run: |
           cd test/stress-test
           npm ci
           npm run build
 
-      - name: Setup K6
+      - name: setup K6
         uses: grafana/setup-k6-action@v1
         with:
           k6-version: "0.55.0"
 
-      - name: Wait for health check
+      - name: wait for health check
         uses: emilioschepis/wait-for-endpoint@v1.0.4
         with:
           url: http://localhost:3005/api/healthz
@@ -38,7 +38,7 @@ jobs:
           timeout: 60000
           interval: 1000
 
-      - name: Run K6
+      - name: run K6
         uses: grafana/run-k6-action@v1
         env:
           BASE_URL: http://localhost:3005
