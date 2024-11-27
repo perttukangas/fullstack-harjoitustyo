@@ -8,9 +8,11 @@ module.exports = async (browser, context) => {
 
   await page.click('[aria-label="login"]');
 
+  await page.waitForSelector('input[type="email"]');
   const emailInput = await page.$('input[type="email"]');
   await emailInput.type("test@example.com");
 
+  await page.waitForSelector('input[type="password"]');
   const passwordInput = await page.$('input[type="password"]');
   await passwordInput.type("123456");
 
