@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { ThemeProviderContext } from '@cc/hooks/use-theme';
+import { StorageType, getItem, setItem } from '@cc/utils/local-storage';
 
-type Theme = 'dark' | 'light' | 'system';
+export type Theme = 'dark' | 'light' | 'system';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
@@ -13,11 +14,10 @@ interface ThemeProviderProps {
 export default function ThemeProvider({
   children,
   defaultTheme = 'system',
-  storageKey = 'vite-ui-theme',
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+    () => getItem(StorageType.THEME) ?? defaultTheme
   );
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function ThemeProvider({
   const value = {
     theme,
     setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
+      setItem(StorageType.THEME, theme);
       setTheme(theme);
     },
     isDark:

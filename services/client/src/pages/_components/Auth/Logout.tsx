@@ -25,7 +25,6 @@ export default function Logout({ open, setOpen }: LogoutProps) {
   const logoutMutation = t.user.logout.useMutation({
     onSuccess: async () => {
       setUser(undefined);
-      setOpen(false);
       toast({ description: 'You have successfully logged out!' });
       await tUtils.invalidate();
     },

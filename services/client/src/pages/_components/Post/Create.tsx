@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { createInput, editInput } from '@apiv1/post/shared-validators';
+import { createInput } from '@apiv1/post/shared-validators';
 
-import type { EditInput } from '@tapiv1/post/shared-validators';
+import type { CreateInput } from '@tapiv1/post/shared-validators';
 
 import { Button } from '@cc/components/Button';
 import DrawerDialog from '@cc/components/DrawerDialog';
@@ -20,48 +20,33 @@ import { Textarea } from '@cc/components/Textarea';
 import { useToast } from '@cc/hooks/use-toast';
 import { t } from '@cc/lib/trpc';
 
-interface PostFormProps {
-  edit?: EditInput;
+interface CreateProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function PostForm({ edit, open, setOpen }: PostFormProps) {
+export default function Create({ open, setOpen }: CreateProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
+
+  const form = useForm<CreateInput>({
+    resolver: zodResolver(createInput),
+    defaultValues: { content: '', title: '' },
+  });
+
   const createMutation = t.post.create.useMutation({
     onSuccess: async () => {
-      await tUtils.post.infinite.invalidate({});
       form.reset();
       setOpen(false);
+      await tUtils.post.infinite.reset({});
       toast({ description: 'You have successfully created a new post!' });
     },
-  });
-  const editMutation = t.post.edit.useMutation({
-    onSuccess: async () => {
-      await tUtils.post.infinite.invalidate({});
-      setOpen(false);
-      toast({ description: 'You have successfully edited your post!' });
-    },
-  });
-
-  const isEditing = !!edit;
-  const messages = {
-    title: isEditing ? 'Edit post' : 'Create post',
-    description: isEditing
-      ? 'Edit your post!'
-      : 'Create new post for everyone to see!',
-  };
-
-  const form = useForm<EditInput>({
-    resolver: zodResolver(isEditing ? editInput : createInput),
-    defaultValues: isEditing ? edit : { content: '', title: '' },
   });
 
   return (
     <DrawerDialog
-      title={messages.title}
-      description={messages.description}
+      title="Create post"
+      description="Create new post for everyone to see!"
       open={open}
       setOpen={setOpen}
       footer={
@@ -70,11 +55,7 @@ export default function PostForm({ edit, open, setOpen }: PostFormProps) {
             className="w-full"
             disabled={form.formState.isSubmitting}
             onClick={(e) => {
-              void form.handleSubmit(
-                isEditing
-                  ? (data) => editMutation.mutate(data)
-                  : (data) => createMutation.mutate(data)
-              )(e);
+              void form.handleSubmit((data) => createMutation.mutate(data))(e);
             }}
           >
             Submit

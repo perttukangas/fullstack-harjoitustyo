@@ -6,8 +6,8 @@ import Footer from './_components/Footer';
 
 export default function App() {
   return (
-    <div>
-      <main>
+    <>
+      <main className="mx-auto max-w-screen-lg">
         <GlobalErrorBoundaryProvider>
           <Outlet />
         </GlobalErrorBoundaryProvider>
@@ -15,6 +15,6 @@ export default function App() {
       <footer className="sticky bottom-0">
         <Footer />
       </footer>
-    </div>
+    </>
   );
 }

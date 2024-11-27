@@ -1,5 +1,3 @@
-import type { RemoveInput } from '@tapiv1/post/shared-validators';
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,17 +9,20 @@ import {
   AlertDialogTitle,
 } from '@cc/components/AlertDialog';
 import { useToast } from '@cc/hooks/use-toast';
-import { t } from '@cc/lib/trpc';
+import { type RouterOutputs, t } from '@cc/lib/trpc';
 
-interface RemovePostProps {
+type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
+
+interface RemoveProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id: RemoveInput['id'];
+  row: InfinitePost;
 }
 
-export default function RemovePost({ open, setOpen, id }: RemovePostProps) {
+export default function Remove({ open, setOpen, row }: RemoveProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
+
   const removeMutation = t.post.remove.useMutation({
     onSuccess: async () => {
       await tUtils.post.infinite.invalidate({});
@@ -41,7 +42,9 @@ export default function RemovePost({ open, setOpen, id }: RemovePostProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => removeMutation.mutate({ id })}>
+          <AlertDialogAction
+            onClick={() => removeMutation.mutate({ id: row.id })}
+          >
             Remove
           </AlertDialogAction>
         </AlertDialogFooter>

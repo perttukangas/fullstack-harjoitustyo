@@ -1,6 +1,7 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef } from 'react';
 
+import { Card, CardContent } from '@cc/components/Card';
 import { cn } from '@cc/lib/tailwind';
 
 import Loader from './Loader';
@@ -9,22 +10,30 @@ interface InfiniteScrollProps<T> {
   className: string;
   allRows: T[];
   renderRow: (item: T) => React.ReactNode;
-  nothingMoreToLoad: React.ReactNode;
   estimateSize: number;
   fetchNextPage: () => Promise<unknown>;
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
+  nothingMoreToLoad?: React.ReactNode;
+  loader?: React.ReactNode;
 }
 
 export default function InfiniteScroll<T>({
   className,
   allRows,
   renderRow,
-  nothingMoreToLoad,
   estimateSize,
   fetchNextPage,
   isFetchingNextPage,
   hasNextPage,
+  nothingMoreToLoad = (
+    <Card className="rounded-none">
+      <CardContent className="items-center p-6 text-center">
+        <p>Nothing more to load</p>
+      </CardContent>
+    </Card>
+  ),
+  loader = <Loader />,
 }: InfiniteScrollProps<T>) {
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -87,15 +96,11 @@ export default function InfiniteScroll<T>({
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              {isLoaderRow ? (
-                hasNextPage ? (
-                  <Loader />
-                ) : (
-                  nothingMoreToLoad
-                )
-              ) : (
-                renderRow(dataRow)
-              )}
+              {isLoaderRow
+                ? hasNextPage
+                  ? loader
+                  : nothingMoreToLoad
+                : renderRow(dataRow)}
             </div>
           );
         })}

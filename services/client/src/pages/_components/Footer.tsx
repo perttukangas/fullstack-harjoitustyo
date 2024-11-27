@@ -1,39 +1,51 @@
-import { Moon, Sun } from 'lucide-react';
+import { CirclePlus, CirclePower, User } from 'lucide-react';
+import { lazy } from 'react';
 
-import { Button } from '@cc/components/Button';
+import LazyButton from '@cc/components/LazyButton';
 import { useSession } from '@cc/hooks/use-session';
-import { useTheme } from '@cc/hooks/use-theme';
+import { lazyPrefetch } from '@cc/lib/lazy-prefetch';
 
-import AuthLoader from './Auth/AuthLoader';
-import PostFormLoader from './Post/PostFormLoader';
+const LoginSignup = lazyPrefetch(() => import('./Auth/LoginSignup'));
+const Logout = lazyPrefetch(() => import('./Auth/Logout'));
+const Create = lazyPrefetch(() => import('./Post/Create'));
+
+const ThemeButton = lazy(() => import('./ThemeButton'));
 
 export default function Footer() {
   const { user } = useSession();
-  const { setTheme, isDark } = useTheme();
 
   return (
     <div className="flex w-full flex-row items-center justify-center gap-4 bg-background pt-2">
-      <AuthLoader />
-      {user && <PostFormLoader />}
-      {isDark ? (
-        <Button
-          onClick={() => setTheme('light')}
-          variant="ghost"
-          size="icon"
-          aria-label="switch-light-theme"
+      {user ? (
+        <LazyButton
+          icon={<CirclePower />}
+          onMouseEnter={() => {
+            void Logout.prefetch();
+          }}
         >
-          <Sun />
-        </Button>
+          {(openState) => <Logout {...openState} />}
+        </LazyButton>
       ) : (
-        <Button
-          onClick={() => setTheme('dark')}
-          variant="ghost"
-          size="icon"
-          aria-label="switch-dark-theme"
+        <LazyButton
+          icon={<User />}
+          onMouseEnter={() => {
+            void LoginSignup.prefetch();
+          }}
         >
-          <Moon />
-        </Button>
+          {(openState) => <LoginSignup {...openState} />}
+        </LazyButton>
       )}
+      {user && (
+        <LazyButton
+          icon={<CirclePlus />}
+          onMouseEnter={() => {
+            void Create.prefetch();
+          }}
+        >
+          {(openState) => <Create {...openState} />}
+        </LazyButton>
+      )}
+      <ThemeButton />
     </div>
   );
 }

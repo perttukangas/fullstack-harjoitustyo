@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { produce } from 'immer';
 import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
@@ -16,27 +17,46 @@ import {
 } from '@cc/components/Form';
 import { Textarea } from '@cc/components/Textarea';
 import { useToast } from '@cc/hooks/use-toast';
-import { t } from '@cc/lib/trpc';
+import { type RouterOutputs, t } from '@cc/lib/trpc';
 
-export default function CreateForm({
-  postId,
-}: {
-  postId: CreateInput['postId'];
-}) {
+type InfinitePost = RouterOutputs['post']['infinite']['posts'][0]['id'];
+
+interface CreateProps {
+  postId: InfinitePost;
+}
+
+export default function Create({ postId }: CreateProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
-
-  const createMutation = t.post.comment.create.useMutation({
-    onSuccess: async () => {
-      await tUtils.post.comment.infinite.invalidate({ postId });
-      form.reset();
-      toast({ description: 'You have successfully created a new comment!' });
-    },
-  });
 
   const form = useForm<CreateInput>({
     resolver: zodResolver(createInput),
     defaultValues: { content: '', postId },
+  });
+
+  const createMutation = t.post.comment.create.useMutation({
+    onSuccess: async () => {
+      await tUtils.post.comment.infinite.invalidate({ postId });
+      tUtils.post.infinite.setInfiniteData({}, (oldData) => {
+        return !oldData
+          ? oldData
+          : produce(oldData, (draft) => {
+              for (const page of draft.pages) {
+                if (!page.nextCursor || page.nextCursor < postId) {
+                  for (const post of page.posts) {
+                    if (post.id === postId) {
+                      post.comments += 1;
+                      break;
+                    }
+                  }
+                  break;
+                }
+              }
+            });
+      });
+      form.reset();
+      toast({ description: 'You have successfully created a new comment!' });
+    },
   });
 
   return (

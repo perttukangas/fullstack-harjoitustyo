@@ -1,28 +1,38 @@
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef } from 'react';
 
+import { Card, CardContent } from '@cc/components/Card';
+
 import Loader from './Loader';
 
 interface InfiniteScrollWindowProps<T> {
   className: string;
   allRows: T[];
   renderRow: (row: T) => React.ReactNode;
-  nothingMoreToLoad: React.ReactNode;
   estimateSize: number;
   fetchNextPage: () => Promise<unknown>;
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
+  nothingMoreToLoad?: React.ReactNode;
+  loader?: React.ReactNode;
 }
 
 export default function InfiniteScrollWindow<T>({
   className,
   allRows,
   renderRow,
-  nothingMoreToLoad,
   estimateSize,
   fetchNextPage,
   isFetchingNextPage,
   hasNextPage,
+  nothingMoreToLoad = (
+    <Card className="rounded-none">
+      <CardContent className="items-center p-6 text-center">
+        <p>Nothing more to load</p>
+      </CardContent>
+    </Card>
+  ),
+  loader = <Loader />,
 }: InfiniteScrollWindowProps<T>) {
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -85,15 +95,11 @@ export default function InfiniteScrollWindow<T>({
                 }px)`,
               }}
             >
-              {isLoaderRow ? (
-                hasNextPage ? (
-                  <Loader />
-                ) : (
-                  nothingMoreToLoad
-                )
-              ) : (
-                renderRow(dataRow)
-              )}
+              {isLoaderRow
+                ? hasNextPage
+                  ? loader
+                  : nothingMoreToLoad
+                : renderRow(dataRow)}
             </div>
           );
         })}

@@ -32,6 +32,17 @@ export default function LoginSignup({ open, setOpen }: LoginSignupProps) {
   const { setUser } = useSession();
   const [signup, setSignup] = useState(false);
 
+  const form = useForm<LoginSignupInput>({
+    resolver: zodResolver(loginSignupInput),
+    defaultValues: { email: '', password: '' },
+  });
+
+  const messages = {
+    title: signup ? 'Signup' : 'Login',
+    description: signup ? 'Have an account? ' : "Don't have an account? ",
+    descriptionLink: signup ? 'Login' : 'Signup',
+  };
+
   const loginMutation = t.user.login.useMutation({
     onSuccess: async (data) => {
       form.reset();
@@ -41,23 +52,13 @@ export default function LoginSignup({ open, setOpen }: LoginSignupProps) {
       await tUtils.invalidate();
     },
   });
+
   const signupMutation = t.user.signup.useMutation({
     onSuccess: () => {
       form.reset();
       setSignup(!signup);
       toast({ description: 'You have successfully signed up!' });
     },
-  });
-
-  const messages = {
-    title: signup ? 'Signup' : 'Login',
-    description: signup ? 'Have an account? ' : "Don't have an account? ",
-    descriptionLink: signup ? 'Login' : 'Signup',
-  };
-
-  const form = useForm<LoginSignupInput>({
-    resolver: zodResolver(loginSignupInput),
-    defaultValues: { email: '', password: '' },
   });
 
   return (
