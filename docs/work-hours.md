@@ -27,5 +27,6 @@
 | 23.11.2024 | 1                  | Adjustments to mobile view                                                                                                                                                                        |
 | 25.11.2024 | 3                  | Add stress tests to pipeline                                                                                                                                                                      |
 | 26.11.2024 | 11                 | Heroku health check and rollback, add dependabot, add CodeQL analysis, integrate Trivy docker image scan to CodeQL, add lighthouse scanning, add compression to express due to lighthouse results |
+| 27.11.2024 | 6                  | More messing with lighthouse, add rate limiter which slows request handling instead of blocking                                                                                                   |
 
-Total Time Spent (hours): 129
+Total Time Spent (hours): 135

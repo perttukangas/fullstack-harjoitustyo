@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { doubleCsrf } from 'csrf-csrf';
 import express from 'express';
+import { slowDown } from 'express-slow-down';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
@@ -70,18 +71,31 @@ async function main() {
   app.use(doubleCsrfProtection);
 
   if (shouldLog(LogLevel.INFO)) {
-    app.use(
-      morgan(
-        '[TRAFFIC] :method :url :status :res[content-length] - :response-time ms'
-      )
-    );
+    app.use(morgan('[TRAFFIC] :method :url :status :response-time ms'));
   }
 
-  app.get('/api/csrf', (req: express.Request, res: express.Response) => {
-    res.json({ token: generateToken(req, res) });
-  });
+  // Disabled in test env with dummy middleware
+  const apiLimiter = isTest
+    ? (
+        _req: express.Request,
+        _res: express.Response,
+        next: express.NextFunction
+      ) => next()
+    : slowDown({
+        windowMs: 1 * 60 * 1000,
+        delayAfter: 150,
+        delayMs: () => 500,
+      });
 
-  app.use('/api/v1', trpcMiddleware);
+  app.get(
+    '/api/csrf',
+    apiLimiter,
+    (req: express.Request, res: express.Response) => {
+      res.json({ token: generateToken(req, res) });
+    }
+  );
+
+  app.use('/api/v1', apiLimiter, trpcMiddleware);
 
   app.get('/api/healthz', (_req: express.Request, res: express.Response) => {
     res.status(200).send('ok');
@@ -111,15 +125,16 @@ async function main() {
   app.use(
     (
       err: Error,
-      _req: express.Request,
+      req: express.Request,
       res: express.Response,
       // Required for Express to interpret this as an error handler.
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      _next: express.NextFunction
+      next: express.NextFunction
     ) => {
       if (shouldLog(LogLevel.ERROR)) {
         error(err);
       }
+
       res.status(500).json({ error: 'Internal Server Error' });
     }
   );
