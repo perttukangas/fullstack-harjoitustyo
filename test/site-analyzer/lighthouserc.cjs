@@ -5,6 +5,9 @@ module.exports = {
     },
     assert: {
       preset: "lighthouse:recommended",
+      assertions: {
+        "unused-javascript": ["error", { maxLength: 51200 }],
+      },
     },
   },
 };
