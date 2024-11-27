@@ -9,7 +9,7 @@ import {
   getItem,
   removeItem,
   setItem,
-} from '@cc/utils/local-storage';
+} from '@cc/utils/session-storage';
 
 export default function SessionProvider({
   children,

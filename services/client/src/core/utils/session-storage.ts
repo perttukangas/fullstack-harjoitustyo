@@ -2,13 +2,15 @@ import type { SessionSchema } from '@tapiv1/trpc/shared-validators';
 
 interface StorageTypeValue {
   user?: SessionSchema;
+  csrf?: string;
 }
 
 export enum StorageType {
   USER = 'user',
+  CSRF = 'csrf',
 }
 
-const hasStorage = () => typeof window !== 'undefined' && window.localStorage;
+const hasStorage = () => typeof window !== 'undefined' && window.sessionStorage;
 
 export const setItem = <T extends keyof StorageTypeValue>(
   type: StorageType,
@@ -18,13 +20,13 @@ export const setItem = <T extends keyof StorageTypeValue>(
 
   if (!value) throw new Error("Can't set empty value");
 
-  localStorage.setItem(type, JSON.stringify(value));
+  sessionStorage.setItem(type, JSON.stringify(value));
 };
 
 export const removeItem = (type: StorageType) => {
   if (!hasStorage()) return;
 
-  localStorage.removeItem(type);
+  sessionStorage.removeItem(type);
 };
 
 export const getItem = <T extends keyof StorageTypeValue>(
@@ -32,7 +34,7 @@ export const getItem = <T extends keyof StorageTypeValue>(
 ): StorageTypeValue[T] => {
   if (!hasStorage()) return;
 
-  const storedValue = localStorage.getItem(type);
+  const storedValue = sessionStorage.getItem(type);
   if (!storedValue) return;
 
   return JSON.parse(storedValue) as StorageTypeValue[T];

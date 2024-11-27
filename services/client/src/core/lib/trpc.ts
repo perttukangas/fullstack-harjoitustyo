@@ -7,12 +7,7 @@ import type { inferRouterOutputs } from '@trpc/server';
 import type { AppRouter } from '@tapiv1/index';
 
 import { toast } from '@cc/hooks/use-toast';
-
-export let csrfToken: string;
-
-export const setCsrfToken = (token: string) => {
-  csrfToken = token;
-};
+import { StorageType, getItem } from '@cc/utils/session-storage';
 
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
@@ -31,7 +26,7 @@ export const trpcClient = t.createClient({
       url: `/api/v1`,
       headers() {
         return {
-          'x-csrf-token': csrfToken,
+          'x-csrf-token': getItem(StorageType.CSRF),
         };
       },
       fetch(url, options) {

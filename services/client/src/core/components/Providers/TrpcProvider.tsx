@@ -2,7 +2,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useEffect } from 'react';
 
-import { Provider, queryClient, setCsrfToken, trpcClient } from '@cc/lib/trpc';
+import { Provider, queryClient, trpcClient } from '@cc/lib/trpc';
+import { StorageType, setItem } from '@cc/utils/session-storage';
 
 interface CsrfToken {
   token: string;
@@ -19,7 +20,7 @@ export default function TrpcProvider({
         credentials: 'include',
       });
       const data = (await response.json()) as CsrfToken;
-      setCsrfToken(data.token);
+      setItem(StorageType.CSRF, data.token);
     };
 
     void fetchCsrfToken();
