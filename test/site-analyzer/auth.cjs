@@ -19,5 +19,7 @@ module.exports = async (browser, context) => {
   const submitButton = await page.$('button[type="submit"]');
   await submitButton.click();
 
+  await page.waitForSelector('[aria-label="logout"]');
+
   await page.close();
 };
