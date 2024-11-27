@@ -82,7 +82,10 @@ export default function LoginSignup({ open, setOpen }: LoginSignupProps) {
           <Button
             className="w-full"
             disabled={form.formState.isSubmitting}
+            type="submit"
             onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               void form.handleSubmit(
                 signup
                   ? (data) => signupMutation.mutate(data)

@@ -15,7 +15,7 @@ export default function AuthLoader() {
   return (
     <>
       <Button
-        aria-label={user ? 'logout' : 'signup'}
+        aria-label={user ? 'logout' : 'login'}
         onClick={() => setOpen(true)}
         variant="ghost"
         size="icon"

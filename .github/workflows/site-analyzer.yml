@@ -31,5 +31,5 @@ jobs:
         with:
           urls: |
             http://localhost:3005
-          configPath: ".github/lighthouse/lighthouserc-assertions.json"
+          configPath: "test/site-analyzer/lighthouserc.json"
           uploadArtifacts: true

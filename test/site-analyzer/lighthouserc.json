@@ -1,0 +1,15 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "puppeteerScript": "test/site-analyzer/auth.js",
+      "settings": {
+        "preset": "desktop",
+        "disableStorageReset": true
+      }
+    },
+    "assert": {
+      "preset": "lighthouse:recommended"
+    }
+  }
+}
