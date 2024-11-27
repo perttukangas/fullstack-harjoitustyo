@@ -7,9 +7,7 @@ module.exports = async (browser, context) => {
   await page.goto("http://localhost:3005");
 
   await page.click('[aria-label="login"]');
-  await page.waitForSelector("#email");
 
-  // Fill in the login form
   const emailInput = await page.$('input[type="email"]');
   await emailInput.type("test@example.com");
 
