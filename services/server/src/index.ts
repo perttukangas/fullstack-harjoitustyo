@@ -17,7 +17,7 @@ import {
   isDev,
   isTest,
 } from '@sc/lib/envalid.js';
-import { resetDatabase } from '@sc/lib/prisma.js';
+import { resetDatabase, simpleSeed } from '@sc/lib/prisma.js';
 import { LogLevel, error, info, shouldLog } from '@sc/utils/logger.js';
 
 import { trpcMiddleware } from '@apiv1/trpc/middleware.js';
@@ -87,6 +87,7 @@ async function main() {
     res.status(200).send('ok');
   });
 
+  // Test or dev environment specific routes and/or functions
   if (isTest || isDev) {
     app.get(
       '/api/reset-database',
@@ -95,6 +96,13 @@ async function main() {
         res.status(200).send(truncatedTables);
       }
     );
+
+    if (isTest) {
+      // Simple seed for testing purposes
+      // Test should reset the database on their own,
+      // this is just for initial boot
+      await simpleSeed();
+    }
   }
 
   // After controllers, before any error handler

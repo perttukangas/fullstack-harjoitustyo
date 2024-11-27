@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 import { isDev, isProd, isTest } from '@sc/lib/envalid.js';
 
@@ -31,4 +32,30 @@ export const resetDatabase = async () => {
 
   await prisma.$executeRawUnsafe(`TRUNCATE TABLE ${tables} CASCADE;`);
   return tables;
+};
+
+export const simpleSeed = async () => {
+  if (!isTest) {
+    throw Error('Simple seed is only allowed in test environments');
+  }
+
+  await resetDatabase();
+
+  const hashedPassword = await bcrypt.hash('123456', 10);
+  const user = await prisma.user.create({
+    data: {
+      email: 'test@example.com',
+      password: hashedPassword,
+    },
+  });
+
+  const posts = Array.from({ length: 100 }, (_, i) => ({
+    title: `Post ${i + 1}`,
+    content: `This is the content for post ${i + 1}`,
+    userId: user.id,
+  }));
+
+  await prisma.post.createMany({
+    data: posts,
+  });
 };
