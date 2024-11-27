@@ -2,7 +2,7 @@
  * @param {puppeteer.Browser} browser
  * @param {{url: string, options: LHCI.CollectCommand.Options}} context
  */
-export default async (browser, context) => {
+module.exports = async (browser, context) => {
   const page = await browser.newPage();
   await page.goto("http://localhost:3005");
 

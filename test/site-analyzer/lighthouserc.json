@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "numberOfRuns": 3,
-      "puppeteerScript": "test/site-analyzer/auth.js",
+      "puppeteerScript": "test/site-analyzer/auth.cjs",
       "settings": {
         "preset": "desktop",
         "disableStorageReset": true
