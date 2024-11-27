@@ -14,7 +14,12 @@ export default function CommentLoader(post: InfinitePost) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="ghost" size="icon">
+      <Button
+        aria-label="post-comments"
+        onClick={() => setOpen(true)}
+        variant="ghost"
+        size="icon"
+      >
         <MessageCircle />
       </Button>
       <p>{post.comments}</p>

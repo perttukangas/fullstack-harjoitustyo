@@ -82,6 +82,7 @@ export default function Home() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="post-like"
                   onClick={() => {
                     if (row.liked) {
                       unlikeMutation.mutate({ id: row.id });
