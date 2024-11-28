@@ -1,7 +1,6 @@
 import React, { ReactNode, Suspense, useState } from 'react';
 
 import { IconButton } from './Button';
-import Loader from './Loader';
 
 interface LazyButtonPropsBase {
   children: (props: {
@@ -39,7 +38,7 @@ export default function LazyButton({
   const [open, setOpen] = useState(false);
 
   return (
-    <Suspense fallback={<Loader />}>
+    <>
       {button ? (
         button({ open, setOpen })
       ) : (
@@ -51,7 +50,7 @@ export default function LazyButton({
           {icon}
         </IconButton>
       )}
-      {open && children({ open, setOpen })}
-    </Suspense>
+      <Suspense>{open && children({ open, setOpen })}</Suspense>
+    </>
   );
 }
