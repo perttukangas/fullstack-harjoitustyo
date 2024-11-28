@@ -28,6 +28,6 @@
 | 25.11.2024 | 3                  | Add stress tests to pipeline                                                                                                                                                                      |
 | 26.11.2024 | 11                 | Heroku health check and rollback, add dependabot, add CodeQL analysis, integrate Trivy docker image scan to CodeQL, add lighthouse scanning, add compression to express due to lighthouse results |
 | 27.11.2024 | 10                 | More messing with lighthouse, add rate limiter which slows request handling instead of blocking, partially rewrote the ui code                                                                    |
-| 28.11.2024 | 1                  | Fix new lighthouse issues, force aria label on icon buttons                                                                                                                                       |
+| 28.11.2024 | 1                  | Fix new lighthouse issues, force aria label on icon buttons, rate limit 404s                                                                                                                      |
 
 Total Time Spent (hours): 140

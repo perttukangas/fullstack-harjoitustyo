@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { doubleCsrf } from 'csrf-csrf';
 import express from 'express';
+import { rateLimit } from 'express-rate-limit';
 import { slowDown } from 'express-slow-down';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -77,7 +78,7 @@ async function main() {
   }
 
   // Disabled in test env with dummy middleware
-  const apiLimiter = isTest
+  const apiSlower = isTest
     ? (
         _req: express.Request,
         _res: express.Response,
@@ -89,11 +90,11 @@ async function main() {
         delayMs: () => 500,
       });
 
-  app.get('/api/csrf', apiLimiter, (req, res) => {
+  app.get('/api/csrf', apiSlower, (req, res) => {
     res.json({ token: generateToken(req, res) });
   });
 
-  app.use('/api/v1', apiLimiter, trpcMiddleware);
+  app.use('/api/v1', apiSlower, trpcMiddleware);
 
   app.get('/api/healthz', (req, res) => {
     res.status(200).send('ok');
@@ -115,7 +116,18 @@ async function main() {
   }
 
   if (!isDev) {
-    app.get('*', (req, res) => {
+    // Disabled in test env with dummy middleware
+    const unknownLimiter = isTest
+      ? (
+          _req: express.Request,
+          _res: express.Response,
+          next: express.NextFunction
+        ) => next()
+      : rateLimit({
+          windowMs: 1 * 60 * 1000,
+          limit: 150, // This route should rarely be used as its for 404s
+        });
+    app.get('*', unknownLimiter, (req, res) => {
       res.status(404).sendFile(path.resolve(staticPath, 'index.html'));
     });
   }
