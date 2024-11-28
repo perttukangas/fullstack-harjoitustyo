@@ -40,6 +40,10 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
+export interface IconButtonProps extends ButtonProps {
+  'aria-label': React.AriaAttributes['aria-label'];
+}
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
@@ -54,5 +58,23 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = 'Button';
 
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+  (
+    { 'aria-label': ariaLabel, variant = 'ghost', size = 'icon', ...props },
+    ref
+  ) => {
+    return (
+      <Button
+        ref={ref}
+        aria-label={ariaLabel}
+        variant={variant}
+        size={size}
+        {...props}
+      />
+    );
+  }
+);
+IconButton.displayName = 'IconButton';
+
 // eslint-disable-next-line react-refresh/only-export-components
-export { Button, buttonVariants };
+export { Button, IconButton, buttonVariants };

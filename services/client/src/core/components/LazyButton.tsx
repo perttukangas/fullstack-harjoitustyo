@@ -1,6 +1,6 @@
-import { ReactNode, Suspense, useState } from 'react';
+import React, { ReactNode, Suspense, useState } from 'react';
 
-import { Button } from './Button';
+import { IconButton } from './Button';
 import Loader from './Loader';
 
 interface LazyButtonPropsBase {
@@ -16,13 +16,15 @@ interface LazyButtonWithButton extends LazyButtonPropsBase {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   }) => ReactNode;
   icon?: never;
+  ariaLabel?: never;
   onMouseEnter?: never;
 }
 
 interface LazyButtonWithIcon extends LazyButtonPropsBase {
   icon: ReactNode;
-  button?: never;
+  ariaLabel: React.AriaAttributes['aria-label'];
   onMouseEnter?: () => void;
+  button?: never;
 }
 
 type LazyButtonProps = LazyButtonWithButton | LazyButtonWithIcon;
@@ -31,6 +33,7 @@ export default function LazyButton({
   onMouseEnter,
   button,
   icon,
+  ariaLabel,
   children,
 }: LazyButtonProps) {
   const [open, setOpen] = useState(false);
@@ -40,14 +43,13 @@ export default function LazyButton({
       {button ? (
         button({ open, setOpen })
       ) : (
-        <Button
+        <IconButton
+          aria-label={ariaLabel}
           onMouseEnter={onMouseEnter}
           onClick={() => setOpen(true)}
-          variant="ghost"
-          size="icon"
         >
           {icon}
-        </Button>
+        </IconButton>
       )}
       {open && children({ open, setOpen })}
     </Suspense>

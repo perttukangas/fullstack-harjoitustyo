@@ -19,6 +19,7 @@ export default function Footer() {
       {user ? (
         <LazyButton
           icon={<CirclePower />}
+          ariaLabel="logout"
           onMouseEnter={() => {
             void Logout.prefetch();
           }}
@@ -28,6 +29,7 @@ export default function Footer() {
       ) : (
         <LazyButton
           icon={<User />}
+          ariaLabel="login or signup"
           onMouseEnter={() => {
             void LoginSignup.prefetch();
           }}
@@ -38,6 +40,7 @@ export default function Footer() {
       {user && (
         <LazyButton
           icon={<CirclePlus />}
+          ariaLabel="create post"
           onMouseEnter={() => {
             void Create.prefetch();
           }}

@@ -1,7 +1,7 @@
 import { MessageCircle, Pencil, Trash } from 'lucide-react';
 import { lazy } from 'react';
 
-import { Button } from '@cc/components/Button';
+import { IconButton } from '@cc/components/Button';
 import {
   Card,
   CardContent,
@@ -35,6 +35,7 @@ export default function PostCard({ row }: PostCardProps) {
           <div className="flex items-center gap-1">
             <LazyButton
               icon={<Pencil />}
+              ariaLabel="edit post"
               onMouseEnter={() => {
                 void Edit.prefetch();
               }}
@@ -43,6 +44,7 @@ export default function PostCard({ row }: PostCardProps) {
             </LazyButton>
             <LazyButton
               icon={<Trash />}
+              ariaLabel="remove post"
               onMouseEnter={() => {
                 void Remove.prefetch();
               }}
@@ -60,16 +62,15 @@ export default function PostCard({ row }: PostCardProps) {
         <LazyButton
           button={({ setOpen }) => (
             <>
-              <Button
+              <IconButton
                 onMouseEnter={() => {
                   void CommentList.prefetch();
                 }}
                 onClick={() => setOpen(true)}
-                variant="ghost"
-                size="icon"
+                aria-label="view comments"
               >
                 <MessageCircle />
-              </Button>
+              </IconButton>
               <p>{row.comments}</p>
             </>
           )}

@@ -31,6 +31,7 @@ export default function CommentCard({ postId, row }: CommentCardProps) {
         <CardFooter className="justify-end">
           <LazyButton
             icon={<Pencil />}
+            ariaLabel="edit comment"
             onMouseEnter={() => {
               void Edit.prefetch();
             }}
@@ -39,6 +40,7 @@ export default function CommentCard({ postId, row }: CommentCardProps) {
           </LazyButton>
           <LazyButton
             icon={<Trash />}
+            ariaLabel="delete comment"
             onMouseEnter={() => {
               void Remove.prefetch();
             }}

@@ -1,6 +1,6 @@
 import { Moon, Sun } from 'lucide-react';
 
-import { Button } from '@cc/components/Button';
+import { IconButton } from '@cc/components/Button';
 import { useTheme } from '@cc/hooks/use-theme';
 
 export default function ThemeButton() {
@@ -8,23 +8,19 @@ export default function ThemeButton() {
   return (
     <>
       {isDark ? (
-        <Button
+        <IconButton
           onClick={() => setTheme('light')}
-          variant="ghost"
-          size="icon"
-          aria-label="switch-light-theme"
+          aria-label="switch light theme"
         >
           <Sun />
-        </Button>
+        </IconButton>
       ) : (
-        <Button
+        <IconButton
           onClick={() => setTheme('dark')}
-          variant="ghost"
-          size="icon"
-          aria-label="switch-dark-theme"
+          aria-label="switch dark theme"
         >
           <Moon />
-        </Button>
+        </IconButton>
       )}
     </>
   );
