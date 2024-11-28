@@ -1,5 +1,5 @@
-import Post from './_components/Post';
+import PostComponent from './_components/Post';
 
 export default function Home() {
-  return <Post />;
+  return <PostComponent />;
 }

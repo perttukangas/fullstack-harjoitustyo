@@ -23,8 +23,16 @@ const index = createRoute({ getParentRoute: () => root, path: '/' }).lazy(() =>
     createLazyRoute('/')({ component: m.default })
   )
 );
+const profile = createRoute({
+  getParentRoute: () => root,
+  path: 'profile',
+}).lazy(() =>
+  import('./pages/profile').then((m) =>
+    createLazyRoute('/profile')({ component: m.default })
+  )
+);
 
-const config = root.addChildren([index, _404]);
+const config = root.addChildren([index, profile, _404]);
 
 const router = createRouter({ routeTree: config });
 export const routes = config;
