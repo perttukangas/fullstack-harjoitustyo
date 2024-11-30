@@ -4,14 +4,14 @@ import { type RouterOutputs, t } from '@cc/lib/trpc';
 
 import { columns } from './Columns';
 
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0]['id'];
+type InfinitePost = RouterOutputs['post']['infiniteCreator']['posts'][0]['id'];
 
-interface CommentTableProps {
+interface IndexProps {
   postId: InfinitePost;
 }
 
-export default function CommentTable({ postId }: CommentTableProps) {
-  const infiniteComments = t.post.comment.infinite.useInfiniteQuery(
+export default function Index({ postId }: IndexProps) {
+  const infiniteComments = t.post.comment.infiniteCreator.useInfiniteQuery(
     { postId },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,

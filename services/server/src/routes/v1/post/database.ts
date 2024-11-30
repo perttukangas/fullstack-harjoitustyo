@@ -2,6 +2,7 @@ import { prisma } from '@sc/lib/prisma.js';
 
 import {
   EditInput,
+  InfiniteCreatorInput,
   InfiniteInput,
   ProtectedCreateInput,
   ProtectedLikeUnlikeInput,
@@ -45,6 +46,28 @@ export const getInfinite = async ({ limit, cursor, userId }: InfiniteInput) => {
     creator: post.userId === userId,
     liked: post.likes?.length > 0,
   }));
+};
+
+export const getInfiniteCreator = async ({
+  limit,
+  cursor,
+  userId,
+}: InfiniteCreatorInput) => {
+  return await prisma.post.findMany({
+    take: limit + 1,
+    cursor: cursor ? { id: cursor } : undefined,
+    orderBy: { id: 'desc' },
+    select: {
+      id: true,
+      title: true,
+      _count: {
+        select: { likes: true, comments: true },
+      },
+    },
+    where: {
+      userId,
+    },
+  });
 };
 
 export const like = async ({ id, userId }: ProtectedLikeUnlikeInput) => {

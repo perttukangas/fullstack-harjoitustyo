@@ -5,7 +5,7 @@ import { t } from '@cc/lib/trpc';
 import { columns } from './Columns';
 
 export default function Table() {
-  const infinitePosts = t.post.infinite.useInfiniteQuery(
+  const infinitePosts = t.post.infiniteCreator.useInfiniteQuery(
     {},
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,

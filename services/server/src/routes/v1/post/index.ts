@@ -13,6 +13,7 @@ import {
   create,
   edit,
   getInfinite,
+  getInfiniteCreator,
   hasLiked,
   isCreator,
   like,
@@ -46,6 +47,25 @@ export const postRouter = router({
       nextCursor,
     };
   }),
+  infiniteCreator: protectedProcedure
+    .input(infiniteInput)
+    .query(async (opts) => {
+      const { limit, cursor } = opts.input;
+      const userId = opts.ctx.userId;
+
+      const posts = await getInfiniteCreator({ cursor, limit, userId });
+
+      let nextCursor = undefined;
+      if (posts.length > limit) {
+        const nextItem = posts.pop();
+        nextCursor = nextItem?.id;
+      }
+
+      return {
+        posts,
+        nextCursor,
+      };
+    }),
   like: protectedProcedure.input(likeUnlikeInput).mutation(async (opts) => {
     const { id } = opts.input;
     const userId = opts.ctx.userId;

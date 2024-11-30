@@ -1,18 +1,19 @@
 import { z } from 'zod';
 
-interface OptionalUser {
+interface ProtectedOptional {
   userId?: number;
+}
+
+interface Protected {
+  userId: number;
 }
 
 export const infiniteInput = z.object({
   limit: z.number().min(5).max(30).default(20),
   cursor: z.number().nullish(),
 });
-export type InfiniteInput = z.infer<typeof infiniteInput> & OptionalUser;
-
-interface Protected {
-  userId: number;
-}
+export type InfiniteInput = z.infer<typeof infiniteInput> & ProtectedOptional;
+export type InfiniteCreatorInput = z.infer<typeof infiniteInput> & Protected;
 
 export const likeUnlikeInput = z.object({ id: z.number() });
 export type ProtectedLikeUnlikeInput = z.infer<typeof likeUnlikeInput> &

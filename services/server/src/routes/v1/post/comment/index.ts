@@ -12,6 +12,7 @@ import {
   create,
   edit,
   getInfinite,
+  getInfiniteCreator,
   hasLiked,
   isCreator,
   isCreatorOrOwnerOfPost,
@@ -45,6 +46,30 @@ export const commentRouter = router({
       nextCursor,
     };
   }),
+  infiniteCreator: protectedProcedure
+    .input(infiniteInput)
+    .query(async (opts) => {
+      const { limit, cursor, postId } = opts.input;
+      const userId = opts.ctx.userId;
+
+      const comments = await getInfiniteCreator({
+        postId,
+        limit,
+        cursor,
+        userId,
+      });
+
+      let nextCursor = undefined;
+      if (comments.length > limit) {
+        const nextItem = comments.pop();
+        nextCursor = nextItem?.id;
+      }
+
+      return {
+        comments,
+        nextCursor,
+      };
+    }),
   like: protectedProcedure.input(likeUnlikeInput).mutation(async (opts) => {
     const { id } = opts.input;
     const userId = opts.ctx.userId;
