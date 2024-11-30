@@ -14,6 +14,7 @@ import {
   getInfinite,
   hasLiked,
   isCreator,
+  isCreatorOrOwnerOfPost,
   like,
   remove,
   unlike,
@@ -84,11 +85,11 @@ export const commentRouter = router({
     const { id } = opts.input;
     const userId = opts.ctx.userId;
 
-    const creator = await isCreator({ id, userId });
+    const creator = await isCreatorOrOwnerOfPost({ id, userId });
     if (!creator) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',
-        message: 'You are not the creator of this comment',
+        message: 'You are not the creator of this comment or the post',
       });
     }
 

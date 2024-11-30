@@ -130,3 +130,31 @@ export const isCreator = async ({
 
   return !!comment;
 };
+
+export const isCreatorOrOwnerOfPost = async ({
+  id,
+  userId,
+}: {
+  id: number;
+  userId: number;
+}) => {
+  const comment = await prisma.comment.findFirst({
+    where: {
+      id,
+    },
+    select: {
+      userId: true,
+      post: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
+
+  if (!comment) {
+    return false;
+  }
+
+  return comment.userId === userId || comment.post.userId === userId;
+};
