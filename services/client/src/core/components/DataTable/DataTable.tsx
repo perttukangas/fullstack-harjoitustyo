@@ -1,13 +1,15 @@
 import {
   ColumnDef,
+  ExpandedState,
   SortingState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import { DataTableViewOptions } from '@cc/components/DataTable/DataTableViewOptions';
 import {
@@ -18,19 +20,20 @@ import {
   TableHeader,
   TableRow,
 } from '@cc/components/Table';
-import { type RouterOutputs } from '@cc/lib/trpc';
 
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
-
-interface DataTableProps {
-  columns: ColumnDef<InfinitePost>[];
-  data: InfinitePost[];
+interface DataTableProps<TData extends { id: number }, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
-export function DataTable({ columns, data }: DataTableProps) {
+export function DataTable<TData extends { id: number }, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [expanded, setExpanded] = useState<ExpandedState>({});
 
   const table = useReactTable({
     data,
@@ -39,13 +42,17 @@ export function DataTable({ columns, data }: DataTableProps) {
       rowSelection,
       columnVisibility,
       sorting,
+      expanded,
     },
+    getCoreRowModel: getCoreRowModel(),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    getRowCanExpand: () => true,
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel(),
   });
 
   return (
@@ -76,19 +83,32 @@ export function DataTable({ columns, data }: DataTableProps) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <Fragment key={`${row.id}-${row.original.id}-fragment`}>
+                  <TableRow
+                    key={`${row.id}-${row.original.id}-row`}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={`${cell.id}-${row.original.id}-cell`}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {row.getIsExpanded() && (
+                    <TableRow key={`${row.id}-${row.original.id}-expanded-row`}>
+                      <TableCell
+                        key={`${row.id}-${row.original.id}-expanded-cell`}
+                        colSpan={row.getVisibleCells().length}
+                        className="[&:has([role=checkbox])]:pr-2"
+                      >
+                        <CommentTable postId={row.original.id} />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </Fragment>
               ))
             ) : (
               <TableRow>

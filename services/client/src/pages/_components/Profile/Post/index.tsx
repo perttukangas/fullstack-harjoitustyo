@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { t } from '@cc/lib/trpc';
 
 import { columns } from './Columns';
-import { DataTable } from './DataTable';
 
 export default function Table() {
   const infinitePosts = t.post.infinite.useInfiniteQuery(
@@ -18,5 +17,5 @@ export default function Table() {
     [data]
   );
 
-  return <DataTable columns={columns} data={allRows} />;
+  return <></>;
 }

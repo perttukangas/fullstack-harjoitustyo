@@ -1,5 +1,5 @@
-import Table from './Table';
+import PostComponent from './Post';
 
 export default function Index() {
-  return <Table />;
+  return <PostComponent />;
 }

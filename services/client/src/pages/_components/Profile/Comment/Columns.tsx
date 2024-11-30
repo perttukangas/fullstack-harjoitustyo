@@ -4,9 +4,10 @@ import { Checkbox } from '@cc/components/Checkbox';
 import { DataTableColumnHeader } from '@cc/components/DataTable/DataTableColumnHeader';
 import { type RouterOutputs } from '@cc/lib/trpc';
 
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
+type InfiniteComment =
+  RouterOutputs['post']['comment']['infinite']['comments'][0];
 
-export const columns: ColumnDef<InfinitePost>[] = [
+export const columns: ColumnDef<InfiniteComment>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -32,15 +33,9 @@ export const columns: ColumnDef<InfinitePost>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'content',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
-    ),
-  },
-  {
-    accessorKey: 'comments',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Comments" />
+      <DataTableColumnHeader column={column} title="Content" />
     ),
   },
   {

@@ -41,7 +41,7 @@ export default function List({ open, setOpen, post }: ListProps) {
       <InfiniteScroll
         className="infinite-scroll-comments"
         allRows={allRows}
-        renderRow={(row) => <CommentCard postId={post.id} row={row} />}
+        renderRow={(row) => <CommentCard post={post} row={row} />}
         estimateSize={200}
         {...infiniteComments}
       />
