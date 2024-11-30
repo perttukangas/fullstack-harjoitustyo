@@ -1,51 +1,37 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { Expand, MoreHorizontal, Shrink } from 'lucide-react';
 
-import { Checkbox } from '@cc/components/Checkbox';
+import { IconButton } from '@cc/components/Button';
 import { DataTableColumnHeader } from '@cc/components/DataTable/DataTableColumnHeader';
+import { createSelectColumn } from '@cc/components/DataTable/DataTableSelect';
 import { type RouterOutputs } from '@cc/lib/trpc';
 
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
+type InfinitePost = RouterOutputs['post']['infiniteCreator']['posts'][0];
 
 export const columns: ColumnDef<InfinitePost>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="select row"
-        className="mr-2 translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  { ...createSelectColumn() },
   {
     id: 'expander',
     header: () => null,
     cell: ({ row }) => {
       return row.getCanExpand() ? (
-        <button
-          {...{
-            onClick: row.getToggleExpandedHandler(),
-            style: { cursor: 'pointer' },
-          }}
-        >
-          {row.getIsExpanded() ? '👇' : '👉'}
-        </button>
+        row.getIsExpanded() ? (
+          <IconButton
+            onClick={row.getToggleExpandedHandler()}
+            aria-label="shrink comments"
+          >
+            <Shrink />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={row.getToggleExpandedHandler()}
+            aria-label="expand comments"
+          >
+            <Expand />
+          </IconButton>
+        )
       ) : (
-        '🔵'
+        ''
       );
     },
   },
@@ -56,15 +42,24 @@ export const columns: ColumnDef<InfinitePost>[] = [
     ),
   },
   {
-    accessorKey: 'comments',
+    id: 'Comments',
+    accessorFn: (row) => row._count.comments,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Comments" />
     ),
   },
   {
-    accessorKey: 'likes',
+    id: 'Likes',
+    accessorFn: (row) => row._count.likes,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Likes" />
     ),
+  },
+  {
+    id: 'actions',
+    header: () => <MoreHorizontal />,
+    cell: () => <MoreHorizontal />,
+    enableSorting: false,
+    enableHiding: false,
   },
 ];

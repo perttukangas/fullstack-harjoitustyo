@@ -9,7 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Fragment, useState } from 'react';
+import { Fragment, ReactNode, useState } from 'react';
 
 import { DataTableViewOptions } from '@cc/components/DataTable/DataTableViewOptions';
 import {
@@ -21,14 +21,16 @@ import {
   TableRow,
 } from '@cc/components/Table';
 
-interface DataTableProps<TData extends { id: number }, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  expandedRender?: (data: TData) => ReactNode;
 }
 
-export function DataTable<TData extends { id: number }, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
+  expandedRender,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -50,14 +52,17 @@ export function DataTable<TData extends { id: number }, TValue>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    getRowCanExpand: () => true,
-    onExpandedChange: setExpanded,
-    getExpandedRowModel: getExpandedRowModel(),
+
+    ...(expandedRender && {
+      getRowCanExpand: () => true,
+      onExpandedChange: setExpanded,
+      getExpandedRowModel: getExpandedRowModel(),
+    }),
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
+    <div>
+      <div className="flex items-center justify-between pb-2">
         <DataTableViewOptions table={table} />
       </div>
       <div className="rounded-md border">
@@ -83,13 +88,13 @@ export function DataTable<TData extends { id: number }, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <Fragment key={`${row.id}-${row.original.id}-fragment`}>
+                <Fragment key={`${row.id}-fragment`}>
                   <TableRow
-                    key={`${row.id}-${row.original.id}-row`}
+                    key={`${row.id}-row`}
                     data-state={row.getIsSelected() && 'selected'}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={`${cell.id}-${row.original.id}-cell`}>
+                      <TableCell key={`${cell.id}-cell`}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -97,14 +102,14 @@ export function DataTable<TData extends { id: number }, TValue>({
                       </TableCell>
                     ))}
                   </TableRow>
-                  {row.getIsExpanded() && (
-                    <TableRow key={`${row.id}-${row.original.id}-expanded-row`}>
+                  {expandedRender && row.getIsExpanded() && (
+                    <TableRow key={`${row.id}-expanded-row`}>
                       <TableCell
-                        key={`${row.id}-${row.original.id}-expanded-cell`}
+                        key={`${row.id}-expanded-cell`}
                         colSpan={row.getVisibleCells().length}
                         className="[&:has([role=checkbox])]:pr-2"
                       >
-                        <CommentTable postId={row.original.id} />
+                        {expandedRender(row.original)}
                       </TableCell>
                     </TableRow>
                   )}

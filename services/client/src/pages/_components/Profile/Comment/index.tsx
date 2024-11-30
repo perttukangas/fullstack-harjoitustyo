@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { type RouterOutputs, t } from '@cc/lib/trpc';
 
+import { DataTable } from '../DataTable';
 import { columns } from './Columns';
 
 type InfinitePost = RouterOutputs['post']['infiniteCreator']['posts'][0]['id'];
@@ -23,5 +24,5 @@ export default function Index({ postId }: IndexProps) {
     [data]
   );
 
-  return <></>;
+  return <DataTable columns={columns} data={allRows} />;
 }

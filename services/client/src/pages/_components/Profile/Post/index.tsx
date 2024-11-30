@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 
 import { t } from '@cc/lib/trpc';
 
+import CommentTable from '../Comment';
+import { DataTable } from '../DataTable';
 import { columns } from './Columns';
 
 export default function Table() {
@@ -17,5 +19,11 @@ export default function Table() {
     [data]
   );
 
-  return <></>;
+  return (
+    <DataTable
+      columns={columns}
+      data={allRows}
+      expandedRender={(data) => <CommentTable postId={data.id} />}
+    />
+  );
 }

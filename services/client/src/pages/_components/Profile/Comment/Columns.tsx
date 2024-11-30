@@ -1,37 +1,15 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
 
-import { Checkbox } from '@cc/components/Checkbox';
 import { DataTableColumnHeader } from '@cc/components/DataTable/DataTableColumnHeader';
+import { createSelectColumn } from '@cc/components/DataTable/DataTableSelect';
 import { type RouterOutputs } from '@cc/lib/trpc';
 
 type InfiniteComment =
-  RouterOutputs['post']['comment']['infinite']['comments'][0];
+  RouterOutputs['post']['comment']['infiniteCreator']['comments'][0];
 
 export const columns: ColumnDef<InfiniteComment>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="select row"
-        className="mr-2 translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  { ...createSelectColumn() },
   {
     accessorKey: 'content',
     header: ({ column }) => (
@@ -39,9 +17,17 @@ export const columns: ColumnDef<InfiniteComment>[] = [
     ),
   },
   {
-    accessorKey: 'likes',
+    id: 'Likes',
+    accessorFn: (row) => row._count.likes,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Likes" />
     ),
+  },
+  {
+    id: 'actions',
+    header: () => <MoreHorizontal />,
+    cell: () => <MoreHorizontal />,
+    enableSorting: false,
+    enableHiding: false,
   },
 ];

@@ -29,5 +29,6 @@
 | 26.11.2024 | 11                 | Heroku health check and rollback, add dependabot, add CodeQL analysis, integrate Trivy docker image scan to CodeQL, add lighthouse scanning, add compression to express due to lighthouse results |
 | 27.11.2024 | 10                 | More messing with lighthouse, add rate limiter which slows request handling instead of blocking, partially rewrote the ui code                                                                    |
 | 28.11.2024 | 4                  | Fix new lighthouse issues, force aria label on icon buttons, rate limit 404s, messing with tanstack table for profile view                                                                        |
+| 30.11.2024 | 3                  | Allow deleting any comment in own post, more sketching on profile table view                                                                                                                      |
 
-Total Time Spent (hours): 143
+Total Time Spent (hours): 146
