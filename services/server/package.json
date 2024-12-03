@@ -19,7 +19,7 @@
     "@sentry/cli": "^2.39.1",
     "@sentry/node": "^8.40.0",
     "@sentry/profiling-node": "^8.40.0",
-    "@trpc/server": "^11.0.0-rc.608",
+    "@trpc/server": "^11.0.0-rc.648",
     "bcrypt": "^5.1.1",
     "compression": "^1.7.5",
     "cookie-parser": "^1.4.7",
