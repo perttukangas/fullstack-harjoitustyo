@@ -11,6 +11,7 @@ interface Protected {
 export const infiniteInput = z.object({
   limit: z.number().min(5).max(30).default(20),
   cursor: z.number().nullish(),
+  direction: z.enum(['forward', 'backward']).default('forward').optional(),
 });
 export type InfiniteInput = z.infer<typeof infiniteInput> & ProtectedOptional;
 export type InfiniteCreatorInput = z.infer<typeof infiniteInput> & Protected;

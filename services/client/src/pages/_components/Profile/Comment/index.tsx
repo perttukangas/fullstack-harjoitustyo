@@ -24,5 +24,11 @@ export default function Index({ post }: IndexProps) {
     [data]
   );
 
-  return <DataTable columns={columns({ postId: post.id })} data={allRows} />;
+  return (
+    <DataTable
+      columns={columns({ postId: post.id })}
+      columnsData={allRows}
+      {...infiniteComments}
+    />
+  );
 }

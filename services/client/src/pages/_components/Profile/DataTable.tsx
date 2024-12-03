@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { Fragment, ReactNode, useState } from 'react';
 
+import { Button } from '@cc/components/Button';
 import { DataTableViewOptions } from '@cc/components/DataTable/DataTableViewOptions';
 import {
   Table,
@@ -23,14 +24,30 @@ import {
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columnsData: TData[];
   expandedRender?: (data: TData) => ReactNode;
+
+  fetchNextPage: () => Promise<unknown>;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean;
+
+  fetchPreviousPage: () => Promise<unknown>;
+  isFetchingPreviousPage: boolean;
+  hasPreviousPage: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
+  columnsData,
   expandedRender,
+
+  fetchNextPage,
+  isFetchingNextPage,
+  hasNextPage,
+
+  fetchPreviousPage,
+  isFetchingPreviousPage,
+  hasPreviousPage,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -38,7 +55,7 @@ export function DataTable<TData, TValue>({
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
   const table = useReactTable({
-    data,
+    data: columnsData,
     columns,
     state: {
       rowSelection,
@@ -46,6 +63,7 @@ export function DataTable<TData, TValue>({
       sorting,
       expanded,
     },
+
     getCoreRowModel: getCoreRowModel(),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -127,6 +145,24 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className="flex items-center justify-center space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => void fetchPreviousPage()}
+          disabled={!hasPreviousPage || isFetchingPreviousPage}
+        >
+          Previous Page
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => void fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          Next Page
+        </Button>
       </div>
     </div>
   );

@@ -69,6 +69,7 @@ export const commentRouter = router({
 
       return {
         comments,
+        lastCursor: cursor ?? undefined,
         nextCursor,
       };
     }),

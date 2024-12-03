@@ -52,20 +52,45 @@ export const postRouter = router({
   infiniteCreator: protectedProcedure
     .input(infiniteInput)
     .query(async (opts) => {
-      const { limit, cursor } = opts.input;
+      const { cursor, direction, limit } = opts.input;
       const userId = opts.ctx.userId;
 
-      const posts = await getInfiniteCreator({ cursor, limit, userId });
+      const posts = await getInfiniteCreator({
+        cursor,
+        limit,
+        direction,
+        userId,
+      });
 
-      let nextCursor = undefined;
-      if (posts.length > limit) {
-        const nextItem = posts.pop();
-        nextCursor = nextItem?.id;
+      const hasMore = posts.length > limit;
+      if (hasMore) {
+        if (direction === 'forward') {
+          posts.pop();
+        } else {
+          posts.shift();
+        }
+      }
+
+      let nextCursor =
+        posts.length > 0 ? posts[posts.length - 1].id : undefined;
+      let previousCursor = posts.length > 0 ? posts[0].id : undefined;
+
+      if (!hasMore) {
+        if (direction === 'forward') {
+          nextCursor = undefined;
+        } else if (direction === 'backward') {
+          previousCursor = undefined;
+        }
+      }
+
+      if (!cursor) {
+        previousCursor = undefined;
       }
 
       return {
         posts,
         nextCursor,
+        previousCursor,
       };
     }),
   like: protectedProcedure.input(likeUnlikeInput).mutation(async (opts) => {

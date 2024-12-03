@@ -10,7 +10,9 @@ export default function Table() {
   const infinitePosts = t.post.infiniteCreator.useInfiniteQuery(
     {},
     {
-      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+      getPreviousPageParam: (onePage) => onePage.previousCursor ?? undefined,
+      getNextPageParam: (onePage) => onePage.nextCursor ?? undefined,
+      maxPages: 1,
     }
   );
   const { data } = infinitePosts;
@@ -22,13 +24,14 @@ export default function Table() {
   return (
     <DataTable
       columns={columns()}
-      data={allRows}
+      columnsData={allRows}
       expandedRender={(data) => (
         <>
           <p>{data.content}</p>
           <CommentTable post={data} />
         </>
       )}
+      {...infinitePosts}
     />
   );
 }
