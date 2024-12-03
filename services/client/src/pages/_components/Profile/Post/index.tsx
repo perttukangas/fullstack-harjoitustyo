@@ -22,16 +22,21 @@ export default function Table() {
   );
 
   return (
-    <DataTable
-      columns={columns()}
-      columnsData={allRows}
-      expandedRender={(data) => (
-        <>
-          <p>{data.content}</p>
-          <CommentTable post={data} />
-        </>
-      )}
-      {...infinitePosts}
-    />
+    <>
+      <div className="flex items-center justify-center">
+        <h1 className="text-2xl font-bold">My Posts</h1>
+      </div>
+      <DataTable
+        columns={columns()}
+        columnsData={allRows}
+        expandedRender={(data) => (
+          <>
+            <p>{data.content}</p>
+            <CommentTable post={data} />
+          </>
+        )}
+        {...infinitePosts}
+      />
+    </>
   );
 }

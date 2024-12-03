@@ -15,7 +15,9 @@ export default function Index({ post }: IndexProps) {
   const infiniteComments = t.post.comment.infiniteCreator.useInfiniteQuery(
     { postId: post.id },
     {
-      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+      getPreviousPageParam: (onePage) => onePage.previousCursor ?? undefined,
+      getNextPageParam: (onePage) => onePage.nextCursor ?? undefined,
+      maxPages: 1,
     }
   );
   const { data } = infiniteComments;

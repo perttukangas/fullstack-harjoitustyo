@@ -38,7 +38,7 @@ export default function Remove({
   const removeMutation = t.post.comment.remove.useMutation({
     onSuccess: async () => {
       await tUtils.post.comment.infinite.invalidate({ postId });
-      await tUtils.post.comment.infiniteCreator.invalidate({ postId });
+      await tUtils.post.comment.infiniteCreator.reset({ postId });
       tUtils.post.infinite.setInfiniteData({}, (oldData) => {
         return !oldData
           ? oldData
@@ -48,23 +48,6 @@ export default function Remove({
                   for (const post of page.posts) {
                     if (post.id === postId) {
                       post.comments -= 1;
-                      break;
-                    }
-                  }
-                  break;
-                }
-              }
-            });
-      });
-      tUtils.post.infiniteCreator.setInfiniteData({}, (oldData) => {
-        return !oldData
-          ? oldData
-          : produce(oldData, (draft) => {
-              for (const page of draft.pages) {
-                if (!page.nextCursor || page.nextCursor < postId) {
-                  for (const post of page.posts) {
-                    if (post.id === postId) {
-                      post._count.comments -= 1;
                       break;
                     }
                   }

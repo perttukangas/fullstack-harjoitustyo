@@ -30,5 +30,6 @@
 | 27.11.2024 | 10                 | More messing with lighthouse, add rate limiter which slows request handling instead of blocking, partially rewrote the ui code                                                                    |
 | 28.11.2024 | 4                  | Fix new lighthouse issues, force aria label on icon buttons, rate limit 404s, messing with tanstack table for profile view                                                                        |
 | 30.11.2024 | 3                  | Allow deleting any comment in own post, more sketching on profile table view                                                                                                                      |
+| 3.12.2024  | 9                  | Add remove many, add paginated table view with forwards and backwards pagination using infinite query...                                                                                          |
 
-Total Time Spent (hours): 146
+Total Time Spent (hours): 155

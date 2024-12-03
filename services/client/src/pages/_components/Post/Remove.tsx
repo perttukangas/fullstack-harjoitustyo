@@ -32,7 +32,7 @@ export default function Remove({
   const removeMutation = t.post.remove.useMutation({
     onSuccess: async () => {
       await tUtils.post.infinite.invalidate({});
-      await tUtils.post.infiniteCreator.invalidate({});
+      await tUtils.post.infiniteCreator.reset({});
       if (onSuccessFn) onSuccessFn();
       toast({ description: 'You have successfully removed your post!' });
     },

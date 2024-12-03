@@ -58,10 +58,12 @@ export const getInfiniteCreator = async ({
   postId,
   limit,
   cursor,
+  direction,
   userId,
 }: InfiniteCreatorInput) => {
   return await prisma.comment.findMany({
-    take: limit + 1,
+    take: direction === 'backward' ? -(limit + 1) : limit + 1,
+    skip: cursor ? 1 : 0,
     cursor: cursor ? { id: cursor } : undefined,
     orderBy: { id: 'desc' },
     select: {

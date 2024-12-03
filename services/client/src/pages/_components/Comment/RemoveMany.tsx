@@ -40,7 +40,7 @@ export default function RemoveMany({
   const removeManyMutation = t.post.comment.removeMany.useMutation({
     onSuccess: async () => {
       await tUtils.post.comment.infinite.invalidate({ postId });
-      await tUtils.post.comment.infiniteCreator.invalidate({ postId });
+      await tUtils.post.comment.infiniteCreator.reset({ postId });
       tUtils.post.infinite.setInfiniteData({}, (oldData) => {
         return !oldData
           ? oldData

@@ -34,7 +34,7 @@ export default function RemoveMany({
   const removeManyMutation = t.post.removeMany.useMutation({
     onSuccess: async () => {
       await tUtils.post.infinite.invalidate({});
-      await tUtils.post.infiniteCreator.invalidate({});
+      await tUtils.post.infiniteCreator.reset({});
       if (onSuccessFn) onSuccessFn();
       toast({
         description: `You have successfully removed ${postsAmount} of your posts!`,
