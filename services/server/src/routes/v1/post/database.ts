@@ -61,6 +61,7 @@ export const getInfiniteCreator = async ({
     select: {
       id: true,
       title: true,
+      content: true,
       _count: {
         select: { likes: true, comments: true },
       },

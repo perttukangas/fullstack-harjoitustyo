@@ -21,21 +21,23 @@ interface RemoveProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   postId: InfinitePost;
-  commentId: InfiniteComment;
+  commentIds: InfiniteComment[];
   onSuccessFn?: () => void;
 }
 
-export default function Remove({
+export default function RemoveMany({
   open,
   setOpen,
   postId,
-  commentId,
+  commentIds,
   onSuccessFn,
 }: RemoveProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
 
-  const removeMutation = t.post.comment.remove.useMutation({
+  const commentAmount = commentIds.length;
+
+  const removeManyMutation = t.post.comment.removeMany.useMutation({
     onSuccess: async () => {
       await tUtils.post.comment.infinite.invalidate({ postId });
       await tUtils.post.comment.infiniteCreator.invalidate({ postId });
@@ -47,7 +49,7 @@ export default function Remove({
                 if (!page.nextCursor || page.nextCursor < postId) {
                   for (const post of page.posts) {
                     if (post.id === postId) {
-                      post.comments -= 1;
+                      post.comments -= commentAmount;
                       break;
                     }
                   }
@@ -64,7 +66,7 @@ export default function Remove({
                 if (!page.nextCursor || page.nextCursor < postId) {
                   for (const post of page.posts) {
                     if (post.id === postId) {
-                      post._count.comments -= 1;
+                      post._count.comments -= commentAmount;
                       break;
                     }
                   }
@@ -74,7 +76,9 @@ export default function Remove({
             });
       });
       if (onSuccessFn) onSuccessFn();
-      toast({ description: 'You have successfully removed your comment!' });
+      toast({
+        description: `You have successfully removed ${commentAmount} of your comments!`,
+      });
     },
   });
 
@@ -82,18 +86,21 @@ export default function Remove({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm comment deletion</AlertDialogTitle>
+          <AlertDialogTitle>
+            Confirm {commentAmount} comments deletion
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this comment? This action is
-            irreversible and the comment will be permanently removed.
+            Are you sure you want to delete {commentAmount} comments? This
+            action is irreversible and the {commentAmount} comments will be
+            permanently removed.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => removeMutation.mutate({ id: commentId })}
+            onClick={() => removeManyMutation.mutate({ ids: commentIds })}
           >
-            Remove
+            Remove All
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -17,9 +17,15 @@ interface RemoveProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   postId: InfinitePost;
+  onSuccessFn?: () => void;
 }
 
-export default function Remove({ open, setOpen, postId }: RemoveProps) {
+export default function Remove({
+  open,
+  setOpen,
+  postId,
+  onSuccessFn,
+}: RemoveProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
 
@@ -27,6 +33,7 @@ export default function Remove({ open, setOpen, postId }: RemoveProps) {
     onSuccess: async () => {
       await tUtils.post.infinite.invalidate({});
       await tUtils.post.infiniteCreator.invalidate({});
+      if (onSuccessFn) onSuccessFn();
       toast({ description: 'You have successfully removed your post!' });
     },
   });

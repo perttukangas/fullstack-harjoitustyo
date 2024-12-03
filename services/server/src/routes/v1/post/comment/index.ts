@@ -18,6 +18,7 @@ import {
   isCreatorOrOwnerOfPost,
   like,
   remove,
+  removeMany,
   unlike,
 } from './database.js';
 import {
@@ -26,6 +27,7 @@ import {
   infiniteInput,
   likeUnlikeInput,
   removeInput,
+  removeManyInput,
 } from './shared-validators.js';
 
 export const commentRouter = router({
@@ -121,6 +123,23 @@ export const commentRouter = router({
     await remove({ id });
     opts.ctx.res.status(StatusCode.OK);
   }),
+  removeMany: protectedProcedure
+    .input(removeManyInput)
+    .mutation(async (opts) => {
+      const { ids } = opts.input;
+      const userId = opts.ctx.userId;
+
+      const removed = await removeMany({ ids, userId });
+
+      if (removed.count !== ids.length) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `Successfully removed ${removed.count}/${ids.length} of comments`,
+        });
+      }
+
+      opts.ctx.res.status(StatusCode.OK);
+    }),
   edit: protectedProcedure.input(editInput).mutation(async (opts) => {
     const { id, content } = opts.input;
     const userId = opts.ctx.userId;

@@ -4,7 +4,7 @@ import { t } from '@cc/lib/trpc';
 
 import CommentTable from '../Comment';
 import { DataTable } from '../DataTable';
-import { columns } from './Columns';
+import columns from './Columns';
 
 export default function Table() {
   const infinitePosts = t.post.infiniteCreator.useInfiniteQuery(
@@ -21,9 +21,14 @@ export default function Table() {
 
   return (
     <DataTable
-      columns={columns}
+      columns={columns()}
       data={allRows}
-      expandedRender={(data) => <CommentTable postId={data.id} />}
+      expandedRender={(data) => (
+        <>
+          <p>{data.content}</p>
+          <CommentTable post={data} />
+        </>
+      )}
     />
   );
 }

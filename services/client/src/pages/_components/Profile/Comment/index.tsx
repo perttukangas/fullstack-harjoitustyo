@@ -3,17 +3,17 @@ import { useMemo } from 'react';
 import { type RouterOutputs, t } from '@cc/lib/trpc';
 
 import { DataTable } from '../DataTable';
-import { columns } from './Columns';
+import columns from './Columns';
 
-type InfinitePost = RouterOutputs['post']['infiniteCreator']['posts'][0]['id'];
+type InfinitePost = RouterOutputs['post']['infiniteCreator']['posts'][0];
 
 interface IndexProps {
-  postId: InfinitePost;
+  post: InfinitePost;
 }
 
-export default function Index({ postId }: IndexProps) {
+export default function Index({ post }: IndexProps) {
   const infiniteComments = t.post.comment.infiniteCreator.useInfiniteQuery(
-    { postId },
+    { postId: post.id },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     }
@@ -24,5 +24,5 @@ export default function Index({ postId }: IndexProps) {
     [data]
   );
 
-  return <DataTable columns={columns} data={allRows} />;
+  return <DataTable columns={columns({ postId: post.id })} data={allRows} />;
 }
