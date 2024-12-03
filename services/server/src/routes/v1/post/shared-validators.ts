@@ -29,6 +29,10 @@ export type ProtectedCreateInput = CreateInput & Protected;
 export const removeInput = z.object({ id: z.number() });
 export type RemoveInput = z.infer<typeof removeInput>;
 
+export const removeManyInput = z.object({ ids: z.array(z.number()) });
+export type ProtectedRemoveManyInput = z.infer<typeof removeManyInput> &
+  Protected;
+
 export const editInput = z.object({
   id: z.number(),
   title: z.string().min(5).max(100),

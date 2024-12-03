@@ -17,12 +17,14 @@ interface LazyButtonWithButton extends LazyButtonPropsBase {
   icon?: never;
   ariaLabel?: never;
   onMouseEnter?: never;
+  disabled?: never;
 }
 
 interface LazyButtonWithIcon extends LazyButtonPropsBase {
   icon: ReactNode;
   ariaLabel: React.AriaAttributes['aria-label'];
   onMouseEnter?: () => void;
+  disabled?: boolean;
   button?: never;
 }
 
@@ -33,6 +35,7 @@ export default function LazyButton({
   button,
   icon,
   ariaLabel,
+  disabled,
   children,
 }: LazyButtonProps) {
   const [open, setOpen] = useState(false);
@@ -45,6 +48,7 @@ export default function LazyButton({
         <IconButton
           aria-label={ariaLabel}
           onMouseEnter={onMouseEnter}
+          disabled={disabled}
           onClick={() => setOpen(true)}
         >
           {icon}

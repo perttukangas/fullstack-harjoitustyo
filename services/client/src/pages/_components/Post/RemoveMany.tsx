@@ -16,18 +16,22 @@ type InfinitePost = RouterOutputs['post']['infinite']['posts'][0]['id'];
 interface RemoveProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  postId: InfinitePost;
+  postIds: InfinitePost[];
 }
 
-export default function Remove({ open, setOpen, postId }: RemoveProps) {
+export default function Remove({ open, setOpen, postIds }: RemoveProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
 
-  const removeMutation = t.post.remove.useMutation({
+  const postsAmount = postIds.length;
+
+  const removeManyMutation = t.post.removeMany.useMutation({
     onSuccess: async () => {
       await tUtils.post.infinite.invalidate({});
       await tUtils.post.infiniteCreator.invalidate({});
-      toast({ description: 'You have successfully removed your post!' });
+      toast({
+        description: `You have successfully removed ${postsAmount} of your posts!`,
+      });
     },
   });
 
@@ -35,18 +39,21 @@ export default function Remove({ open, setOpen, postId }: RemoveProps) {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm post deletion</AlertDialogTitle>
+          <AlertDialogTitle>
+            Confirm {postsAmount} posts deletion
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this post? This action is
-            irreversible and the post will be permanently removed.
+            Are you sure you want to delete {postsAmount} posts? This action is
+            irreversible and the {postsAmount} posts will be permanently
+            removed.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => removeMutation.mutate({ id: postId })}
+            onClick={() => removeManyMutation.mutate({ ids: postIds })}
           >
-            Remove
+            Remove All
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

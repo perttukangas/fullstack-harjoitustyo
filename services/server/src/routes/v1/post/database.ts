@@ -6,6 +6,7 @@ import {
   InfiniteInput,
   ProtectedCreateInput,
   ProtectedLikeUnlikeInput,
+  ProtectedRemoveManyInput,
   RemoveInput,
 } from './shared-validators.js';
 
@@ -123,6 +124,17 @@ export const create = async ({
 
 export const remove = async ({ id }: RemoveInput) => {
   return await prisma.post.delete({ where: { id } });
+};
+
+export const removeMany = async ({ ids, userId }: ProtectedRemoveManyInput) => {
+  return await prisma.post.deleteMany({
+    where: {
+      id: {
+        in: ids,
+      },
+      userId,
+    },
+  });
 };
 
 export const edit = async ({ id, title, content }: EditInput) => {

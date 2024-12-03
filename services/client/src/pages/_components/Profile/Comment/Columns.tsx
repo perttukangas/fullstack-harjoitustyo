@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
 import { DataTableColumnHeader } from '@cc/components/DataTable/DataTableColumnHeader';
-import { createSelectColumn } from '@cc/components/DataTable/DataTableSelect';
+import { createSelectColumn } from '@cc/components/DataTable/DataTableColumnSelect';
 import { type RouterOutputs } from '@cc/lib/trpc';
 
 type InfiniteComment =

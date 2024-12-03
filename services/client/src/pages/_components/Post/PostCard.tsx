@@ -49,7 +49,7 @@ export default function PostCard({ row }: PostCardProps) {
                 void Remove.prefetch();
               }}
             >
-              {(openState) => <Remove row={row} {...openState} />}
+              {(openState) => <Remove postId={row.id} {...openState} />}
             </LazyButton>
           </div>
         )}
