@@ -52,14 +52,14 @@ export const commentRouter = router({
     .input(infiniteInput)
     .query(async (opts) => {
       const { limit, cursor, direction, postId } = opts.input;
-      const userId = opts.ctx.userId;
 
+      // No need for user id check here since this is used in profile page
+      // where user only requests posts based on his own post ids
       const comments = await getInfiniteCreator({
         postId,
         limit,
         cursor,
         direction,
-        userId,
       });
 
       const hasMore = comments.length > limit;

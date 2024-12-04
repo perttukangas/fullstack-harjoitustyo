@@ -15,7 +15,7 @@ export const infiniteInput = z.object({
   direction: z.enum(['forward', 'backward']).default('forward').optional(),
 });
 export type InfiniteInput = z.infer<typeof infiniteInput> & ProtectedOptional;
-export type InfiniteCreatorInput = z.infer<typeof infiniteInput> & Protected;
+export type InfiniteCreatorInput = z.infer<typeof infiniteInput>;
 
 export const likeUnlikeInput = z.object({ id: z.number() });
 export type ProtectedLikeUnlikeInput = z.infer<typeof likeUnlikeInput> &
