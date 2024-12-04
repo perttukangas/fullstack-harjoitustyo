@@ -1,5 +1,1 @@
 # Fullstack harjoitustyö
-
-## Todo:
-
-Terraform
