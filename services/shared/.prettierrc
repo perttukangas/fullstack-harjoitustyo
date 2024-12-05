@@ -5,15 +5,15 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "plugins": [
-    "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
+    "@trivago/prettier-plugin-sort-imports"
   ],
   "importOrder": [
+    "(.*)instrument(.*)",
     "<THIRD_PARTY_MODULES>",
     "^@shared/(.*)$",
-    "^@tapiv1/(.*)$",
-    "^@c/(.*)$",
-    "^@cc/(.*)$",
+    "^@s/(.*)$",
+    "^@sc/(.*)$",
+    "^@apiv1/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,

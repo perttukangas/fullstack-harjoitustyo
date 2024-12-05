@@ -1,5 +1,3 @@
-import { prisma } from '@sc/lib/prisma.js';
-
 import {
   EditInput,
   InfiniteCreatorInput,
@@ -8,7 +6,9 @@ import {
   ProtectedLikeUnlikeInput,
   ProtectedRemoveManyInput,
   RemoveInput,
-} from './shared-validators.js';
+} from '@shared/zod/comment.js';
+
+import { prisma } from '@sc/lib/prisma.js';
 
 export const getInfinite = async ({
   postId,
@@ -102,8 +102,8 @@ export const hasLiked = async ({
   id,
   userId,
 }: {
-  id: number;
-  userId: number;
+  id: bigint;
+  userId: bigint;
 }) => {
   const commentLike = await prisma.commentLikes.findFirst({
     where: {
@@ -155,8 +155,8 @@ export const isCreator = async ({
   id,
   userId,
 }: {
-  id: number;
-  userId: number;
+  id: bigint;
+  userId: bigint;
 }) => {
   const comment = await prisma.comment.findFirst({
     where: {
@@ -172,8 +172,8 @@ export const isCreatorOrOwnerOfPost = async ({
   id,
   userId,
 }: {
-  id: number;
-  userId: number;
+  id: bigint;
+  userId: bigint;
 }) => {
   const comment = await prisma.comment.findFirst({
     where: {

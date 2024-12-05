@@ -11,6 +11,7 @@
   "importOrder": [
     "(.*)instrument(.*)",
     "<THIRD_PARTY_MODULES>",
+    "^@shared/(.*)$",
     "^@s/(.*)$",
     "^@sc/(.*)$",
     "^@apiv1/(.*)$",

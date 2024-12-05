@@ -2,6 +2,9 @@ import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+import type { SessionSchema } from '@shared/zod/user.js';
+import { loginSignupInput } from '@shared/zod/user.js';
+
 import { AUTH_SECRET } from '@sc/lib/envalid.js';
 import { prisma } from '@sc/lib/prisma.js';
 import { StatusCode } from '@sc/utils/status-code.js';
@@ -12,9 +15,6 @@ import {
   publicProcedure,
   router,
 } from '@apiv1/trpc/index.js';
-
-import type { SessionSchema } from '../trpc/shared-validators.js';
-import { loginSignupInput } from './shared-validators.js';
 
 export const userRouter = router({
   login: publicProcedure.input(loginSignupInput).mutation(async (opts) => {

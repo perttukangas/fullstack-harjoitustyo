@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "rm -R -f ./dist && npx prisma generate && tsc && tsc-alias",
-    "start": "prisma migrate deploy && node --import ./dist/instrument.js ./dist/index.js",
+    "start": "prisma migrate deploy && node --import ./dist/server/src/instrument.js ./dist/server/src/index.js",
     "dev": "npm run dev:migrate && tsx watch ./src/index.ts",
-    "dev:migrate": "prisma migrate dev && npx @snaplet/seed sync",
+    "dev:migrate": "prisma migrate dev",
     "dev:seed": "npx prisma db seed",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -35,8 +35,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "@snaplet/copycat": "^5.1.0",
-    "@snaplet/seed": "^0.98.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
@@ -58,10 +56,7 @@
     "typescript-eslint": "^8.17.0"
   },
   "prisma": {
-    "seed": "tsx prisma/seed/seed.ts"
-  },
-  "@snaplet/seed": {
-    "config": "prisma/seed/seed.config.ts"
+    "seed": "tsx prisma/seed.ts"
   },
   "lint-staged": {
     "**.{ts,tsx,js,jsx,mjs,md,json,prisma}": [

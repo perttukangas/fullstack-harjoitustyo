@@ -35,8 +35,10 @@ export const resetDatabase = async () => {
 };
 
 export const simpleSeed = async () => {
-  if (!isTest) {
-    throw Error('Simple seed is only allowed in test environments');
+  if (!isTest && !isDev) {
+    throw Error(
+      'Tried to call simple seed in other than test or dev, fix this'
+    );
   }
 
   await resetDatabase();

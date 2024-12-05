@@ -92,6 +92,11 @@ async function main() {
       res.status(200).send(truncatedTables);
     });
 
+    app.get('/api/seed', async (req, res) => {
+      await simpleSeed();
+      res.status(200).send('ok');
+    });
+
     if (isTest) {
       // Simple seed for testing purposes
       // Test should reset the database on their own,
