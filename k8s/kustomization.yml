@@ -5,6 +5,21 @@ kind: Kustomization
 
 generators:
   - charts/traefik.yaml
+  - charts/cockroachdb.yaml
 
 resources:
-  - manifests/namespace.yaml
+  # Deployments
+  - manifests/app.yaml
+  - manifests/ingress.yaml
+
+  # Secrets
+  - secrets/database.yaml
+  - secrets/encryption.yaml
+  - secrets/sentry.yaml
+
+  # ConfigMaps
+  - configmaps/generic.yaml
+
+  # Namespaces
+  - namespaces/fs-project.yaml
+  - namespaces/cockroachdb.yaml

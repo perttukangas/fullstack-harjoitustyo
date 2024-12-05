@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-generic
+  namespace: fs-project
+data:
+  NODE_ENV: test
+  PORT: "3005"
+  CLIENT_URL: http://localhost:8081
