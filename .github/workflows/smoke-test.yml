@@ -10,6 +10,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: run shared smoke tests
+        run: |
+          cd services/shared
+          npm ci
+          npm run lint:check
+          npm run prettier:check
+
       - name: run server smoke tests
         run: |
           cd services/server
