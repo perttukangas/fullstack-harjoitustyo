@@ -1,0 +1,10 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: traefik
+name: traefik
+repo: https://traefik.github.io/charts
+releaseName: traefik
+version: 33.1.0
+namespace: kube-system
+install: true

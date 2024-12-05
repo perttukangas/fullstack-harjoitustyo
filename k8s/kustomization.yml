@@ -1,0 +1,10 @@
+# kubectl kustomize . --enable-helm | kubectl apply -f -
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generators:
+  - charts/traefik.yaml
+
+resources:
+  - manifests/namespace.yaml
