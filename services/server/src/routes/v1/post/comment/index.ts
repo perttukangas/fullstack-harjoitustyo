@@ -1,5 +1,14 @@
 import { TRPCError } from '@trpc/server';
 
+import {
+  createInput,
+  editInput,
+  infiniteInput,
+  likeUnlikeInput,
+  removeInput,
+  removeManyInput,
+} from '@shared/zod/comment.js';
+
 import { StatusCode } from '@sc/utils/status-code.js';
 
 import {
@@ -21,14 +30,6 @@ import {
   removeMany,
   unlike,
 } from './database.js';
-import {
-  createInput,
-  editInput,
-  infiniteInput,
-  likeUnlikeInput,
-  removeInput,
-  removeManyInput,
-} from './shared-validators.js';
 
 export const commentRouter = router({
   infinite: publicProcedure.input(infiniteInput).query(async (opts) => {

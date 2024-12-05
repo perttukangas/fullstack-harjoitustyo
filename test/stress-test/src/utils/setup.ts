@@ -22,7 +22,7 @@ interface AuthInputs {
 }
 
 interface SessionSchema {
-  id: number;
+  id: bigint;
 }
 
 export const getAuth = ({ csrf, email, password }: AuthInputs) => {
@@ -49,7 +49,7 @@ export const getAuth = ({ csrf, email, password }: AuthInputs) => {
   const session = jsonResponse?.result?.data;
 
   if (!session.id) {
-    fail(`Session id missing ${JSON.stringify(session)}`);
+    fail(`Session id missing ${session}`);
   }
 
   return {

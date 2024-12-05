@@ -1,9 +1,9 @@
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express';
 import jwt from 'jsonwebtoken';
 
-import { AUTH_SECRET } from '@sc/lib/envalid.js';
+import { sessionSchema } from '@shared/zod/user.js';
 
-import { sessionSchema } from './shared-validators.js';
+import { AUTH_SECRET } from '@sc/lib/envalid.js';
 
 export const SESSION_TOKEN_COOKIE = 'AUTH_SESSION_TOKEN';
 

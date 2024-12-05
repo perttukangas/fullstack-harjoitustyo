@@ -9,6 +9,14 @@ WORKDIR /usr/src/app
 
 COPY tsconfig.json ./
 
+# SHARED
+# Package lock files layer
+COPY ./shared/package*.json ./shared/
+RUN cd ./shared && npm ci
+
+# Rest of the shared layer
+COPY ./shared/ ./shared/
+
 # SERVER
 # Package lock files layer
 COPY ./server/package*.json ./server/

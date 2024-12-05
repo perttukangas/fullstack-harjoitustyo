@@ -33,18 +33,23 @@ cd ..
 
 npm install
 
+# SHARED
+
+cd ./services/shared
+
+npm install
+
 # BACKEND
 
-cd docker
+cd ../../docker
 docker compose -f docker-compose.dev.yml up -d --build
 DATABASE_CONTAINER="dev-db"
-until docker exec $DATABASE_CONTAINER pg_isready ; do sleep 1 ; done
+until docker exec $DATABASE_CONTAINER /cockroach/cockroach sql --insecure --execute="SELECT 1" ; do sleep 1 ; done
 
 cd ../services/server
 
 npm install
 npx prisma migrate dev
-npx @snaplet/seed init prisma/seed
 npx prisma db seed
 npm run build
 docker compose -f ../../docker/docker-compose.dev.yml down

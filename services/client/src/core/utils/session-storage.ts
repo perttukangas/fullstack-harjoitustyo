@@ -1,4 +1,4 @@
-import type { SessionSchema } from '@tapiv1/trpc/shared-validators';
+import type { SessionSchema } from '@shared/zod/user';
 
 interface StorageTypeValue {
   user?: SessionSchema;

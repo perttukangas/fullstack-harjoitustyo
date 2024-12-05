@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import { CirclePlus, CirclePower, Home, User } from 'lucide-react';
 import { lazy } from 'react';
 
-import type { SessionSchema } from '@tapiv1/trpc/shared-validators';
+import type { SessionSchema } from '@shared/zod/user';
 
 import { IconButton } from '@cc/components/Button';
 import LazyButton from '@cc/components/LazyButton';

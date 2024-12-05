@@ -14,3 +14,7 @@ Sentry.init({
   environment: NODE_ENV,
   enabled: !isTest,
 });
+
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};

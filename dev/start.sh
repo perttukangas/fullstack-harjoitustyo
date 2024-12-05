@@ -2,7 +2,7 @@
 
 docker compose -f ../docker/docker-compose.dev.yml up -d --build
 DATABASE_CONTAINER="dev-db"
-until docker exec $DATABASE_CONTAINER pg_isready ; do sleep 1 ; done
+until docker exec $DATABASE_CONTAINER /cockroach/cockroach sql --insecure --execute="SELECT 1" ; do sleep 1 ; done
 
 trap "docker compose -f ../docker/docker-compose.dev.yml down" INT TERM
 

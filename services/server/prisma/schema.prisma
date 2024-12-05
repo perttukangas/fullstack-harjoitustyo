@@ -4,12 +4,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id           Int            @id @default(autoincrement())
+  id           BigInt         @id @default(autoincrement())
   password     String
   email        String
   posts        Post[]
@@ -19,40 +19,40 @@ model User {
 }
 
 model Post {
-  id       Int         @id @default(autoincrement())
+  id       BigInt      @id @default(autoincrement())
   title    String
   content  String
-  userId   Int
+  userId   BigInt
   user     User        @relation(fields: [userId], references: [id])
   comments Comment[]
   likes    PostLikes[]
 }
 
 model PostLikes {
-  id     Int  @id @default(autoincrement())
-  postId Int
-  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  id     BigInt @id @default(autoincrement())
+  postId BigInt
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId BigInt
+  user   User   @relation(fields: [userId], references: [id])
 
   @@unique([postId, userId])
 }
 
 model Comment {
-  id      Int            @id @default(autoincrement())
+  id      BigInt         @id @default(autoincrement())
   content String
-  postId  Int
+  postId  BigInt
   post    Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId  Int
+  userId  BigInt
   user    User           @relation(fields: [userId], references: [id])
   likes   CommentLikes[]
 }
 
 model CommentLikes {
-  id        Int     @id @default(autoincrement())
-  commentId Int
+  id        BigInt  @id @default(autoincrement())
+  commentId BigInt
   comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  userId    Int
+  userId    BigInt
   user      User    @relation(fields: [userId], references: [id])
 
   @@unique([commentId, userId])
