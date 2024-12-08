@@ -15,12 +15,10 @@ releases:
   - name: traefik
     namespace: kube-system
     chart: traefik/traefik
-    version: 33.1.0
 
   - name: cockroachdb
     namespace: cockroachdb
     chart: cockroachdb/cockroachdb
-    version: 15.0.0
     values:
       - tls:
           enabled: false
@@ -31,7 +29,6 @@ releases:
   - name: kube-prometheus-stack
     namespace: monitoring
     chart: prometheus-community/kube-prometheus-stack
-    version: 66.3.1
     disableValidationOnInstall: true
     values:
       - grafana:
@@ -52,4 +49,3 @@ releases:
   - name: loki-stack
     namespace: monitoring
     chart: grafana/loki-stack
-    version: 2.10.2
