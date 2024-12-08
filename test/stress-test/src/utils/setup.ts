@@ -9,7 +9,9 @@ export const getCsrf = () => {
   const csrfCookieValue = res.cookies['__Host-auth.x-csrf-token'][0].value;
 
   if (!csrfValue || !csrfCookieValue) {
-    fail(`CSRF value or cookie value missing ${csrfValue} ${csrfCookieValue}`);
+    fail(
+      `CSRF value or cookie value missing ${csrfValue} ${csrfCookieValue} -- ${res.status} ${res.status_text}`
+    );
   }
 
   return { csrfValue, csrfCookieValue };
@@ -40,7 +42,7 @@ export const getAuth = ({ csrf, email, password }: AuthInputs) => {
   const authCookieValue = res.cookies['AUTH_SESSION_TOKEN'][0].value;
 
   if (!authCookieValue) {
-    fail(`Auth cookie value missing`);
+    fail(`Auth cookie value missing ${res.status} ${res.status_text}`);
   }
 
   const jsonResponse = res.json() as unknown as {
@@ -75,6 +77,6 @@ export const createAuth = ({ csrf, email, password }: AuthInputs) => {
   });
 
   if (res.status !== 201) {
-    fail(`Account create failed`);
+    fail(`Account create failed ${res.status} ${res.status_text}`);
   }
 };

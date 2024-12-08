@@ -1,12 +1,12 @@
 # k3d cluster create --config k3d-cluster.yaml
 
-apiVersion: k3d.io/v1alpha4
+apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: dev-cluster
 servers: 1
 agents: 2
-image: rancher/k3s:v1.22.7-k3s1
+image: rancher/k3s:v1.31.2-k3s1
 network: dev-cluster-network
 ports:
   - port: 8081:80

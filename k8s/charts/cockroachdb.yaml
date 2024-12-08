@@ -7,7 +7,7 @@ repo: https://charts.cockroachdb.com/
 releaseName: cockroachdb
 version: 15.0.0
 namespace: cockroachdb
-install: true
+includeCRDs: true
 valuesInline:
   tls:
     enabled: false

@@ -7,4 +7,4 @@ repo: https://traefik.github.io/charts
 releaseName: traefik
 version: 33.1.0
 namespace: kube-system
-install: true
+includeCRDs: true

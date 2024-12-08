@@ -17,7 +17,7 @@ jobs:
   site-analyzer:
     uses: ./.github/workflows/site-analyzer.yml
     needs: ["smoke-test"]
-  deploy:
-    uses: ./.github/workflows/heroku-deploy.yml
-    needs: ["stress-test", "site-analyzer"]
-    secrets: inherit
+  #deploy:
+  #  uses: ./.github/workflows/some-cluster.yml
+  #  needs: ["stress-test", "site-analyzer"]
+  #  secrets: inherit
