@@ -1,0 +1,16 @@
+version: 1.0.0-rc.8
+dependencies:
+- name: cockroachdb
+  repository: https://charts.cockroachdb.com/
+  version: 15.0.0
+- name: kube-prometheus-stack
+  repository: https://prometheus-community.github.io/helm-charts/
+  version: 66.3.1
+- name: loki-stack
+  repository: https://grafana.github.io/helm-charts
+  version: 2.10.2
+- name: traefik
+  repository: https://traefik.github.io/charts
+  version: 33.1.0
+digest: sha256:260b230c142a380bcc387fe28b6d6d30dc68debdb5afae27803d4ca61c4741f3
+generated: 2024-12-08T23:48:13.993486101+02:00

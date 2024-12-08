@@ -1,11 +1,7 @@
-# kubectl kustomize . --enable-helm | kubectl apply -f -
+# kubectl kustomize . | kubectl apply -f -
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
-generators:
-  - charts/traefik.yaml
-  - charts/cockroachdb.yaml
 
 resources:
   # Deployments
@@ -22,4 +18,3 @@ resources:
 
   # Namespaces
   - namespaces/fs-project.yaml
-  - namespaces/cockroachdb.yaml
