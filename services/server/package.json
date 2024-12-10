@@ -15,8 +15,8 @@
   "dependencies": {
     "@prisma/client": "^6.0.1",
     "@sentry/cli": "^2.39.1",
-    "@sentry/node": "^8.40.0",
-    "@sentry/profiling-node": "^8.40.0",
+    "@sentry/node": "^8.43.0",
+    "@sentry/profiling-node": "^8.43.0",
     "@trpc/server": "^11.0.0-rc.648",
     "bcrypt": "^5.1.1",
     "compression": "^1.7.5",
@@ -29,7 +29,7 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "zod": "^3.23.8"
+    "zod": "^3.24.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
@@ -48,7 +48,7 @@
     "tsc-alias": "^1.8.10",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "typescript-eslint": "^8.18.0"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
