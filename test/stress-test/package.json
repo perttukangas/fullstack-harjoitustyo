@@ -5,17 +5,13 @@
   "scripts": {
     "build": "rm -R -f ./dist && tsc && tsc-alias",
     "lint:check": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prettier:check": "prettier --check '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",
-    "prettier:fix": "prettier --write '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'"
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/k6": "^0.54.2",
     "@types/node": "^22.10.1",
     "eslint": "^9.16.0",
-    "prettier": "^3.4.1",
     "tsc-alias": "^1.8.10",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",

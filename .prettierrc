@@ -6,14 +6,18 @@
   "trailingComma": "es5",
   "plugins": [
     "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
+    "prettier-plugin-prisma"
   ],
   "importOrder": [
+    "(.*)instrument(.*)",
     "<THIRD_PARTY_MODULES>",
     "^@shared/(.*)$",
-    "^@tapiv1/(.*)$",
+    "^@s/(.*)$",
+    "^@sc/(.*)$",
     "^@c/(.*)$",
     "^@cc/(.*)$",
+    "^@tapiv1/(.*)$",
+    "^@apiv1/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,

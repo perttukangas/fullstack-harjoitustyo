@@ -4,24 +4,15 @@
   "type": "module",
   "scripts": {
     "lint:check": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prettier:check": "prettier --check '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",
-    "prettier:fix": "prettier --write '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'"
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "eslint": "^9.16.0",
-    "prettier": "^3.4.1",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0"
-  },
-  "lint-staged": {
-    "**.{ts,tsx,js,jsx,mjs,md,json,prisma}": [
-      "prettier --write"
-    ]
   }
 }

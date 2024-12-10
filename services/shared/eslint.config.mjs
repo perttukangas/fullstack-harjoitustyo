@@ -6,6 +6,6 @@ export default tseslint.config(
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
   {
-    ignores: ['dist', 'node_modules', 'types/**/*.d.ts'],
+    ignores: ['dist', 'node_modules'],
   }
 );

@@ -15,6 +15,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ['dist', 'node_modules', 'types/**/*.d.ts'],
+    ignores: ['dist', 'node_modules', 'build_types'],
   }
 );

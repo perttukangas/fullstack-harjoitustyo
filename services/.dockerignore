@@ -2,5 +2,4 @@
 **dist**
 **.env**
 
-**types**
-!**src/types**
+**build_types**

@@ -12,7 +12,7 @@
 
     // Some types used by client
     "declaration": true,
-    "declarationDir": "types",
+    "declarationDir": "build_types",
 
     // Used by Sentry to upload sourcemaps
     "sourceMap": true,
