@@ -5,7 +5,7 @@ services:
     environment:
       - COCKROACH_USER=root
       - COCKROACH_PASSWORD=password
-      - COCKROACH_DATABASE=db-dev-all
+      - COCKROACH_DATABASE=dbdevall
     volumes:
       - devdball:/cockroach/cockroach-data
     command: start-single-node --insecure
@@ -27,7 +27,7 @@ services:
       dev-db-all:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://root:password@dev-db-all:26257/db-dev-all?schema=public"
+      DATABASE_URL: "postgresql://root:password@dev-db-all:26257/dbdevall?schema=public"
       NODE_ENV: test
       PORT: 3005
       AUTH_SECRET: "abcdefghi"

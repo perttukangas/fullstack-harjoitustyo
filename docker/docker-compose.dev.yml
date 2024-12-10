@@ -7,7 +7,7 @@ services:
     environment:
       - COCKROACH_USER=root
       - COCKROACH_PASSWORD=password
-      - COCKROACH_DATABASE=db-dev
+      - COCKROACH_DATABASE=dbdev
     command: start-single-node --insecure
     volumes:
       - devdb:/cockroach/cockroach-data
