@@ -56,8 +56,7 @@
     "typescript-eslint": "^8.17.0"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts",
-    "schema": "./prisma/cockroachdb/schema.prisma"
+    "seed": "tsx prisma/seed.ts"
   },
   "lint-staged": {
     "**.{ts,tsx,js,jsx,mjs,md,json,prisma}": [

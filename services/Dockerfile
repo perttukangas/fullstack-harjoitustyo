@@ -1,7 +1,6 @@
 FROM node:22-alpine3.20@sha256:b64ced2e7cd0a4816699fe308ce6e8a08ccba463c757c00c14cd372e3d2c763e AS builder
 
 # CI build time args
-ARG GITHUB_ACTIONS
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
 ARG SENTRY_PROJECT
@@ -21,10 +20,6 @@ COPY ./shared/ ./shared/
 # SERVER
 # Package lock files layer
 COPY ./server/package*.json ./server/
-
-# Hacky stuff to keep deploying to Heroku via postgresql since I have no credits for cluster
-RUN if [ -n "$GITHUB_ACTIONS" ]; then sed -i 's|./prisma/cockroachdb/schema.prisma|./prisma/postgresql/schema.prisma|' ./server/package.json; fi
-
 RUN cd ./server && npm ci
 
 # Rest of the server layer
@@ -32,7 +27,7 @@ COPY ./server/ ./server/
 RUN cd ./server && npm run build
 
 # Run Sentry sourcemaps upload if CI
-RUN if [ -n "$GITHUB_ACTIONS" ]; then cd ./server && npm run sentry:sourcemaps; fi
+RUN if [ -n "$SENTRY_AUTH_TOKEN" ] && [ -n "$SENTRY_ORG" ] && [ -n "$SENTRY_PROJECT" ]; then cd ./server && npm run sentry:sourcemaps; fi
 
 # Clean sourcemaps so they aren't in final build
 RUN cd ./server && find ./dist -name "*.js.map" -type f -delete

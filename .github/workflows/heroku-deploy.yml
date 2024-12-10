@@ -28,7 +28,6 @@ jobs:
             SENTRY_AUTH_TOKEN
             SENTRY_ORG
             SENTRY_PROJECT
-            GITHUB_ACTIONS
 
           # Health check
           healthcheck: "https://fs-project-41e16305e0df.herokuapp.com/api/healthz"
@@ -39,4 +38,3 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-          GITHUB_ACTIONS: $GITHUB_ACTIONS
