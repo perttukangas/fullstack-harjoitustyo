@@ -17,7 +17,7 @@ services:
         ]
       interval: 5s
       timeout: 5s
-      retries: 15
+      retries: 12
   dev-app-all:
     build: ../services
     container_name: dev-app-all

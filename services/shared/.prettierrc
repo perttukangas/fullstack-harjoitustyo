@@ -8,12 +8,7 @@
     "@trivago/prettier-plugin-sort-imports"
   ],
   "importOrder": [
-    "(.*)instrument(.*)",
     "<THIRD_PARTY_MODULES>",
-    "^@shared/(.*)$",
-    "^@s/(.*)$",
-    "^@sc/(.*)$",
-    "^@apiv1/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,

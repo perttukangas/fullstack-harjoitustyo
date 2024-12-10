@@ -1,0 +1,42 @@
+name: Heroku deploy Flow
+
+on:
+  workflow_call:
+
+jobs:
+  main:
+    runs-on: ubuntu-22.04
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: heroku deploy
+        uses: akhileshns/heroku-deploy@v3.13.15
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+
+          # Required for Heroku docker
+          stack: container
+          usedocker: true
+
+          # Docker build context
+          appdir: "services"
+          docker_build_args: |
+            SENTRY_AUTH_TOKEN
+            SENTRY_ORG
+            SENTRY_PROJECT
+            GITHUB_ACTIONS
+
+          # Health check
+          healthcheck: "https://fs-project-41e16305e0df.herokuapp.com/api/healthz"
+          checkstring: "ok"
+          delay: 30
+          rollbackonhealthcheckfailed: true
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          GITHUB_ACTIONS: $GITHUB_ACTIONS
