@@ -32,5 +32,8 @@
 | 30.11.2024 | 3                  | Allow deleting any comment in own post, more sketching on profile table view                                                                                                                      |
 | 3.12.2024  | 9                  | Add remove many, add paginated table view with forwards and backwards pagination using infinite query...                                                                                          |
 | 4.12.2024  | 3                  | Trying terraform and scrabbing the idea atleast for now                                                                                                                                           |
+| 5.12.2024  | 5                  | Experimenting with k8s. Change to cockroachdb for scaling database. Move schemas to shared folder                                                                                                 |
+| 8.12.2024  | 8                  | Ratelimit k8s via traefik. Add horizontal auto scaling. Use helmfile to keep everything in k8s declarative way                                                                                    |
+| 10.12.2024 | 3                  | Use kustomization to define image. Switch "production" database to cockroachdb free-tier so I can merge k8s, don't have credits for actual cluster so keep the app otherwise in heroku            |
 
-Total Time Spent (hours): 158
+Total Time Spent (hours): 174

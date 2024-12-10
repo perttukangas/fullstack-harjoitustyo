@@ -1,0 +1,71 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: app-hpa
+  namespace: fs-project
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-svc
+  namespace: fs-project
+spec:
+  type: ClusterIP
+  selector:
+    app: app
+  ports:
+    - port: 3005
+      protocol: TCP
+      targetPort: 3005
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: fs-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: fs-project/app
+          envFrom:
+            - configMapRef:
+                name: configmap-generic
+            - secretRef:
+                name: secret-database
+            - secretRef:
+                name: secret-encryption
+            - secretRef:
+                name: secret-sentry
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /api/healthz
+              port: 3005

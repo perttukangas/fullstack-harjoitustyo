@@ -10,7 +10,7 @@
   ],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^@apiv1/(.*)$",
+    "^@shared/(.*)$",
     "^@tapiv1/(.*)$",
     "^@c/(.*)$",
     "^@cc/(.*)$",

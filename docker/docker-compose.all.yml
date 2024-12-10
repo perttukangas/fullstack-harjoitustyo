@@ -1,18 +1,23 @@
 services:
   dev-db-all:
-    image: postgres:17.0-alpine3.20
+    image: cockroachdb/cockroach:v24.3.0
     container_name: dev-db-all
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    user: postgres
+      - COCKROACH_USER=root
+      - COCKROACH_PASSWORD=password
+      - COCKROACH_DATABASE=db-dev-all
     volumes:
-      - devdball:/var/lib/postgresql/data
+      - devdball:/cockroach/cockroach-data
+    command: start-single-node --insecure
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h dev-db-all"]
+      test:
+        [
+          "CMD-SHELL",
+          "cockroach sql --insecure --host=dev-db-all --execute 'SELECT 1'",
+        ]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 12
   dev-app-all:
     build: ../services
     container_name: dev-app-all
@@ -22,7 +27,7 @@ services:
       dev-db-all:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://postgres:password@dev-db-all:5432/db-dev?schema=public"
+      DATABASE_URL: "postgresql://root:password@dev-db-all:26257/db-dev-all?schema=public"
       NODE_ENV: test
       PORT: 3005
       AUTH_SECRET: "abcdefghi"

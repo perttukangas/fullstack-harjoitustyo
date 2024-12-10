@@ -1,0 +1,24 @@
+# kubectl kustomize . | kubectl apply -f -
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+images:
+  - name: fs-project/app
+    newName: deecaad/fs-project:test
+
+resources:
+  # Deployments
+  - manifests/app.yaml
+  - manifests/ingress.yaml
+
+  # Secrets
+  - secrets/database.yaml
+  - secrets/encryption.yaml
+  - secrets/sentry.yaml
+
+  # ConfigMaps
+  - configmaps/generic.yaml
+
+  # Namespaces
+  - namespaces/fs-project.yaml

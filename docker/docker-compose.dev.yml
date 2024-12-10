@@ -1,15 +1,16 @@
 services:
   dev-db:
-    image: postgres:17.0-alpine3.20
+    image: cockroachdb/cockroach:v24.3.0
     container_name: dev-db
     ports:
-      - "127.0.0.1:5433:5432"
+      - "127.0.0.1:5433:26257"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    user: postgres
+      - COCKROACH_USER=root
+      - COCKROACH_PASSWORD=password
+      - COCKROACH_DATABASE=db-dev
+    command: start-single-node --insecure
     volumes:
-      - devdb:/var/lib/postgresql/data
+      - devdb:/cockroach/cockroach-data
 
 volumes:
   devdb:

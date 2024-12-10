@@ -9,6 +9,14 @@ WORKDIR /usr/src/app
 
 COPY tsconfig.json ./
 
+# SHARED
+# Package lock files layer
+COPY ./shared/package*.json ./shared/
+RUN cd ./shared && npm ci
+
+# Rest of the shared layer
+COPY ./shared/ ./shared/
+
 # SERVER
 # Package lock files layer
 COPY ./server/package*.json ./server/
@@ -19,7 +27,7 @@ COPY ./server/ ./server/
 RUN cd ./server && npm run build
 
 # Run Sentry sourcemaps upload if CI
-RUN if [ -n "$SENTRY_AUTH_TOKEN" ]; then cd ./server && npm run sentry:sourcemaps; fi
+RUN if [ -n "$SENTRY_AUTH_TOKEN" ] && [ -n "$SENTRY_ORG" ] && [ -n "$SENTRY_PROJECT" ]; then cd ./server && npm run sentry:sourcemaps; fi
 
 # Clean sourcemaps so they aren't in final build
 RUN cd ./server && find ./dist -name "*.js.map" -type f -delete
@@ -44,8 +52,7 @@ COPY --chown=node:node --from=builder /usr/src/app/client/dist ./static
 COPY --chown=node:node --from=builder /usr/src/app/server/node_modules ./node_modules
 COPY --chown=node:node --from=builder /usr/src/app/server/dist ./dist
 COPY --chown=node:node --from=builder /usr/src/app/server/package*.json ./
-COPY --chown=node:node --from=builder /usr/src/app/server/prisma/migrations ./prisma/migrations
-COPY --chown=node:node --from=builder /usr/src/app/server/prisma/schema.prisma ./prisma/schema.prisma
+COPY --chown=node:node --from=builder /usr/src/app/server/prisma ./prisma/
 
 USER node
 

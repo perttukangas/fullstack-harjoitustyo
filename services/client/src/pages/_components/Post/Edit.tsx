@@ -2,9 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { produce } from 'immer';
 import { useForm } from 'react-hook-form';
 
-import { editInput } from '@apiv1/post/shared-validators';
-
-import type { EditInput } from '@tapiv1/post/shared-validators';
+import { type EditInput, editInput } from '@shared/zod/post';
 
 import { Button } from '@cc/components/Button';
 import DrawerDialog from '@cc/components/DrawerDialog';

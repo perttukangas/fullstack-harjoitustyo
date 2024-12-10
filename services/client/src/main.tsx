@@ -4,6 +4,10 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
 
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

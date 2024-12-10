@@ -3,9 +3,7 @@ import { produce } from 'immer';
 import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { createInput } from '@apiv1/post/comment/shared-validators';
-
-import type { CreateInput } from '@tapiv1/post/comment/shared-validators';
+import { type CreateInput, createInput } from '@shared/zod/comment';
 
 import { Button } from '@cc/components/Button';
 import {

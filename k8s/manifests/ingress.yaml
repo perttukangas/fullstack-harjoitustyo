@@ -1,0 +1,33 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: ratelimit
+  namespace: fs-project
+spec:
+  rateLimit:
+    average: 100
+    burst: 200
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute
+  namespace: fs-project
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: app-svc
+          namespace: fs-project
+          port: 3005
+      middlewares:
+        - name: ratelimit
+    - match: PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: app-svc
+          namespace: fs-project
+          port: 3005

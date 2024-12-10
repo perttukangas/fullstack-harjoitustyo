@@ -1,0 +1,51 @@
+# helmfile init
+# helmfile apply
+
+repositories:
+  - name: traefik
+    url: https://traefik.github.io/charts
+  - name: cockroachdb
+    url: https://charts.cockroachdb.com/
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts/
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+
+releases:
+  - name: traefik
+    namespace: kube-system
+    chart: traefik/traefik
+
+  - name: cockroachdb
+    namespace: cockroachdb
+    chart: cockroachdb/cockroachdb
+    values:
+      - tls:
+          enabled: false
+      - storage:
+          persistentVolume:
+            size: 1Gi
+
+  - name: kube-prometheus-stack
+    namespace: monitoring
+    chart: prometheus-community/kube-prometheus-stack
+    disableValidationOnInstall: true
+    values:
+      - grafana:
+          adminUser: admin
+          adminPassword: admin
+          service:
+            type: LoadBalancer
+            port: 8082
+          datasources:
+            datasources.yaml:
+              apiVersion: 1
+              datasources:
+                - name: loki-stack
+                  type: loki
+                  url: http://loki-stack.monitoring:3100
+                  isDefault: false
+
+  - name: loki-stack
+    namespace: monitoring
+    chart: grafana/loki-stack

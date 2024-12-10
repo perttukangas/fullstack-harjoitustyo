@@ -1,0 +1,7 @@
+services:
+  k6:
+    build: ../test/stress-test
+    command: run test.js
+    environment:
+      BASE_URL: http://localhost:8081
+    network_mode: host
