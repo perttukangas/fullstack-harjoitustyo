@@ -51,7 +51,7 @@ cd ../services/server
 npm install
 npx prisma migrate dev
 npx prisma db seed
-npm run build
+npx tsc --emitDeclarationOnly && npx tsc-alias
 docker compose -f ../../docker/docker-compose.dev.yml down
 
 # FRONTEND
