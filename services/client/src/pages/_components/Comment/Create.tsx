@@ -3,7 +3,8 @@ import { produce } from 'immer';
 import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { type CreateInput, createInput } from '@shared/zod/comment';
+import { type UnparsedCreateInput, createInput } from '@shared/zod/comment';
+import { UnparsedDefaultId } from '@shared/zod/common';
 
 import { Button } from '@cc/components/Button';
 import {
@@ -15,19 +16,17 @@ import {
 } from '@cc/components/Form';
 import { Textarea } from '@cc/components/Textarea';
 import { useToast } from '@cc/hooks/use-toast';
-import { type RouterOutputs, t } from '@cc/lib/trpc';
-
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0]['id'];
+import { t } from '@cc/lib/trpc';
 
 interface CreateProps {
-  postId: InfinitePost;
+  postId: UnparsedDefaultId;
 }
 
 export default function Create({ postId }: CreateProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
 
-  const form = useForm<CreateInput>({
+  const form = useForm<UnparsedCreateInput>({
     resolver: zodResolver(createInput),
     defaultValues: { content: '', postId },
   });

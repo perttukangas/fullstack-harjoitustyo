@@ -2,7 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { produce } from 'immer';
 import { useForm } from 'react-hook-form';
 
-import { type EditInput, editInput } from '@shared/zod/comment';
+import { type UnparsedEditInput, editInput } from '@shared/zod/comment';
+import { UnparsedDefaultId } from '@shared/zod/common';
 
 import { Button } from '@cc/components/Button';
 import DrawerDialog from '@cc/components/DrawerDialog';
@@ -18,14 +19,13 @@ import { Textarea } from '@cc/components/Textarea';
 import { useToast } from '@cc/hooks/use-toast';
 import { type RouterOutputs, t } from '@cc/lib/trpc';
 
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0]['id'];
 type InfiniteComment =
   RouterOutputs['post']['comment']['infinite']['comments'][0];
 
 interface editProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  postId: InfinitePost;
+  postId: UnparsedDefaultId;
   row: InfiniteComment;
 }
 
@@ -33,7 +33,7 @@ export default function Edit({ open, setOpen, postId, row }: editProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
 
-  const form = useForm<EditInput>({
+  const form = useForm<UnparsedEditInput>({
     resolver: zodResolver(editInput),
     defaultValues: row,
   });

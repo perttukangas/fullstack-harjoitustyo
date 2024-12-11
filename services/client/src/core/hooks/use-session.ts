@@ -1,11 +1,11 @@
 import { createContext, useContext } from 'react';
 
-import type { SessionSchema } from '@shared/zod/user';
+import type { UnparsedSessionSchema } from '@shared/zod/user';
 
 export const SessionContext = createContext<
   | {
-      user: SessionSchema | undefined;
-      setUser: (user: SessionSchema | undefined) => void;
+      user: UnparsedSessionSchema | undefined;
+      setUser: (user: UnparsedSessionSchema | undefined) => void;
     }
   | undefined
 >(undefined);

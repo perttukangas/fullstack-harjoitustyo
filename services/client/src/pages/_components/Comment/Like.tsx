@@ -1,16 +1,17 @@
 import { produce } from 'immer';
 import { Heart } from 'lucide-react';
 
+import { UnparsedDefaultId } from '@shared/zod/common';
+
 import { Button } from '@cc/components/Button';
 import { useSession } from '@cc/hooks/use-session';
 import { type RouterOutputs, t } from '@cc/lib/trpc';
 
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0]['id'];
 type InfiniteComment =
   RouterOutputs['post']['comment']['infinite']['comments'][0];
 
 interface LikeProps {
-  postId: InfinitePost;
+  postId: UnparsedDefaultId;
   row: InfiniteComment;
 }
 

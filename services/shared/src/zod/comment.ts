@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
-import { type Protected, type ProtectedOptional, defaultId } from './common.js';
+import {
+  type Protected,
+  type ProtectedOptional,
+  UnparsedDefaultId,
+  defaultId,
+} from './common.js';
 
 export const infiniteInput = z.object({
   postId: defaultId,
@@ -20,6 +25,9 @@ export const createInput = z.object({
   content: z.string().min(10).max(5000),
 });
 export type CreateInput = z.infer<typeof createInput>;
+export type UnparsedCreateInput = Omit<CreateInput, 'postId'> & {
+  postId: UnparsedDefaultId;
+};
 export type ProtectedCreateInput = CreateInput & Protected;
 
 export const removeInput = z.object({ id: defaultId });
@@ -34,4 +42,7 @@ export const editInput = z.object({
   content: z.string().min(10).max(5000),
 });
 export type EditInput = z.infer<typeof editInput>;
+export type UnparsedEditInput = Omit<EditInput, 'id'> & {
+  id: UnparsedDefaultId;
+};
 export type ProtectedEditInput = EditInput & Protected;

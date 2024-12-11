@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { defaultId } from './common.js';
+import { UnparsedDefaultId, defaultId } from './common.js';
 
 export const loginSignupInput = z.object({
   email: z.string().email().max(100),
@@ -12,3 +12,6 @@ export const sessionSchema = z.object({
   id: defaultId,
 });
 export type SessionSchema = z.infer<typeof sessionSchema>;
+export interface UnparsedSessionSchema {
+  id: UnparsedDefaultId;
+}

@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import { CirclePlus, CirclePower, Home, User } from 'lucide-react';
 import { lazy } from 'react';
 
-import type { SessionSchema } from '@shared/zod/user';
+import type { UnparsedSessionSchema } from '@shared/zod/user';
 
 import { IconButton } from '@cc/components/Button';
 import LazyButton from '@cc/components/LazyButton';
@@ -68,7 +68,7 @@ const home = () => (
   </Link>
 );
 
-const homeLayout = (user: SessionSchema | undefined) => {
+const homeLayout = (user: UnparsedSessionSchema | undefined) => {
   if (user) {
     return (
       <>

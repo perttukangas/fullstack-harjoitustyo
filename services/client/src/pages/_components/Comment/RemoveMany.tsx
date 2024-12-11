@@ -1,5 +1,7 @@
 import { produce } from 'immer';
 
+import { UnparsedDefaultId } from '@shared/zod/common';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,17 +13,13 @@ import {
   AlertDialogTitle,
 } from '@cc/components/AlertDialog';
 import { useToast } from '@cc/hooks/use-toast';
-import { type RouterOutputs, t } from '@cc/lib/trpc';
-
-type InfinitePost = RouterOutputs['post']['infinite']['posts'][0]['id'];
-type InfiniteComment =
-  RouterOutputs['post']['comment']['infinite']['comments'][0]['id'];
+import { t } from '@cc/lib/trpc';
 
 interface RemoveProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  postId: InfinitePost;
-  commentIds: InfiniteComment[];
+  postId: UnparsedDefaultId;
+  commentIds: UnparsedDefaultId[];
   onSuccessFn?: () => void;
 }
 

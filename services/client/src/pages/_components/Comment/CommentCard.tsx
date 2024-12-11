@@ -49,7 +49,9 @@ export default function CommentCard({ post, row }: CommentCardProps) {
               void Remove.prefetch();
             }}
           >
-            {(openState) => <Remove postId={postId} row={row} {...openState} />}
+            {(openState) => (
+              <Remove postId={postId} commentId={row.id} {...openState} />
+            )}
           </LazyButton>
         </CardFooter>
       )}

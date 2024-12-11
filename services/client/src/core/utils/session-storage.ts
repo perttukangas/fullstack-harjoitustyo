@@ -1,7 +1,7 @@
-import type { SessionSchema } from '@shared/zod/user';
+import type { UnparsedSessionSchema } from '@shared/zod/user';
 
 interface StorageTypeValue {
-  user?: SessionSchema;
+  user?: UnparsedSessionSchema;
   csrf?: string;
 }
 

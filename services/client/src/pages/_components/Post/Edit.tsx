@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { produce } from 'immer';
 import { useForm } from 'react-hook-form';
 
-import { type EditInput, editInput } from '@shared/zod/post';
+import { type UnparsedEditInput, editInput } from '@shared/zod/post';
 
 import { Button } from '@cc/components/Button';
 import DrawerDialog from '@cc/components/DrawerDialog';
@@ -31,7 +31,7 @@ export default function Edit({ open, setOpen, row }: EditProps) {
   const { toast } = useToast();
   const tUtils = t.useUtils();
 
-  const form = useForm<EditInput>({
+  const form = useForm<UnparsedEditInput>({
     resolver: zodResolver(editInput),
     defaultValues: row,
   });

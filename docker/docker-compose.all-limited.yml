@@ -6,7 +6,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.25"
+          cpus: '0.25'
           memory: 512M
   dev-app-all:
     extends:
@@ -15,7 +15,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.25"
+          cpus: '0.25'
           memory: 128M
 
 volumes:

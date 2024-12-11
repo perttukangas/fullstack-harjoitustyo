@@ -1,7 +1,7 @@
 services:
   lighthouse:
     image: femtopixel/google-lighthouse:v12.2.2
-    command: ["http://localhost:3005"]
+    command: ['http://localhost:3005']
     volumes:
       - ../test/site-analyzer/reports:/home/chrome/reports
     user: root

@@ -3,7 +3,7 @@ services:
     image: cockroachdb/cockroach:v24.3.0
     container_name: dev-db
     ports:
-      - "127.0.0.1:5433:26257"
+      - '127.0.0.1:5433:26257'
     environment:
       - COCKROACH_USER=root
       - COCKROACH_PASSWORD=password

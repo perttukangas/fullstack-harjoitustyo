@@ -12,7 +12,7 @@ services:
     healthcheck:
       test:
         [
-          "CMD-SHELL",
+          'CMD-SHELL',
           "cockroach sql --insecure --host=dev-db-all --execute 'SELECT 1'",
         ]
       interval: 5s
@@ -22,19 +22,19 @@ services:
     build: ../services
     container_name: dev-app-all
     ports:
-      - "127.0.0.1:3005:3005"
+      - '127.0.0.1:3005:3005'
     depends_on:
       dev-db-all:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://root:password@dev-db-all:26257/dbdevall?schema=public"
+      DATABASE_URL: 'postgresql://root:password@dev-db-all:26257/dbdevall?schema=public'
       NODE_ENV: test
       PORT: 3005
-      AUTH_SECRET: "abcdefghi"
-      CLIENT_URL: "http://localhost:3005"
-      COOKIE_SECRET: "jklmnopq"
-      CSRF_SECRET: "rstuvwxyz"
-      SENTRY_AUTH_TOKEN: "DisabledWithNodeEnvTest"
+      AUTH_SECRET: 'abcdefghi'
+      CLIENT_URL: 'http://localhost:3005'
+      COOKIE_SECRET: 'jklmnopq'
+      CSRF_SECRET: 'rstuvwxyz'
+      SENTRY_AUTH_TOKEN: 'DisabledWithNodeEnvTest'
 
 volumes:
   devdball:

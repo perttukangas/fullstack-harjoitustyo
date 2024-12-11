@@ -33,31 +33,25 @@ cd ..
 
 npm install
 
-# SHARED
+# NODE MODULES
 
-cd ./services/shared
+cd ./services
 
 npm install
 
 # BACKEND
 
-cd ../../docker
+cd ../docker
 docker compose -f docker-compose.dev.yml up -d --build
 DATABASE_CONTAINER="dev-db"
 until docker exec $DATABASE_CONTAINER /cockroach/cockroach sql --insecure --execute="SELECT 1" ; do sleep 1 ; done
 
 cd ../services/server
 
-npm install
 npx prisma migrate dev
 npx prisma db seed
 npx tsc --emitDeclarationOnly && npx tsc-alias
 docker compose -f ../../docker/docker-compose.dev.yml down
-
-# FRONTEND
-cd ../client
-
-npm install
 
 # STRESS TEST
 cd ../../test/stress-test

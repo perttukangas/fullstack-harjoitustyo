@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import type { SessionSchema } from '@shared/zod/user';
+import type { UnparsedSessionSchema } from '@shared/zod/user';
 
 import { SessionContext } from '@cc/hooks/use-session';
 import { t } from '@cc/lib/trpc';
@@ -16,10 +16,10 @@ export default function SessionProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setStateUser] = useState<SessionSchema | undefined>();
+  const [user, setStateUser] = useState<UnparsedSessionSchema | undefined>();
   const { data, isPending } = t.user.authorized.useQuery();
 
-  const setUser = (user: SessionSchema | undefined) => {
+  const setUser = (user: UnparsedSessionSchema | undefined) => {
     setStateUser(user);
     if (user) {
       setItem(StorageType.USER, user);

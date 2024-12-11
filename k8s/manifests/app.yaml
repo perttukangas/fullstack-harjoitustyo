@@ -61,8 +61,8 @@ spec:
                 name: secret-sentry
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "250m"
+              memory: '128Mi'
+              cpu: '250m'
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 5
