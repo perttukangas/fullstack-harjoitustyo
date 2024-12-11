@@ -1,4 +1,4 @@
-FROM node:22-alpine3.20@sha256:b64ced2e7cd0a4816699fe308ce6e8a08ccba463c757c00c14cd372e3d2c763e AS builder
+FROM node:23-alpine3.20@sha256:f4af2901de1fbe9fb38959be90983d964d8b0e5413d4e18f8c393eb84dbb7779 AS builder
 
 # CI build time args
 ARG SENTRY_AUTH_TOKEN
@@ -36,7 +36,7 @@ RUN cd ./server && find ./dist -name "*.js.map" -type f -delete
 COPY ./client ./client
 RUN cd ./client && npm run build
 
-FROM node:22-alpine3.20@sha256:b64ced2e7cd0a4816699fe308ce6e8a08ccba463c757c00c14cd372e3d2c763e AS node_modules
+FROM node:23-alpine3.20@sha256:f4af2901de1fbe9fb38959be90983d964d8b0e5413d4e18f8c393eb84dbb7779 AS node_modules
 
 WORKDIR /usr/src/app
 
@@ -50,7 +50,7 @@ RUN npm ci --omit=dev
 
 COPY --chown=node:node --from=builder /usr/src/app/node_modules/.prisma/client ./node_modules/.prisma/client
 
-FROM node:22-alpine3.20@sha256:b64ced2e7cd0a4816699fe308ce6e8a08ccba463c757c00c14cd372e3d2c763e AS runner
+FROM node:23-alpine3.20@sha256:f4af2901de1fbe9fb38959be90983d964d8b0e5413d4e18f8c393eb84dbb7779 AS runner
 
 WORKDIR /usr/src/app
 
