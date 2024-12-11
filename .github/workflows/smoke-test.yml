@@ -29,7 +29,9 @@ jobs:
       - name: run server smoke tests
         run: |
           cd services/server
-          npx tsc --emitDeclarationOnly && npx tsc-alias
+          npx prisma generate
+          npx tsc --emitDeclarationOnly
+          npx tsc-alias
           npm run lint:check
 
       - name: run client smoke tests

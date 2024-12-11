@@ -35,5 +35,6 @@
 | 5.12.2024  | 5                  | Experimenting with k8s. Change to cockroachdb for scaling database. Move schemas to shared folder                                                                                                                                                   |
 | 8.12.2024  | 8                  | Ratelimit k8s via traefik. Add horizontal auto scaling. Use helmfile to keep everything in k8s declarative way                                                                                                                                      |
 | 10.12.2024 | 8                  | Use kustomization to define image. Switch "production" database to cockroachdb free-tier so I can merge k8s, don't have credits for actual cluster so keep the app otherwise in heroku. Funny business with typescript, fixed type checks in client |
+| 11.12.2024 | 4                  | Utilize docker compose deploy to setup fully dockerized dev env with hotloads                                                                                                                                                                       |
 
-Total Time Spent (hours): 179
+Total Time Spent (hours): 183

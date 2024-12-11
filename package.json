@@ -8,6 +8,7 @@
   },
   "scripts": {
     "prepare": "husky",
+    "init-dev": "npm i && cd ./services && npm install && cd ./server && npx tsc --emitDeclarationOnly && npx tsc-alias",
     "prettier:check": "prettier --check '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'",
     "prettier:fix": "prettier --write '**.{ts,tsx,js,jsx,mjs,md,json,prisma}'"
   },

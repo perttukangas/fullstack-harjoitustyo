@@ -25,7 +25,6 @@ import { trpcMiddleware } from '@apiv1/trpc/middleware.js';
 
 async function main() {
   info('Starting server...');
-  console.log('asd');
   const app = express();
 
   app.use(compression());

@@ -1,16 +1,61 @@
 services:
   dev-db:
-    image: cockroachdb/cockroach:v24.3.0
-    container_name: dev-db
-    ports:
-      - '127.0.0.1:5433:26257'
+    extends:
+      file: ./docker-compose.dev-db-only.yml
+      service: dev-db
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "cockroach sql --insecure --host=dev-db --execute 'SELECT 1'",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  dev-server:
+    build:
+      context: ../services
+      dockerfile: dev.Dockerfile
+    working_dir: /usr/src/app/server
+    command: npm run dev
+    container_name: dev-server
+    network_mode: host
+    depends_on:
+      dev-db:
+        condition: service_healthy
     environment:
-      - COCKROACH_USER=root
-      - COCKROACH_PASSWORD=password
-      - COCKROACH_DATABASE=dbdev
-    command: start-single-node --insecure
-    volumes:
-      - devdb:/cockroach/cockroach-data
+      DATABASE_URL: 'postgresql://root:password@localhost:5433/dbdev?schema=public'
+      NODE_ENV: development
+      PORT: 3003
+      AUTH_SECRET: 'abcdefghi'
+      CLIENT_URL: 'http://localhost:3003'
+      COOKIE_SECRET: 'jklmnopq'
+      CSRF_SECRET: 'rstuvwxyz'
+      SENTRY_AUTH_TOKEN: 'DisabledWithNodeEnvDevelopment'
+    develop:
+      watch:
+        - action: sync
+          path: ../services/server/src
+          target: /usr/src/app/server/src
+        - action: sync
+          path: ../services/shared/src
+          target: /usr/src/app/shared/src
+  dev-client:
+    build:
+      context: ../services
+      dockerfile: dev.Dockerfile
+    working_dir: /usr/src/app/client
+    command: npm run dev
+    container_name: dev-client
+    network_mode: host
+    develop:
+      watch:
+        - action: sync
+          path: ../services/client/src
+          target: /usr/src/app/client/src
+        - action: sync
+          path: ../services/shared/src
+          target: /usr/src/app/shared/src
 
 volumes:
   devdb:
