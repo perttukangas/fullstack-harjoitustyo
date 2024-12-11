@@ -1,93 +1,94 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
+  - package-ecosystem: 'npm'
     commit-message:
-      prefix: "[NPM] "
+      prefix: '[NPM] '
     directories:
-      - "/"
-      - "/services/client"
-      - "/services/server"
-      - "/services/shared"
-      - "/test/stress-test"
+      - '/'
+      - '/services'
+      - '/services/client'
+      - '/services/server'
+      - '/services/shared'
+      - '/test/stress-test'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     groups:
       security:
         applies-to: security-updates
         patterns:
-          - "*"
+          - '*'
       vite:
         patterns:
-          - "*vite*"
+          - '*vite*'
         update-types:
           - minor
           - patch
       trpc:
         patterns:
-          - "*trpc*"
+          - '*trpc*'
         update-types:
           - minor
           - patch
       sentry:
         patterns:
-          - "*sentry*"
+          - '*sentry*'
         update-types:
           - minor
           - patch
       prisma:
         patterns:
-          - "*prisma*"
+          - '*prisma*'
         update-types:
           - minor
           - patch
       react:
         patterns:
-          - "react"
-          - "react-dom"
+          - 'react'
+          - 'react-dom'
         update-types:
           - minor
           - patch
       general:
         patterns:
-          - "*"
+          - '*'
         update-types:
           - minor
           - patch
       major-vite:
         patterns:
-          - "*vite*"
+          - '*vite*'
       major-trpc:
         patterns:
-          - "*trpc*"
+          - '*trpc*'
       major-sentry:
         patterns:
-          - "*sentry*"
+          - '*sentry*'
       major-prisma:
         patterns:
-          - "*prisma*"
+          - '*prisma*'
       major-react:
         patterns:
-          - "react"
-          - "react-dom"
+          - 'react'
+          - 'react-dom'
       major-general:
         patterns:
-          - "*"
+          - '*'
 
-  - package-ecosystem: "docker"
+  - package-ecosystem: 'docker'
     commit-message:
-      prefix: "[DOCKER] "
+      prefix: '[DOCKER] '
     directories:
-      - "/services/"
-      - "/test/stress-test"
+      - '/services/'
+      - '/test/stress-test'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
     groups:
       general:
         patterns:
-          - "*"
+          - '*'
         update-types:
           - minor
           - patch
       major-general:
         patterns:
-          - "*"
+          - '*'

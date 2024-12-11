@@ -15,8 +15,8 @@ jobs:
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: docker/docker-compose.all.yml
-          up-flags: "-d --build"
-          down-flags: "-v"
+          up-flags: '-d --build'
+          down-flags: '-v'
 
       - name: wait for health check
         uses: emilioschepis/wait-for-endpoint@v1.0.4
@@ -32,5 +32,5 @@ jobs:
         with:
           urls: |
             http://localhost:3005
-          configPath: "test/site-analyzer/lighthouserc.cjs"
+          configPath: 'test/site-analyzer/lighthouserc.cjs'
           uploadArtifacts: true

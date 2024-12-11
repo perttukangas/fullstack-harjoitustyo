@@ -23,15 +23,15 @@ jobs:
           usedocker: true
 
           # Docker build context
-          appdir: "services"
+          appdir: 'services'
           docker_build_args: |
             SENTRY_AUTH_TOKEN
             SENTRY_ORG
             SENTRY_PROJECT
 
           # Health check
-          healthcheck: "https://fs-project-41e16305e0df.herokuapp.com/api/healthz"
-          checkstring: "ok"
+          healthcheck: 'https://fs-project-41e16305e0df.herokuapp.com/api/healthz'
+          checkstring: 'ok'
           delay: 30
           rollbackonhealthcheckfailed: true
         env:

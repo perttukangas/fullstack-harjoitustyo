@@ -15,8 +15,8 @@ jobs:
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: docker/docker-compose.all-limited.yml
-          up-flags: "-d --build"
-          down-flags: "-v"
+          up-flags: '-d --build'
+          down-flags: '-v'
 
       - name: build stress tests
         run: |
@@ -27,7 +27,7 @@ jobs:
       - name: setup K6
         uses: grafana/setup-k6-action@v1
         with:
-          k6-version: "0.55.0"
+          k6-version: '0.55.0'
 
       - name: wait for health check
         uses: emilioschepis/wait-for-endpoint@v1.0.4
