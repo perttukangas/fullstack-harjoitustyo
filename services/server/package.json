@@ -6,6 +6,7 @@
     "build": "rm -R -f ./dist && npx prisma generate && tsc && tsc-alias",
     "start": "prisma migrate deploy && node --import ./dist/server/src/instrument.js ./dist/server/src/index.js",
     "dev": "npm run dev:migrate && tsx watch ./src/index.ts",
+    "dev:update": "npx tsc --emitDeclarationOnly && npx tsc-alias",
     "dev:migrate": "prisma migrate dev",
     "dev:seed": "npx prisma db seed",
     "lint:check": "eslint .",

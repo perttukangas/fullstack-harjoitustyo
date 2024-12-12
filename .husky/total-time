@@ -1,6 +1,6 @@
 #!/bin/sh
 
-file="./docs/work-hours.md"
+file="./work-hours.md"
 total_time=$(awk -F '|' '{sum+=$3} END {print sum}' "$file")
 total_time_spent="Total Time Spent (hours):"
 

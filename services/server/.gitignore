@@ -1,1 +1,4 @@
 build_types/
+
+# This env should only contain development variables
+!.env

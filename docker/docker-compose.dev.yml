@@ -23,15 +23,8 @@ services:
     depends_on:
       dev-db:
         condition: service_healthy
-    environment:
-      DATABASE_URL: 'postgresql://root:password@localhost:5433/dbdev?schema=public'
-      NODE_ENV: development
-      PORT: 3003
-      AUTH_SECRET: 'abcdefghi'
-      CLIENT_URL: 'http://localhost:3003'
-      COOKIE_SECRET: 'jklmnopq'
-      CSRF_SECRET: 'rstuvwxyz'
-      SENTRY_AUTH_TOKEN: 'DisabledWithNodeEnvDevelopment'
+    env_file:
+      - ../services/server/.env
     develop:
       watch:
         - action: sync

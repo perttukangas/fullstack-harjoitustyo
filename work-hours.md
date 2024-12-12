@@ -36,5 +36,6 @@
 | 8.12.2024  | 8                  | Ratelimit k8s via traefik. Add horizontal auto scaling. Use helmfile to keep everything in k8s declarative way                                                                                                                                      |
 | 10.12.2024 | 8                  | Use kustomization to define image. Switch "production" database to cockroachdb free-tier so I can merge k8s, don't have credits for actual cluster so keep the app otherwise in heroku. Funny business with typescript, fixed type checks in client |
 | 11.12.2024 | 4                  | Utilize docker compose deploy to setup fully dockerized dev env with hotloads                                                                                                                                                                       |
+| 12.12.2024 | 3                  | Add basic docs for project                                                                                                                                                                                                                          |
 
-Total Time Spent (hours): 183
+Total Time Spent (hours): 186

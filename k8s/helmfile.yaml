@@ -1,6 +1,3 @@
-# helmfile init
-# helmfile apply
-
 repositories:
   - name: traefik
     url: https://traefik.github.io/charts
