@@ -53,9 +53,13 @@ services:
         - action: sync
           path: ../services/client/src
           target: /usr/src/app/client/src
+          ignore:
+            - routes.gen.tsx
         - action: sync
           path: ../services/shared/src
           target: /usr/src/app/shared/src
+    volumes:
+      - ../services/client/src/routes.gen.tsx:/usr/src/app/client/src/routes.gen.tsx
 
 volumes:
   devdb:
