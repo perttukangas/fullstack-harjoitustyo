@@ -4,6 +4,7 @@ import { Heart } from 'lucide-react';
 import { Button } from '@cc/components/Button';
 import { useSession } from '@cc/hooks/use-session';
 import { type RouterOutputs, t } from '@cc/lib/trpc';
+import { compareEqual, compareLessThan } from '@cc/utils/bigint';
 
 type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
 
@@ -24,9 +25,12 @@ export default function Like({ row }: LikeProps) {
             ? oldData
             : produce(oldData, (draft) => {
                 for (const page of draft.pages) {
-                  if (!page.nextCursor || page.nextCursor < id) {
+                  if (
+                    !page.nextCursor ||
+                    compareLessThan(page.nextCursor, id)
+                  ) {
                     for (const post of page.posts) {
-                      if (post.id === id) {
+                      if (compareEqual(post.id, id)) {
                         post.likes += type === 'like' ? 1 : -1;
                         post.liked = type === 'like';
                         break;

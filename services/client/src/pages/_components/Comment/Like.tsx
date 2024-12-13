@@ -6,6 +6,7 @@ import { UnparsedDefaultId } from '@shared/zod/common';
 import { Button } from '@cc/components/Button';
 import { useSession } from '@cc/hooks/use-session';
 import { type RouterOutputs, t } from '@cc/lib/trpc';
+import { compareEqual, compareLessThan } from '@cc/utils/bigint';
 
 type InfiniteComment =
   RouterOutputs['post']['comment']['infinite']['comments'][0];
@@ -28,9 +29,12 @@ export default function Like({ postId, row }: LikeProps) {
             ? oldData
             : produce(oldData, (draft) => {
                 for (const page of draft.pages) {
-                  if (!page.nextCursor || page.nextCursor < id) {
+                  if (
+                    !page.nextCursor ||
+                    compareLessThan(page.nextCursor, id)
+                  ) {
                     for (const comment of page.comments) {
-                      if (comment.id === id) {
+                      if (compareEqual(comment.id, id)) {
                         comment.likes += type === 'like' ? 1 : -1;
                         comment.liked = type === 'like';
                         break;

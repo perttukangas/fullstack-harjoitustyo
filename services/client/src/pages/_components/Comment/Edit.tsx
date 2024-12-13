@@ -18,6 +18,7 @@ import {
 import { Textarea } from '@cc/components/Textarea';
 import { useToast } from '@cc/hooks/use-toast';
 import { type RouterOutputs, t } from '@cc/lib/trpc';
+import { compareEqual, compareLessThan } from '@cc/utils/bigint';
 
 type InfiniteComment =
   RouterOutputs['post']['comment']['infinite']['comments'][0];
@@ -46,9 +47,9 @@ export default function Edit({ open, setOpen, postId, row }: editProps) {
           ? oldData
           : produce(oldData, (draft) => {
               for (const page of draft.pages) {
-                if (!page.nextCursor || page.nextCursor < id) {
+                if (!page.nextCursor || compareLessThan(page.nextCursor, id)) {
                   for (const comment of page.comments) {
-                    if (comment.id === id) {
+                    if (compareEqual(comment.id, id)) {
                       comment.content = variables.content;
                       break;
                     }

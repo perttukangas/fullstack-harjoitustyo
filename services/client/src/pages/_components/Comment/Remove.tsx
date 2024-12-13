@@ -14,6 +14,7 @@ import {
 } from '@cc/components/AlertDialog';
 import { useToast } from '@cc/hooks/use-toast';
 import { t } from '@cc/lib/trpc';
+import { compareEqual, compareLessThan } from '@cc/utils/bigint';
 
 interface RemoveProps {
   open: boolean;
@@ -42,9 +43,12 @@ export default function Remove({
           ? oldData
           : produce(oldData, (draft) => {
               for (const page of draft.pages) {
-                if (!page.nextCursor || page.nextCursor < postId) {
+                if (
+                  !page.nextCursor ||
+                  compareLessThan(page.nextCursor, postId)
+                ) {
                   for (const post of page.posts) {
-                    if (post.id === postId) {
+                    if (compareEqual(post.id, postId)) {
                       post.comments -= 1;
                       break;
                     }

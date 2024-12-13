@@ -37,5 +37,6 @@
 | 10.12.2024 | 8                  | Use kustomization to define image. Switch "production" database to cockroachdb free-tier so I can merge k8s, don't have credits for actual cluster so keep the app otherwise in heroku. Funny business with typescript, fixed type checks in client |
 | 11.12.2024 | 4                  | Utilize docker compose deploy to setup fully dockerized dev env with hotloads                                                                                                                                                                       |
 | 12.12.2024 | 3                  | Add basic docs for project                                                                                                                                                                                                                          |
+| 13.12.2024 | 2                  | Finalize docs, add faker js, fix rest of bigint issues                                                                                                                                                                                              |
 
-Total Time Spent (hours): 186
+Total Time Spent (hours): 188

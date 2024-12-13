@@ -18,6 +18,7 @@ import { Input } from '@cc/components/Input';
 import { Textarea } from '@cc/components/Textarea';
 import { useToast } from '@cc/hooks/use-toast';
 import { type RouterOutputs, t } from '@cc/lib/trpc';
+import { compareEqual, compareLessThan } from '@cc/utils/bigint';
 
 type InfinitePost = RouterOutputs['post']['infinite']['posts'][0];
 
@@ -44,9 +45,9 @@ export default function Edit({ open, setOpen, row }: EditProps) {
           ? oldData
           : produce(oldData, (draft) => {
               for (const page of draft.pages) {
-                if (!page.nextCursor || page.nextCursor < id) {
+                if (!page.nextCursor || compareLessThan(page.nextCursor, id)) {
                   for (const post of page.posts) {
-                    if (post.id === id) {
+                    if (compareEqual(post.id, id)) {
                       post.content = variables.content;
                       post.title = variables.title;
                       break;

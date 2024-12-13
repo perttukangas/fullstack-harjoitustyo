@@ -139,7 +139,16 @@ export const removeMany = async ({ ids, userId }: ProtectedRemoveManyInput) => {
       id: {
         in: ids,
       },
-      userId,
+      OR: [
+        {
+          userId,
+        },
+        {
+          post: {
+            userId,
+          },
+        },
+      ],
     },
   });
 };
