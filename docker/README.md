@@ -9,13 +9,13 @@ Any compose can be:
   - For `docker-compose.dev.yml`: `docker compose -f <file> up --watch`
 - Built/rebuilt and started: `docker compose -f <file> up --build`
   - For `docker-compose.dev.yml`: `docker compose -f <file> up --build --watch`
-- Cleaned: `docker compose -f file down -v`
+- Cleaned: `docker compose -f <file> down -v`
 
 Clarifications:
 
 - `docker-compose.dev.yml`
 
-  - Spins up base development environment with hotloads via watch.
+  - Spins up base development environment with hotloads via watch. Note that database requires `npx prisma migrate deploy` from server folder before the app can start in development mode.
   - When to rebuild: package.json or Prisma schema changes
   - Client: `localhost:3002`
   - Server: `localhost:3003`
