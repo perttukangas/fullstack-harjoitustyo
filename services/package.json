@@ -6,13 +6,13 @@
     "shared"
   ],
   "dependencies": {
-    "zod": "^3.23.8",
+    "zod": "^3.24.1",
     "@trpc/server": "^11.0.0-rc.648"
   },
   "devDependencies": {
-    "@eslint/js": "^9.16.0",
-    "eslint": "^9.16.0",
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "typescript-eslint": "^8.18.1"
   }
 }
