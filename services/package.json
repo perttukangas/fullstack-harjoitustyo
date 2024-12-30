@@ -7,7 +7,7 @@
   ],
   "dependencies": {
     "zod": "^3.23.8",
-    "@trpc/server": "^11.0.0-rc.648"
+    "@trpc/server": "^11.0.0-rc.682"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
