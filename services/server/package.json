@@ -14,7 +14,7 @@
     "sentry:sourcemaps": "sentry-cli sourcemaps inject ./dist && sentry-cli sourcemaps upload ./dist"
   },
   "dependencies": {
-    "@prisma/client": "^6.0.1",
+    "@prisma/client": "^6.1.0",
     "@sentry/cli": "^2.39.1",
     "@sentry/node": "^8.40.0",
     "@sentry/profiling-node": "^8.40.0",
@@ -42,7 +42,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.1",
     "eslint-plugin-security": "^3.0.1",
-    "prisma": "^6.0.1",
+    "prisma": "^6.1.0",
     "tsc-alias": "^1.8.10",
     "tsx": "^4.19.2"
   },
