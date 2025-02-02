@@ -8,7 +8,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM grafana/k6:0.55.0 AS runner
+FROM grafana/k6:0.56.0 AS runner
 
 WORKDIR /usr/src/app
 
