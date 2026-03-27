@@ -9,6 +9,8 @@ agent: 'Code Review Orchestrator'
 
 Run a quick review of files changed from `HEAD`.
 
+Follow [review-output-format](../../docs/ai/review-output-format.md).
+
 Optional focus: ${input:focus:Optional focus area (security|performance|quality|architecture|tests)}
 
 ## Scope Resolution

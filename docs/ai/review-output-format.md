@@ -1,10 +1,4 @@
----
-description: 'Use when generating code review results (including review prompts and Code Review Orchestrator) to standardize severity labels and fix guidance format.'
----
-
 # Review Output Contract
-
-## Purpose
 
 Use this format for every code review response so findings are easy to scan, consistent, and actionable.
 

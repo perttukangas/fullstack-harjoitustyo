@@ -17,7 +17,7 @@ You are a senior software engineer conducting a comprehensive code review.
 
 Run specialists and merge findings into one report.
 
-Follow [review-output-format](../instructions/review-output-format.instructions.md).
+Follow [review-output-format](../../docs/ai/review-output-format.md).
 
 ## Workflow
 

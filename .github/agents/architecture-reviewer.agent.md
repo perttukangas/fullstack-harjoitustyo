@@ -7,7 +7,7 @@ user-invocable: false
 
 You are an architecture review specialist.
 
-Follow [review-output-format](../instructions/review-output-format.instructions.md).
+Follow [review-output-format](../../docs/ai/review-output-format.md).
 
 ## Scope
 
