@@ -9,6 +9,9 @@
     "dev:update": "npx tsc --emitDeclarationOnly && npx tsc-alias",
     "dev:migrate": "prisma migrate dev",
     "dev:seed": "npx prisma db seed",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest --watch",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject ./dist && sentry-cli sourcemaps upload ./dist"
@@ -43,6 +46,8 @@
     "@types/node": "^22.10.1",
     "eslint-plugin-security": "^3.0.1",
     "prisma": "^6.0.1",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^2.1.8",
     "tsc-alias": "^1.8.10",
     "tsx": "^4.19.2"
   },

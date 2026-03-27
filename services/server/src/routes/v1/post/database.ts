@@ -38,7 +38,7 @@ export const getInfinite = async ({ limit, cursor, userId }: InfiniteInput) => {
   });
 
   // Maximum limit is low
-  return posts.map((post) => ({
+  return posts.map((post: (typeof posts)[number]) => ({
     id: post.id,
     title: post.title,
     content: post.content,

@@ -45,7 +45,7 @@ export const getInfinite = async ({
   });
 
   // Maximum limit is low
-  return comments.map((comment) => ({
+  return comments.map((comment: (typeof comments)[number]) => ({
     id: comment.id,
     content: comment.content,
     likes: comment._count.likes,
