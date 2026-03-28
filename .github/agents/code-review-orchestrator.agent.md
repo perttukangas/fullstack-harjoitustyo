@@ -1,7 +1,7 @@
 ---
 name: Code Review Orchestrator
 description: 'Comprehensive review of files/diffs/PRs via specialist subagents with one consolidated report.'
-tools: [read, search, agent]
+tools: [read, search, execute, agent]
 agents:
   [
     security-reviewer,
@@ -50,3 +50,5 @@ Follow [review-output-format](../../docs/ai/review-output-format.md).
 - Keep unique actionable findings; merge duplicates across specialists.
 - Exclude style-only observations unless they carry correctness, security, performance, or maintainability impact.
 - Ensure each reported finding includes concrete evidence and focused remediation guidance.
+- Use `execute` only for read-only review scope resolution and metadata gathering.
+- Allowed `execute` commands are read-only git inspection commands, such as `git rev-parse`, `git show --no-patch`, `git diff`, and `git diff-tree`.
