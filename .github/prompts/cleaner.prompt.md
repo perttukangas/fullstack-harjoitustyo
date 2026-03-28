@@ -1,7 +1,7 @@
 ---
 name: 'cleaner'
 description: 'Clean up messy code/docs, remove duplication, and improve maintainability safely.'
-argument-hint: 'optional: function_name=<symbol> file=<path> dir=<path> scope=<focused|module|repo>'
+argument-hint: '[sha] optional: function_name=<symbol> file=<path> dir=<path> scope=<focused|module|repo>'
 ---
 
 ## Task
@@ -12,14 +12,29 @@ Target function (optional): ${input:function_name:Which function or method shoul
 Target file (optional): ${input:file:Which file should be cleaned up? (optional)}
 Target directory (optional): ${input:dir:Which directory should be cleaned up? (optional)}
 Cleanup scope: ${input:scope:How wide should cleanup be? (focused|module|repo)}
+Optional commit SHA: ${input:sha:Optional commit SHA}
+
+## Change Target Resolution
+
+1. If `${input:sha}` is provided:
+   - Validate the commit exists (for example `git rev-parse --verify <sha>^{commit}`).
+   - Gather commit information for cleanup context (for example `git show --no-patch --format=fuller <sha>`).
+   - Determine files changed by that commit (for example `git diff-tree --root -m --no-commit-id --name-only -r <sha>`).
+   - If changed files resolve to empty unexpectedly, fall back to `git show --pretty="" --name-only <sha>`.
+2. If `${input:sha}` is not provided:
+   - Determine changed files from `HEAD` (for example `git diff --name-only HEAD`).
+3. Use resolved changed files as the default cleanup target when no explicit function, file, dir, or selection is provided.
+4. If the SHA is invalid or changed files are unavailable, ask for the minimum missing input.
 
 ## Scope (strict order)
 
 1. If a code selection exists, prioritize cleanup within the selection.
 2. If function_name is provided, limit cleanup to that function and directly related local helpers.
 3. Else if file or dir is provided, limit cleanup to that file/directory.
-4. Else scan the repository and prioritize highest-impact cleanup first.
-5. Do not modify unrelated areas.
+4. Else if `${input:sha}` is provided, limit cleanup to files changed by that commit.
+5. Else limit cleanup to files changed from `HEAD`.
+6. If no changed files are found, do not continue and ask for the minimum missing scope input.
+7. Do not modify unrelated areas.
 
 ## Cleanup Priorities
 
