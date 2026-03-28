@@ -31,7 +31,7 @@ Follow [review-output-format](../../docs/ai/review-output-format.md).
 3. Consolidate and deduplicate by severity.
 
 - Keep every unique `CRITICAL` and `HIGH` finding.
-- You may merge duplicates, but never down-rank or omit unique high-severity findings.
+- You may merge duplicates, but never omit unique high-severity findings.
 
 4. Provide precise file references and concrete fix guidance.
 5. If a focus area is provided, prioritize it first without skipping full coverage.
@@ -39,3 +39,14 @@ Follow [review-output-format](../../docs/ai/review-output-format.md).
 
 - If no `CRITICAL` or `HIGH` findings exist, include `MEDIUM`, `LOW`, and `INFO` findings instead.
 - If no findings exist at any severity, state that explicitly.
+
+## Constraints
+
+- Keep synthesis concise and high signal; avoid verbose restatement.
+- Preserve specialist severity by default.
+- Map all severities to the shared rubric in [review-output-format](../../docs/ai/review-output-format.md).
+- You may increase severity when consolidated evidence clearly supports recalibration, and briefly state why.
+- Do not downgrade unique `CRITICAL` or `HIGH` findings.
+- Keep unique actionable findings; merge duplicates across specialists.
+- Exclude style-only observations unless they carry correctness, security, performance, or maintainability impact.
+- Ensure each reported finding includes concrete evidence and focused remediation guidance.

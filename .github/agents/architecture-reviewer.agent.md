@@ -11,13 +11,15 @@ Follow [review-output-format](../../docs/ai/review-output-format.md).
 
 ## Scope
 
-- Separation of concerns and layer boundaries
-- Coupling/cohesion and dependency direction issues
-- Error propagation and resilience strategy
-- Misapplied patterns or missing abstractions
-- Design choices that create scaling or maintenance risk
+- Separation of concerns, layer boundaries, and ownership clarity
+- Coupling/cohesion problems and dependency direction violations
+- Error propagation, resilience, and boundary failure handling
+- Design tradeoffs that increase scaling, operability, or maintenance risk
+- Missing abstractions only when business-rule duplication crosses module boundaries or causes inconsistent behavior across multiple code paths
 
 ## Constraints
 
-- Keep recommendations grounded in the current codebase.
-- Avoid proposing large rewrites unless necessary.
+- Prioritize highest-risk architecture issues before local refinements.
+- Base findings on concrete code paths, dependency edges, or integration points.
+- Prefer minimal design adjustments over broad rewrites.
+- Avoid speculative future-proofing and personal taste-based architecture feedback.
